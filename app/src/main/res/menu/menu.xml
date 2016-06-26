@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_item_1"
+            android:title="item_1"/>
+        <item
+            android:id="@+id/nav_item_2"
+            android:title="item_2"/>
+        <item
+            android:id="@+id/nav_item_3"
+            android:title="item_3"/>
+        <item
+            android:id="@+id/nav_item_4"
+            android:title="item_4"/>
+        <item
+            android:id="@+id/nav_item_5"
+            android:title="item_5"/>
+        <item
+            android:id="@+id/nav_item_6"
+            android:title="item_6"/>
+        <item
+            android:id="@+id/nav_item_7"
+            android:title="item_7"/>
+        <item
+            android:id="@+id/nav_item_8"
+            android:title="item_8"/>
+        <item
+            android:id="@+id/nav_item_9"
+            android:title="item_9"/>
+        <item
+            android:id="@+id/nav_item_10"
+            android:title="item_10"/>
+        <item
+            android:id="@+id/nav_item_11"
+            android:title="item_11"/>
+        <item
+            android:id="@+id/nav_item_12"
+            android:title="item_12"/>
+        <item
+            android:id="@+id/nav_item_13"
+            android:title="item_13"/>
+        <item
+            android:id="@+id/nav_item_14"
+            android:title="item_14"/>
+        <item
+            android:id="@+id/nav_item_15"
+            android:title="item_15"/>
+        <item
+            android:id="@+id/nav_item_16"
+            android:title="item_16"/>
+        <item
+            android:id="@+id/nav_item_17"
+            android:title="item_17"/>
+        <item
+            android:id="@+id/nav_item_18"
+            android:title="item_18"/>
+        <item
+            android:id="@+id/nav_item_19"
+            android:title="item_19"/>
+        <item
+            android:id="@+id/nav_item_20"
+            android:title="item_20"/>
+    </group>
+
+</menu>
