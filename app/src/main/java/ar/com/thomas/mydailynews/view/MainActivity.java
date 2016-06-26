@@ -28,7 +28,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        setTitle(R.string.app_name);
         navigationView=(NavigationView)findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
 
