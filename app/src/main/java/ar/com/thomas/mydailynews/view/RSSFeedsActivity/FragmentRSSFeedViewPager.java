@@ -11,7 +11,6 @@ import android.view.View;
 import android.view.ViewGroup;
 
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
@@ -30,18 +29,17 @@ public class FragmentRSSFeedViewPager extends Fragment {
     private String rssFeed;
     FragmentCalls fragmentCalls;
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_rssfeed_viewpager,container,false);
         NewsController newsController = new NewsController();
-
-
         Bundle bundle = getArguments();
         rssFeed = bundle.getString(RSS_FEED);
 
-        newsList=newsController.getNews(getContext(),rssFeed);
+        newsList=newsController.getNewsList(getContext(),rssFeed);
 
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);

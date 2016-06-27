@@ -21,7 +21,7 @@ public class FragmentNewsViewPagerAdapter extends FragmentStatePagerAdapter {
     public FragmentNewsViewPagerAdapter(FragmentManager fm, Context context, String rssFeed) {
         super(fm);
         NewsController newsController = new NewsController();
-        List<News> newsList = newsController.getNews(context,rssFeed);
+        List<News> newsList = newsController.getNewsList(context,rssFeed);
         this.fragmentNewsList = new ArrayList<>();
 
         for (News news: newsList){

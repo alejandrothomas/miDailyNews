@@ -23,7 +23,7 @@ public class FragmentRSSFeedContainer extends Fragment{
         View view = inflater.inflate(R.layout.fragment_rrsfeed_container,container,false);
 
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPagerMainActivity);
-        FragmentRSSFeedViewPagerAdapter fragmentRSSFeedViewPagerAdapter = new FragmentRSSFeedViewPagerAdapter(getChildFragmentManager());
+        FragmentRSSFeedViewPagerAdapter fragmentRSSFeedViewPagerAdapter = new FragmentRSSFeedViewPagerAdapter(getChildFragmentManager(),getContext());
         viewPager.setAdapter(fragmentRSSFeedViewPagerAdapter);
 
         TabLayout tabLayout = (TabLayout)view.findViewById(R.id.tabs);
