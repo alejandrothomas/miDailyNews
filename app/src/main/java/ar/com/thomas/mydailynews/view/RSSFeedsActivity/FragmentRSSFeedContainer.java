@@ -18,7 +18,7 @@ import ar.com.thomas.mydailynews.model.RSSFeed;
  */
 public class FragmentRSSFeedContainer extends Fragment{
 
-    public static final String RSSFEED_CATEGORY = "rssFeedCategory";
+    public static final String RSSFEED_CATEGORYID = "rssFeedCategory";
 
 
     @Nullable
@@ -27,7 +27,7 @@ public class FragmentRSSFeedContainer extends Fragment{
         View view = inflater.inflate(R.layout.fragment_rrsfeed_container,container,false);
 
         Bundle bundle = getArguments();
-        String rssFeedCategory = bundle.getString(RSSFEED_CATEGORY);
+        String rssFeedCategory = bundle.getString(RSSFEED_CATEGORYID);
 
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPagerMainActivity);
         FragmentRSSFeedViewPagerAdapter fragmentRSSFeedViewPagerAdapter = new FragmentRSSFeedViewPagerAdapter(getChildFragmentManager(),getContext(),rssFeedCategory);

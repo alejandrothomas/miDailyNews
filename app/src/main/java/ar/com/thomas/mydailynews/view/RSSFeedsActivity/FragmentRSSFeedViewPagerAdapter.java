@@ -19,7 +19,7 @@ public class FragmentRSSFeedViewPagerAdapter extends FragmentStatePagerAdapter {
     private List<RSSFeed> rssFeedList;
 
 
-    public FragmentRSSFeedViewPagerAdapter(FragmentManager fm, Context context, String rssFeedCategory) {
+    public FragmentRSSFeedViewPagerAdapter(FragmentManager fm, Context context, String rssFeedCategoryID) {
         super(fm);
 
         this.rssFeedList = new ArrayList<>();
@@ -29,7 +29,7 @@ public class FragmentRSSFeedViewPagerAdapter extends FragmentStatePagerAdapter {
         rssFeedList = objectController.getRSSFeedList(context);
 
         for (Integer i = 0; i<rssFeedList.size();i++){
-            if (rssFeedList.get(i).getCategory().getCategoryName().equals(rssFeedCategory)){
+            if (rssFeedList.get(i).getCategory().getObjectId().equals(rssFeedCategoryID)){
                 this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment(rssFeedList.get(i)));
             }
         }

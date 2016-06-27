@@ -29,12 +29,12 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         setContentView(R.layout.activity_main);
         navigationView=(NavigationView)findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
 
         populateNavigationDrawerMenu();
-
     }
 
 
@@ -43,7 +43,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
         FragmentNewsContainer fragmentNewsContainer = new FragmentNewsContainer();
         Bundle arguments = new Bundle();
-
         arguments.putString(FragmentNewsContainer.NEWS_TITLE, selectedNews.getTitle());
         arguments.putString(FragmentNewsContainer.NEWS_SUBTITLE, selectedNews.getSubtitle());
         arguments.putString(FragmentNewsContainer.RSS_SOURCE, selectedNews.getRSSFeed());
@@ -52,7 +51,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         fragmentNewsContainer.setArguments(arguments);
         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, fragmentNewsContainer).commit();
         setTitle(selectedNews.getRSSFeed());
-
     }
 
     @Override
@@ -62,24 +60,17 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     }
 
     private void selectedMenuItem(MenuItem item){
-        switch (item.getItemId()){
-            case 0:
-                FragmentRSSFeedContainer fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
-                Bundle arguments = new Bundle();
-                String rssFeedCategory = item.toString();
-                arguments.putString(FragmentRSSFeedContainer.RSSFEED_CATEGORY,rssFeedCategory);
-                fragmentRSSFeedContainer.setArguments(arguments);
-                fragmentManager = getSupportFragmentManager();
-                fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentTransaction.add(R.id.fragment_container, fragmentRSSFeedContainer);
-                fragmentTransaction.commit();
-                Toast.makeText(this,item.toString(),Toast.LENGTH_LONG).show();
-                break;
-            default:
-                Toast.makeText(this,"De a poco, papá.",Toast.LENGTH_LONG).show();
-        }
-
-
+        RSSFeedCategory rssFeedCategory = rssFeedCategoryList.get(item.getItemId());
+        FragmentRSSFeedContainer fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
+        Bundle arguments = new Bundle();
+        arguments.putString(FragmentRSSFeedContainer.RSSFEED_CATEGORYID, rssFeedCategory.getObjectId());
+        fragmentRSSFeedContainer.setArguments(arguments);
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragmentRSSFeedContainer);
+        fragmentTransaction.commit();
+        setTitle(item.toString());
+        Toast.makeText(this, item.toString(), Toast.LENGTH_LONG).show();
     }
 
     private class ListenerMenu implements NavigationView.OnNavigationItemSelectedListener{
@@ -89,7 +80,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             return true;
         }
     }
-
 
     public void populateNavigationDrawerMenu(){
         Menu menu = navigationView.getMenu();
