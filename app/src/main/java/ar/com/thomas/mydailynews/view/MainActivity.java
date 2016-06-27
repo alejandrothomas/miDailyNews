@@ -12,7 +12,7 @@ import android.widget.Toast;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
-import ar.com.thomas.mydailynews.controller.ObjectController;
+import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
 import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 import ar.com.thomas.mydailynews.view.NewsActivity.FragmentNewsContainer;
@@ -83,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
     public void populateNavigationDrawerMenu(){
         Menu menu = navigationView.getMenu();
-        ObjectController objectController = new ObjectController();
-        rssFeedCategoryList = objectController.getRSSFeedCategoryList(this);
+        RSSFeedCategoryDAO rssFeedCategoryDAO = new RSSFeedCategoryDAO();
+        rssFeedCategoryList = rssFeedCategoryDAO.getRSSFeedCategoryList(this);
 
         for (Integer i=0; i<rssFeedCategoryList.size();i++){
             menu.add(R.id.navigation_drawer_menu_RSSFeedCategories, i, i,rssFeedCategoryList.get(i).getCategoryName());

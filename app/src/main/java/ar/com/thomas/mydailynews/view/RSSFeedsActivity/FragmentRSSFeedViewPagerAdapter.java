@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.com.thomas.mydailynews.controller.ObjectController;
+import ar.com.thomas.mydailynews.controller.RSSFeedController;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 
 /**
@@ -25,8 +25,8 @@ public class FragmentRSSFeedViewPagerAdapter extends FragmentStatePagerAdapter {
         this.rssFeedList = new ArrayList<>();
         this.fragmentRSSFeedList = new ArrayList<>();
 
-        ObjectController objectController = new ObjectController();
-        rssFeedList = objectController.getRSSFeedList(context);
+        RSSFeedController rssFeedController = new RSSFeedController();
+        rssFeedList = rssFeedController.getRSSFeedList(context);
 
         for (Integer i = 0; i<rssFeedList.size();i++){
             if (rssFeedList.get(i).getCategory().getObjectId().equals(rssFeedCategoryID)){

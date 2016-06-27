@@ -8,7 +8,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import ar.com.thomas.mydailynews.controller.ObjectController;
+import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.model.News;
 
 /**
@@ -20,8 +20,8 @@ public class FragmentNewsViewPagerAdapter extends FragmentStatePagerAdapter {
 
     public FragmentNewsViewPagerAdapter(FragmentManager fm, Context context, String rssFeed) {
         super(fm);
-        ObjectController objectController = new ObjectController();
-        List<News> newsList = objectController.getNewsList(context,rssFeed);
+        NewsController newsController = new NewsController();
+        List<News> newsList = newsController.getNewsList(context,rssFeed);
         this.fragmentNewsList = new ArrayList<>();
 
         for (News news: newsList){
