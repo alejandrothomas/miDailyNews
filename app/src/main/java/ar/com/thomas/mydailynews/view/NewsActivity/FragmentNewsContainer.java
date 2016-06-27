@@ -3,19 +3,12 @@ package ar.com.thomas.mydailynews.view.NewsActivity;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import ar.com.thomas.mydailynews.R;
-import ar.com.thomas.mydailynews.model.News;
-import ar.com.thomas.mydailynews.view.RSSFeedsActivity.FragmentRSSFeedViewPager;
+
 
 /**
  * Created by alejandrothomas on 6/25/16.
@@ -27,7 +20,6 @@ public class FragmentNewsContainer extends Fragment {
     public static final String RSS_SOURCE = "rssFeed";
     public static final String POSITION = "position";
 
-    ViewPager.OnPageChangeListener listener;
 
 
 

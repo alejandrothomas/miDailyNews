@@ -1,26 +1,20 @@
 package ar.com.thomas.mydailynews.view;
 
-import android.content.Context;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
-import ar.com.thomas.mydailynews.controller.NewsController;
-import ar.com.thomas.mydailynews.dao.NewsDAO;
+import ar.com.thomas.mydailynews.controller.ObjectController;
 import ar.com.thomas.mydailynews.model.News;
-import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
-import ar.com.thomas.mydailynews.model.RSSFeedCategoryContainer;
 import ar.com.thomas.mydailynews.view.NewsActivity.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedsActivity.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedsActivity.FragmentRSSFeedViewPager;
@@ -40,13 +34,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
 
         populateNavigationDrawerMenu();
-
-
-        FragmentRSSFeedContainer fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, fragmentRSSFeedContainer);
-        fragmentTransaction.commit();
 
     }
 
@@ -77,12 +64,19 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private void selectedMenuItem(MenuItem item){
         switch (item.getItemId()){
             case 0:
-                NewsController newsController = new NewsController();
-                RSSFeed rssFeed = newsController.getRSSFeedList(this).get(0);
-                Toast.makeText(this,rssFeed.getTitle(),Toast.LENGTH_LONG).show();
+                FragmentRSSFeedContainer fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
+                Bundle arguments = new Bundle();
+                String rssFeedCategory = item.toString();
+                arguments.putString(FragmentRSSFeedContainer.RSSFEED_CATEGORY,rssFeedCategory);
+                fragmentRSSFeedContainer.setArguments(arguments);
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentTransaction.add(R.id.fragment_container, fragmentRSSFeedContainer);
+                fragmentTransaction.commit();
+                Toast.makeText(this,item.toString(),Toast.LENGTH_LONG).show();
                 break;
             default:
-                Toast.makeText(this,"no funcionó",Toast.LENGTH_LONG).show();
+                Toast.makeText(this,"De a poco, papá.",Toast.LENGTH_LONG).show();
         }
 
 
@@ -99,8 +93,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
     public void populateNavigationDrawerMenu(){
         Menu menu = navigationView.getMenu();
-        NewsController newsController = new NewsController();
-        rssFeedCategoryList = newsController.getRSSFeedCategoryList(this);
+        ObjectController objectController = new ObjectController();
+        rssFeedCategoryList = objectController.getRSSFeedCategoryList(this);
 
         for (Integer i=0; i<rssFeedCategoryList.size();i++){
             menu.add(R.id.navigation_drawer_menu_RSSFeedCategories, i, i,rssFeedCategoryList.get(i).getCategoryName());

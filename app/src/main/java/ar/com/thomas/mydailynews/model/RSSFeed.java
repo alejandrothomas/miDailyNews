@@ -6,7 +6,8 @@ import java.util.List;
  * Created by alejandrothomas on 6/26/16.
  */
 public class RSSFeed {
-    private RSSFeedCategory rssFeedCategory;
+
+    private RSSFeedCategory category;
     private String title;
     private String createdAt;
     private String feedLink;
@@ -14,8 +15,8 @@ public class RSSFeed {
     private List<News> newsList;
 
 
-    public void setRssFeedCategory(RSSFeedCategory rssFeedCategory) {
-        this.rssFeedCategory = rssFeedCategory;
+    public void setCategory(RSSFeedCategory category) {
+        this.category = category;
     }
 
     public void setTitle(String title) {
@@ -38,8 +39,8 @@ public class RSSFeed {
         this.newsList = newsList;
     }
 
-    public RSSFeedCategory getRssFeedCategory() {
-        return rssFeedCategory;
+    public RSSFeedCategory getCategory() {
+        return category;
     }
 
     public String getTitle() {

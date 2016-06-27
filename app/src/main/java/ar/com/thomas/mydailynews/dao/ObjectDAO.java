@@ -14,7 +14,7 @@ import ar.com.thomas.mydailynews.model.RSSFeedContainer;
 /**
  * Created by alejandrothomas on 6/25/16.
  */
-public class NewsDAO extends GenericDAO{
+public class ObjectDAO extends GenericDAO{
 
     public List<News> getNewsList(Context context,String rssFeed){
         List<News> newsList = new ArrayList<>();

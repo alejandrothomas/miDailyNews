@@ -14,9 +14,10 @@ import android.view.ViewGroup;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
-import ar.com.thomas.mydailynews.controller.NewsController;
+import ar.com.thomas.mydailynews.controller.ObjectController;
 import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.NewsAdapter;
+import ar.com.thomas.mydailynews.model.RSSFeed;
 
 /**
  * Created by alejandrothomas on 6/25/16.
@@ -35,11 +36,11 @@ public class FragmentRSSFeedViewPager extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
         View view = inflater.inflate(R.layout.fragment_rssfeed_viewpager,container,false);
-        NewsController newsController = new NewsController();
+        ObjectController objectController = new ObjectController();
         Bundle bundle = getArguments();
         rssFeed = bundle.getString(RSS_FEED);
 
-        newsList=newsController.getNewsList(getContext(),rssFeed);
+        newsList= objectController.getNewsList(getContext(),rssFeed);
 
         recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
@@ -56,14 +57,14 @@ public class FragmentRSSFeedViewPager extends Fragment {
         return view;
     }
 
-    public static FragmentRSSFeedViewPager generateFragment (String rssFeed){
+    public static FragmentRSSFeedViewPager generateFragment (RSSFeed rssFeed){
 
         FragmentRSSFeedViewPager fragmentRSSFeedViewPager = new FragmentRSSFeedViewPager();
 
         Bundle arguments = new Bundle();
-        arguments.putString(RSS_FEED, rssFeed);
+        arguments.putString(RSS_FEED, rssFeed.getTitle());
         fragmentRSSFeedViewPager.setArguments(arguments);
-        fragmentRSSFeedViewPager.setRssFeed(rssFeed);
+        fragmentRSSFeedViewPager.setRssFeed(rssFeed.getTitle());
         return fragmentRSSFeedViewPager;
     }
 

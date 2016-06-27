@@ -4,7 +4,7 @@ import android.content.Context;
 
 import java.util.List;
 
-import ar.com.thomas.mydailynews.dao.NewsDAO;
+import ar.com.thomas.mydailynews.dao.ObjectDAO;
 import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
@@ -12,24 +12,24 @@ import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 /**
  * Created by alejandrothomas on 6/25/16.
  */
-public class NewsController {
+public class ObjectController {
 
-    private NewsDAO newsDAO;
+    private ObjectDAO objectDAO;
 
     public List<News> getNewsList(Context context, String rssFeed){
 
-        newsDAO = new NewsDAO();
+        objectDAO = new ObjectDAO();
 
-        return newsDAO.getNewsList(context, rssFeed);
+        return objectDAO.getNewsList(context, rssFeed);
     }
 
     public List<RSSFeedCategory> getRSSFeedCategoryList(Context context){
-        newsDAO = new NewsDAO();
-        return newsDAO.getRSSFeedCategoryList(context);
+        objectDAO = new ObjectDAO();
+        return objectDAO.getRSSFeedCategoryList(context);
     }
 
     public List<RSSFeed> getRSSFeedList(Context context){
-        newsDAO = new NewsDAO();
-        return newsDAO.getRSSFeedList(context);
+        objectDAO = new ObjectDAO();
+        return objectDAO.getRSSFeedList(context);
     }
 }
