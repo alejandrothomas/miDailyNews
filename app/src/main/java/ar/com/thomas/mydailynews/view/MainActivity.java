@@ -1,28 +1,36 @@
 package ar.com.thomas.mydailynews.view;
 
+import android.content.Context;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
+import ar.com.thomas.mydailynews.controller.NewsController;
+import ar.com.thomas.mydailynews.dao.NewsDAO;
 import ar.com.thomas.mydailynews.model.News;
+import ar.com.thomas.mydailynews.model.RSSFeed;
+import ar.com.thomas.mydailynews.model.RSSFeedCategory;
+import ar.com.thomas.mydailynews.model.RSSFeedCategoryContainer;
 import ar.com.thomas.mydailynews.view.NewsActivity.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedsActivity.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedsActivity.FragmentRSSFeedViewPager;
 
 public class MainActivity extends AppCompatActivity implements FragmentRSSFeedViewPager.FragmentCalls{
 
-    private NavigationView navigationView;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-
+    private List<RSSFeedCategory> rssFeedCategoryList;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -31,12 +39,17 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         navigationView=(NavigationView)findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
 
+        populateNavigationDrawerMenu();
+
+
         FragmentRSSFeedContainer fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.add(R.id.fragment_container, fragmentRSSFeedContainer);
         fragmentTransaction.commit();
+
     }
+
 
     @Override
     public void getNotifications(News selectedNews, Integer newsPosition, List<News>newsList) {
@@ -46,12 +59,12 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
         arguments.putString(FragmentNewsContainer.NEWS_TITLE, selectedNews.getTitle());
         arguments.putString(FragmentNewsContainer.NEWS_SUBTITLE, selectedNews.getSubtitle());
-        arguments.putString(FragmentNewsContainer.RSS_SOURCE, selectedNews.getRssSource());
+        arguments.putString(FragmentNewsContainer.RSS_SOURCE, selectedNews.getRSSFeed());
         arguments.putInt(FragmentNewsContainer.POSITION, newsPosition);
 
         fragmentNewsContainer.setArguments(arguments);
         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, fragmentNewsContainer).commit();
-        setTitle(selectedNews.getRssSource());
+        setTitle(selectedNews.getRSSFeed());
 
     }
 
@@ -63,70 +76,16 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
     private void selectedMenuItem(MenuItem item){
         switch (item.getItemId()){
-            case R.id.nav_item_1:
-                Toast.makeText(this, getString(R.string.nav_item_1), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_2:
-                Toast.makeText(this, getString(R.string.nav_item_2), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_3:
-                Toast.makeText(this, getString(R.string.nav_item_3), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_4:
-                Toast.makeText(this, getString(R.string.nav_item_4), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_5:
-                Toast.makeText(this, getString(R.string.nav_item_5), Toast.LENGTH_SHORT).show();
-                break;
-
-            case R.id.nav_item_6:
-                Toast.makeText(this, getString(R.string.nav_item_6), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_7:
-                Toast.makeText(this, getString(R.string.nav_item_7), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_8:
-                Toast.makeText(this, getString(R.string.nav_item_8), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_9:
-                Toast.makeText(this, getString(R.string.nav_item_9), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_10:
-                Toast.makeText(this, getString(R.string.nav_item_10), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_11:
-                Toast.makeText(this, getString(R.string.nav_item_11), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_12:
-                Toast.makeText(this, getString(R.string.nav_item_12), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_13:
-                Toast.makeText(this, getString(R.string.nav_item_13), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_14:
-                Toast.makeText(this, getString(R.string.nav_item_14), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_15:
-                Toast.makeText(this, getString(R.string.nav_item_15), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_16:
-                Toast.makeText(this, getString(R.string.nav_item_16), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_17:
-                Toast.makeText(this, getString(R.string.nav_item_17), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_18:
-                Toast.makeText(this, getString(R.string.nav_item_18), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_19:
-                Toast.makeText(this, getString(R.string.nav_item_19), Toast.LENGTH_SHORT).show();
-                break;
-            case R.id.nav_item_20:
-                Toast.makeText(this, getString(R.string.nav_item_20), Toast.LENGTH_SHORT).show();
+            case 0:
+                NewsController newsController = new NewsController();
+                RSSFeed rssFeed = newsController.getRSSFeedList(this).get(0);
+                Toast.makeText(this,rssFeed.getTitle(),Toast.LENGTH_LONG).show();
                 break;
             default:
-                Toast.makeText(this, getString(R.string.nav_item_1), Toast.LENGTH_SHORT).show();
+                Toast.makeText(this,"no funcionó",Toast.LENGTH_LONG).show();
         }
+
+
     }
 
     private class ListenerMenu implements NavigationView.OnNavigationItemSelectedListener{
@@ -134,6 +93,19 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         public boolean onNavigationItemSelected(MenuItem item) {
             selectedMenuItem(item);
             return true;
+        }
+    }
+
+
+    public void populateNavigationDrawerMenu(){
+        Menu menu = navigationView.getMenu();
+        NewsController newsController = new NewsController();
+        rssFeedCategoryList = newsController.getRSSFeedCategoryList(this);
+
+        for (Integer i=0; i<rssFeedCategoryList.size();i++){
+            menu.add(R.id.navigation_drawer_menu_RSSFeedCategories, i, i,rssFeedCategoryList.get(i).getCategoryName());
+            menu.setGroupCheckable(R.id.navigation_drawer_menu_RSSFeedCategories,true,true);
+            menu.setGroupVisible(R.id.navigation_drawer_menu_RSSFeedCategories,true);
         }
     }
 }

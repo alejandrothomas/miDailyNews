@@ -52,7 +52,7 @@ public class FragmentNewsViewPager extends Fragment {
 
         arguments.putString(NEWS_TITLE, news.getTitle());
         arguments.putString(NEWS_SUBTITLE,news.getSubtitle());
-        arguments.putString(RSS_SOURCE,news.getRssSource());
+        arguments.putString(RSS_SOURCE,news.getRSSFeed());
         fragmentNewsViewPager.setArguments(arguments);
         return fragmentNewsViewPager;
     }

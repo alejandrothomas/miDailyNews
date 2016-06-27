@@ -1,5 +1,6 @@
 package ar.com.thomas.mydailynews.view.RSSFeedsActivity;
 
+import android.content.Context;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
@@ -7,26 +8,28 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.com.thomas.mydailynews.controller.NewsController;
+import ar.com.thomas.mydailynews.model.RSSFeed;
+
 /**
  * Created by alejandrothomas on 6/25/16.
  */
 public class FragmentRSSFeedViewPagerAdapter extends FragmentStatePagerAdapter {
     private List<FragmentRSSFeedViewPager> fragmentRSSFeedList;
+    private List<RSSFeed> rssFeedList;
 
 
-    public FragmentRSSFeedViewPagerAdapter(FragmentManager fm) {
+    public FragmentRSSFeedViewPagerAdapter(FragmentManager fm, Context context) {
         super(fm);
+        this.rssFeedList = new ArrayList<>();
         this.fragmentRSSFeedList = new ArrayList<>();
-        this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment("Clarín"));
-        this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment("La Nación"));
-        this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment("La Razón"));
-        this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment("Olé"));
-        this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment("Infobae"));
-        this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment("New York Times"));
-        this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment("Página 12"));
-        this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment("AS"));
-        this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment("Marca"));
-        this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment("L.A. Times"));
+
+        NewsController newsController = new NewsController();
+        rssFeedList = newsController.getRSSFeedList(context);
+
+        for (Integer i = 0; i<rssFeedList.size();i++){
+            this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment(rssFeedList.get(i).getTitle()));
+        }
     }
 
     @Override

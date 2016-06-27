@@ -6,12 +6,12 @@ package ar.com.thomas.mydailynews.model;
 public class News {
     private String title;
     private String subtitle;
-    private String rssSource;
+    private String rssFeed;
 
-    public News(String titulo, String subtitulo, String rssSource) {
+    public News(String titulo, String subtitulo, String rssFeed) {
         this.title = titulo;
         this.subtitle = subtitulo;
-        this.rssSource = rssSource;
+        this.rssFeed = rssFeed;
     }
 
     public String getTitle() {
@@ -30,11 +30,11 @@ public class News {
         this.subtitle = subtitle;
     }
 
-    public String getRssSource() {
-        return rssSource;
+    public String getRSSFeed() {
+        return rssFeed;
     }
 
-    public void setRssSource(String RSSSource) {
-        this.rssSource = RSSSource;
+    public void setRSSFeed(String rssFeed) {
+        this.rssFeed = rssFeed;
     }
 }
