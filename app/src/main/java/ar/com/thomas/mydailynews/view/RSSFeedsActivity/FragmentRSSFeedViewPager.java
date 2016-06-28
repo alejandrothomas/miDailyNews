@@ -6,11 +6,15 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
+import android.widget.Toast;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
@@ -18,6 +22,7 @@ import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.NewsAdapter;
 import ar.com.thomas.mydailynews.model.RSSFeed;
+import ar.com.thomas.mydailynews.util.ResultListener;
 
 /**
  * Created by alejandrothomas on 6/25/16.
@@ -25,34 +30,52 @@ import ar.com.thomas.mydailynews.model.RSSFeed;
 public class FragmentRSSFeedViewPager extends Fragment {
 
     public static final String RSS_FEED = "RSSFeed";
-    private List<News> newsList;
+    public static final String RSS_FEED_LINK = "rssFeedLink";
     private RecyclerView recyclerView;
     private String rssFeed;
-    FragmentCalls fragmentCalls;
-
+    private FragmentCalls fragmentCalls;
+    private final List<News> newsList = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        View view = inflater.inflate(R.layout.fragment_rssfeed_viewpager,container,false);
+        final View view = inflater.inflate(R.layout.fragment_rssfeed_viewpager,container,false);
         NewsController newsController = new NewsController();
+
         Bundle bundle = getArguments();
         rssFeed = bundle.getString(RSS_FEED);
-
-        newsList= newsController.getNewsList(getContext(),rssFeed);
-
-        recyclerView = (RecyclerView)view.findViewById(R.id.recyclerView);
-        recyclerView.setHasFixedSize(true);
-        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        String rssFeedLink = bundle.getString(RSS_FEED_LINK);
 
 
-        NewsAdapter newsAdapter = new NewsAdapter(newsList);
-        NewsListener newsListener = new NewsListener();
-        newsAdapter.setOnClickListener(newsListener);
+        newsController.getNews(new ResultListener<List<News>>() {
+            @Override
+            public void finish(List<News> result) {
 
-        recyclerView.setAdapter(newsAdapter);
+//                final List<News> newsList = new ArrayList<News>();
+                newsList.addAll(result);
 
+                recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+                recyclerView.setHasFixedSize(true);
+                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                NewsAdapter newsAdapter = new NewsAdapter(result);
+                recyclerView.setAdapter(newsAdapter);
+
+                NewsListener newsListener = new NewsListener();
+                newsAdapter.setOnClickListener(newsListener);
+
+//                newsAdapter.setOnClickListener(new View.OnClickListener() {
+//                    @Override
+//                    public void onClick(View v) {
+//                        Integer itemPosition = recyclerView.getChildAdapterPosition(v);
+//                        News itemClicked = newsList.get(itemPosition);
+//                        fragmentCalls.getNotifications(itemClicked,itemPosition,newsList);
+//                    }
+//                });
+
+
+            }
+        }, rssFeedLink);
 
         return view;
     }
@@ -63,6 +86,7 @@ public class FragmentRSSFeedViewPager extends Fragment {
 
         Bundle arguments = new Bundle();
         arguments.putString(RSS_FEED, rssFeed.getTitle());
+        arguments.putString(RSS_FEED_LINK, rssFeed.getFeedLink());
         fragmentRSSFeedViewPager.setArguments(arguments);
         fragmentRSSFeedViewPager.setRssFeed(rssFeed.getTitle());
         return fragmentRSSFeedViewPager;

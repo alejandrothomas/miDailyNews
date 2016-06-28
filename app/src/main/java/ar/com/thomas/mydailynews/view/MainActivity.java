@@ -29,14 +29,15 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
         setContentView(R.layout.activity_main);
+
         navigationView=(NavigationView)findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
 
         populateNavigationDrawerMenu();
-    }
 
+        setTitle(getString(R.string.app_name));
+    }
 
     @Override
     public void getNotifications(News selectedNews, Integer newsPosition, List<News>newsList) {
@@ -44,25 +45,21 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         FragmentNewsContainer fragmentNewsContainer = new FragmentNewsContainer();
         Bundle arguments = new Bundle();
         arguments.putString(FragmentNewsContainer.NEWS_TITLE, selectedNews.getTitle());
-        arguments.putString(FragmentNewsContainer.NEWS_SUBTITLE, selectedNews.getSubtitle());
-        arguments.putString(FragmentNewsContainer.RSS_SOURCE, selectedNews.getRSSFeed());
+        arguments.putString(FragmentNewsContainer.RSS_SOURCE, selectedNews.getLink());
         arguments.putInt(FragmentNewsContainer.POSITION, newsPosition);
 
         fragmentNewsContainer.setArguments(arguments);
         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, fragmentNewsContainer).commit();
-        setTitle(selectedNews.getRSSFeed());
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        setTitle(R.string.app_name);
+        setTitle(selectedNews.getTitle());
     }
 
     private void selectedMenuItem(MenuItem item){
+
         RSSFeedCategory rssFeedCategory = rssFeedCategoryList.get(item.getItemId());
+
         FragmentRSSFeedContainer fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
         Bundle arguments = new Bundle();
+
         arguments.putString(FragmentRSSFeedContainer.RSSFEED_CATEGORYID, rssFeedCategory.getObjectId());
         fragmentRSSFeedContainer.setArguments(arguments);
         fragmentManager = getSupportFragmentManager();
@@ -70,7 +67,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         fragmentTransaction.replace(R.id.fragment_container, fragmentRSSFeedContainer);
         fragmentTransaction.commit();
         setTitle(item.toString());
-        Toast.makeText(this, item.toString(), Toast.LENGTH_LONG).show();
     }
 
     private class ListenerMenu implements NavigationView.OnNavigationItemSelectedListener{

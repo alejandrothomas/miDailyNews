@@ -16,7 +16,7 @@ import ar.com.thomas.mydailynews.R;
 public class FragmentNewsContainer extends Fragment {
 
     public static final String NEWS_TITLE = "newsTitle";
-    public static final String NEWS_SUBTITLE = "newsSubtitle";
+    public static final String RSS_SOURCE_LINK = "rssFeedLink";
     public static final String RSS_SOURCE = "rssFeed";
     public static final String POSITION = "position";
 
@@ -26,16 +26,20 @@ public class FragmentNewsContainer extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_news_container, container, false);
 
         Bundle bundle = getArguments();
 
         String rssSource = bundle.getString(RSS_SOURCE);
         Integer position = bundle.getInt(POSITION);
+        String rssLink = bundle.getString(RSS_SOURCE_LINK);
+
+        getActivity().setTitle(rssSource);
 
         ViewPager viewPager = (ViewPager)view.findViewById(R.id.viewpager_container);
 
-        FragmentNewsViewPagerAdapter fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getFragmentManager(),getContext(),rssSource);
+        FragmentNewsViewPagerAdapter fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getFragmentManager(),getContext(), rssLink);
         viewPager.setAdapter(fragmentNewsViewPagerAdapter);
         viewPager.setCurrentItem(position);
 

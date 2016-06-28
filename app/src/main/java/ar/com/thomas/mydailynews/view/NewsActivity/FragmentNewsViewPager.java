@@ -51,8 +51,8 @@ public class FragmentNewsViewPager extends Fragment {
         Bundle arguments = new Bundle();
 
         arguments.putString(NEWS_TITLE, news.getTitle());
-        arguments.putString(NEWS_SUBTITLE,news.getSubtitle());
-        arguments.putString(RSS_SOURCE,news.getRSSFeed());
+//        arguments.putString(NEWS_SUBTITLE,news.getSubtitle());
+//        arguments.putString(RSS_SOURCE,news.getRSSFeed());
         fragmentNewsViewPager.setArguments(arguments);
         return fragmentNewsViewPager;
     }

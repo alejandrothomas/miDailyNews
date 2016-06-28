@@ -56,17 +56,17 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
 
     private static class NewsViewHolder extends RecyclerView.ViewHolder{
         private TextView textViewTitle;
-        private TextView textViewSubtTitle;
+        private TextView textviewDescritpion;
 
         public NewsViewHolder(View view){
             super(view);
             textViewTitle=(TextView) view.findViewById(R.id.title_textview_fragmentRSSHolderDetail);
-            textViewSubtTitle=(TextView) view.findViewById(R.id.subtitle_textview_fragmentRSSHolderDetail);
+            textviewDescritpion=(TextView) view.findViewById(R.id.subtitle_textview_fragmentRSSHolderDetail);
         }
 
         public void bindNews(News news){
             textViewTitle.setText(news.getTitle());
-            textViewSubtTitle.setText(news.getSubtitle());
+            textviewDescritpion.setText(news.getPubDate());
         }
     }
 
