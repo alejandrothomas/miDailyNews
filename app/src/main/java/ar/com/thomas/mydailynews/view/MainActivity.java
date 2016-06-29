@@ -1,5 +1,6 @@
 package ar.com.thomas.mydailynews.view;
 
+import android.content.Context;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -25,11 +26,13 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     FragmentTransaction fragmentTransaction;
     private List<RSSFeedCategory> rssFeedCategoryList;
     private NavigationView navigationView;
+    Context context;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        context = this;
 
         navigationView=(NavigationView)findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
@@ -40,17 +43,17 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     }
 
     @Override
-    public void getNotifications(News selectedNews, Integer newsPosition, List<News>newsList) {
+    public void getNotifications(String newsClickedID, Integer itemPosition) {
 
         FragmentNewsContainer fragmentNewsContainer = new FragmentNewsContainer();
         Bundle arguments = new Bundle();
-        arguments.putString(FragmentNewsContainer.NEWS_TITLE, selectedNews.getTitle());
-        arguments.putString(FragmentNewsContainer.RSS_SOURCE, selectedNews.getLink());
-        arguments.putInt(FragmentNewsContainer.POSITION, newsPosition);
+        arguments.putString(FragmentNewsContainer.NEWS_TITLE_ID, newsClickedID);
+        arguments.putInt(FragmentNewsContainer.POSITION,itemPosition);
+
+        Toast.makeText(this,newsClickedID,Toast.LENGTH_LONG).show();
 
         fragmentNewsContainer.setArguments(arguments);
         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, fragmentNewsContainer).commit();
-        setTitle(selectedNews.getTitle());
     }
 
     private void selectedMenuItem(MenuItem item){
@@ -87,5 +90,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             menu.setGroupCheckable(R.id.navigation_drawer_menu_RSSFeedCategories,true,true);
             menu.setGroupVisible(R.id.navigation_drawer_menu_RSSFeedCategories,true);
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
     }
 }

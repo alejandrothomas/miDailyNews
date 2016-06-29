@@ -18,27 +18,32 @@ import ar.com.thomas.mydailynews.util.ResultListener;
  */
 public class FragmentNewsViewPagerAdapter extends FragmentStatePagerAdapter {
     private final List<FragmentNewsViewPager> fragmentNewsList = new ArrayList<>();
+    Context context;
 
 
 
-    public FragmentNewsViewPagerAdapter(FragmentManager fm, Context context, String rssLink) {
+
+    public FragmentNewsViewPagerAdapter(FragmentManager fm, Context context, String rssFeed) {
         super(fm);
         NewsController newsController = new NewsController();
 
+        List<News> newsList = newsController.getNewsListFromDB(rssFeed,context);
+
+        for (News news : newsList){
+            fragmentNewsList.add(new FragmentNewsViewPager().generateFragment(news));
+        }
 
 
-        newsController.getNews(new ResultListener<List<News>>() {
-            @Override
-            public void finish(List<News> result) {
 
-                final List<News>newsList = new ArrayList<News>();
-                newsList.addAll(result);
-
-                for (News news: newsList){
-                    fragmentNewsList.add(new FragmentNewsViewPager().generateFragment(news));
-                }
-            }
-        }, rssLink);
+//        newsController.getNews(new ResultListener<List<News>>() {
+//            @Override
+//            public void finish(List<News> result) {
+//
+//                for (News news: result){
+//                    fragmentNewsList.add(new FragmentNewsViewPager().generateFragment(news));
+//                }
+//            }
+//        }, rssLink, );
 
 
 
@@ -53,5 +58,6 @@ public class FragmentNewsViewPagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return fragmentNewsList.size();
     }
+
 
 }

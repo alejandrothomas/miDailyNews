@@ -14,6 +14,17 @@ public class News {
     private String imageUrl;
     private RSSFeed rssFeed;
 
+    private Integer newsID;
+
+    public void setNewsID(Integer newsID) {
+        this.newsID = newsID;
+    }
+
+    public Integer getNewsID() {
+
+        return newsID;
+    }
+
     public void setRssFeed(RSSFeed rssFeed) {
         this.rssFeed = rssFeed;
     }

@@ -44,7 +44,7 @@ public class FragmentNewsViewPager extends Fragment {
         return view;
     }
 
-    public static FragmentNewsViewPager generateFragment (News news){
+    public FragmentNewsViewPager generateFragment (News news){
 
         FragmentNewsViewPager fragmentNewsViewPager = new FragmentNewsViewPager();
 
@@ -56,4 +56,6 @@ public class FragmentNewsViewPager extends Fragment {
         fragmentNewsViewPager.setArguments(arguments);
         return fragmentNewsViewPager;
     }
+
+
 }

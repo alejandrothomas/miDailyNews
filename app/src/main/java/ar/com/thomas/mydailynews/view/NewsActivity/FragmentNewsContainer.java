@@ -15,10 +15,11 @@ import ar.com.thomas.mydailynews.R;
  */
 public class FragmentNewsContainer extends Fragment {
 
-    public static final String NEWS_TITLE = "newsTitle";
+    public static final String NEWS_TITLE_ID = "newsTitle";
     public static final String RSS_SOURCE_LINK = "rssFeedLink";
     public static final String RSS_SOURCE = "rssFeed";
     public static final String POSITION = "position";
+    public static final String RSS_FEED = "rssFeed";
 
 
 
@@ -31,18 +32,20 @@ public class FragmentNewsContainer extends Fragment {
 
         Bundle bundle = getArguments();
 
-        String rssSource = bundle.getString(RSS_SOURCE);
+        String newsClicked = bundle.getString(RSS_FEED);
         Integer position = bundle.getInt(POSITION);
-        String rssLink = bundle.getString(RSS_SOURCE_LINK);
 
-        getActivity().setTitle(rssSource);
+        getActivity().setTitle(newsClicked);
 
         ViewPager viewPager = (ViewPager)view.findViewById(R.id.viewpager_container);
 
-        FragmentNewsViewPagerAdapter fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getFragmentManager(),getContext(), rssLink);
+        FragmentNewsViewPagerAdapter fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getFragmentManager(),getContext(), newsClicked);
+
         viewPager.setAdapter(fragmentNewsViewPagerAdapter);
         viewPager.setCurrentItem(position);
 
         return view;
     }
+
+
 }

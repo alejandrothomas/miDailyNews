@@ -22,6 +22,7 @@ import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.NewsAdapter;
 import ar.com.thomas.mydailynews.model.RSSFeed;
+import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 import ar.com.thomas.mydailynews.util.ResultListener;
 
 /**
@@ -34,6 +35,7 @@ public class FragmentRSSFeedViewPager extends Fragment {
     private RecyclerView recyclerView;
     private String rssFeed;
     private FragmentCalls fragmentCalls;
+    NewsAdapter newsAdapter;
     private final List<News> newsList = new ArrayList<>();
 
     @Nullable
@@ -58,24 +60,16 @@ public class FragmentRSSFeedViewPager extends Fragment {
                 recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                NewsAdapter newsAdapter = new NewsAdapter(result);
+                newsAdapter = new NewsAdapter(result);
                 recyclerView.setAdapter(newsAdapter);
 
                 NewsListener newsListener = new NewsListener();
                 newsAdapter.setOnClickListener(newsListener);
 
-//                newsAdapter.setOnClickListener(new View.OnClickListener() {
-//                    @Override
-//                    public void onClick(View v) {
-//                        Integer itemPosition = recyclerView.getChildAdapterPosition(v);
-//                        News itemClicked = newsList.get(itemPosition);
-//                        fragmentCalls.getNotifications(itemClicked,itemPosition,newsList);
-//                    }
-//                });
 
 
             }
-        }, rssFeedLink);
+        }, rssFeedLink, getActivity());
 
         return view;
     }
@@ -107,15 +101,17 @@ public class FragmentRSSFeedViewPager extends Fragment {
     }
 
     public interface FragmentCalls{
-        public void getNotifications(News selectedNews, Integer newsPosition, List<News> newsList);
+        public void getNotifications(String newsClicked, Integer itemPosition);
     }
 
     private class NewsListener implements View.OnClickListener{
         @Override
         public void onClick(View v) {
             Integer itemPosition = recyclerView.getChildAdapterPosition(v);
-            News itemClicked = newsList.get(itemPosition);
-            fragmentCalls.getNotifications(itemClicked,itemPosition,newsList);
+            String itemClicked = newsAdapter.selectedNewsID(itemPosition);
+
+
+            fragmentCalls.getNotifications(itemClicked, itemPosition);
         }
     }
 
