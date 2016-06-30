@@ -17,17 +17,26 @@ import ar.com.thomas.mydailynews.R;
 public class FragmentRSSFeedContainer extends Fragment{
 
     public static final String RSSFEED_CATEGORYID = "rssFeedCategory";
+    public static final String RSSFEED_TITLE = "rssFeedTitle";
+    private String rssFeedCategory;
+    private String rssfeedTitle;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(rssfeedTitle);
+    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rrsfeed_container,container,false);
+        View view = inflater.inflate(R.layout.fragment_rrsfeed_container, container, false);
+        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPagerMainActivity);
 
         Bundle bundle = getArguments();
-        String rssFeedCategory = bundle.getString(RSSFEED_CATEGORYID);
+        rssFeedCategory = bundle.getString(RSSFEED_CATEGORYID);
+        rssfeedTitle = bundle.getString(RSSFEED_TITLE);
 
-        ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPagerMainActivity);
         FragmentRSSFeedViewPagerAdapter fragmentRSSFeedViewPagerAdapter = new FragmentRSSFeedViewPagerAdapter(getChildFragmentManager(),getContext(),rssFeedCategory);
         viewPager.setAdapter(fragmentRSSFeedViewPagerAdapter);
 

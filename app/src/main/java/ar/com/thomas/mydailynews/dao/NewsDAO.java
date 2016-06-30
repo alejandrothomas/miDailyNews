@@ -28,7 +28,6 @@ public class NewsDAO extends SQLiteOpenHelper {
 
     private static final String DATABASE_NAME = "NewsDB";
     private static final Integer DATABASE_VERSION = 1;
-
     private static final String TABLE_NEWS = "News";
     private static final String ID = "ID";
     private static final String TITLE = "title";
@@ -36,19 +35,15 @@ public class NewsDAO extends SQLiteOpenHelper {
     private static final String IMAGE_URL = "imageURL";
     private static final String RSS_FEED = "rssFeed";
 
-    private Context context;
-
     public NewsDAO(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
 
     }
 
-
     //------------------OFFLINE--------------------//
     @Override
     public void onCreate(SQLiteDatabase db) {
 
-        //Creo la tabla que contendrá mi base de datos
         String createTable = "CREATE TABLE " + TABLE_NEWS + "("
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + TITLE + " TEXT, "
@@ -86,8 +81,6 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         Cursor result = database.rawQuery(selectQuery, new String[]{newsTitle});
         Integer count = result.getCount();
-
-        Log.v("NewsDAO", "La noticia " + news.getTitle() + " ya esta en la base");
 
         database.close();
 
@@ -196,7 +189,7 @@ public class NewsDAO extends SQLiteOpenHelper {
                         case XmlPullParser.START_DOCUMENT:
                             break;
                         case XmlPullParser.START_TAG:
-                            Log.d("TAG", parser.getName());
+
                             if (parser.getName().equals("item")) {
                                 aNews = new News();
                             }
@@ -206,23 +199,23 @@ public class NewsDAO extends SQLiteOpenHelper {
                                 } else if (parser.getName().equals("link")) {
                                     aNews.setLink(parser.nextText());
                                 } else if (parser.getName().equals("description")) {
-                                    Log.d("TAG", parser.getName());
+
                                     aNews.setDescription(parser.nextText());
                                 } else if (parser.getName().equals("pubDate")) {
-                                    Log.d("TAG", parser.getName());
+
                                     aNews.setPubDate(parser.nextText());
                                 } else if (parser.getName().equals("author")) {
-                                    Log.d("TAG", parser.getName());
+
                                     aNews.setAuthor(parser.nextText());
                                 } else if (parser.getName().equals("enclosure")) {
-                                    Log.d("TAG", parser.getName());
+
                                     aNews.setImageUrl(parser.getAttributeValue(null, "url"));
                                 }
                             }
-                            Log.v("INFO", parser.getName());
+
                             break;
                         case XmlPullParser.END_TAG:
-                            Log.d("TAG", parser.getName());
+
                             if (parser.getName().equals("item")) {
                                 result.add(aNews);
                                 aNews = null;

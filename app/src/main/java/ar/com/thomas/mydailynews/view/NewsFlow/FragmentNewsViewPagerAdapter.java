@@ -16,10 +16,6 @@ import ar.com.thomas.mydailynews.model.News;
  */
 public class FragmentNewsViewPagerAdapter extends FragmentStatePagerAdapter {
     private final List<FragmentNewsViewPager> fragmentNewsList = new ArrayList<>();
-    Context context;
-
-
-
 
     public FragmentNewsViewPagerAdapter(FragmentManager fm, Context context, String rssFeed) {
         super(fm);

@@ -1,9 +1,11 @@
 package ar.com.thomas.mydailynews.view.RSSFeedFlow;
 
 import android.app.Activity;
+import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
@@ -24,30 +26,50 @@ import ar.com.thomas.mydailynews.util.ResultListener;
 /**
  * Created by alejandrothomas on 6/25/16.
  */
-public class FragmentRSSFeedViewPager extends Fragment {
+public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     public static final String RSS_FEED = "RSSFeed";
     public static final String RSS_FEED_OBJECTID = "RSSFeed";
     public static final String RSS_FEED_LINK = "rssFeedLink";
     private RecyclerView recyclerView;
+    private Context context;
     private String rssFeed;
     private FragmentCalls fragmentCalls;
+    SwipeRefreshLayout swipeRefreshLayout;
     NewsAdapter newsAdapter;
+    String rssFeedLink;
+    NewsController newsController;
     String rssFeedObjectID;
+    View view;
+
     private final List<News> newsList = new ArrayList<>();
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
 
-        final View view = inflater.inflate(R.layout.fragment_rssfeed_viewpager,container,false);
-        NewsController newsController = new NewsController();
+        view = inflater.inflate(R.layout.fragment_rssfeed_viewpager,container,false);
+        context = getActivity();
+
+        swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
+        swipeRefreshLayout.setOnRefreshListener(this);
+
+        newsController = new NewsController();
 
         Bundle bundle = getArguments();
         rssFeed = bundle.getString(RSS_FEED);
-        String rssFeedLink = bundle.getString(RSS_FEED_LINK);
+        rssFeedLink = bundle.getString(RSS_FEED_LINK);
         rssFeedObjectID = bundle.getString(RSS_FEED_OBJECTID);
 
+        onRefresh();
+
+
+        return view;
+    }
+
+    void update(){
+
+        swipeRefreshLayout.setRefreshing(true);
 
         newsController.getNews(new ResultListener<List<News>>() {
             @Override
@@ -63,15 +85,14 @@ public class FragmentRSSFeedViewPager extends Fragment {
 
                 NewsListener newsListener = new NewsListener();
                 newsAdapter.setOnClickListener(newsListener);
+                newsAdapter.notifyDataSetChanged();
 
+                swipeRefreshLayout.setRefreshing(false);
 
 
             }
         }, rssFeedLink, getActivity(), rssFeedObjectID);
-
-        return view;
     }
-
     public static FragmentRSSFeedViewPager generateFragment (RSSFeed rssFeed){
 
         FragmentRSSFeedViewPager fragmentRSSFeedViewPager = new FragmentRSSFeedViewPager();
@@ -112,5 +133,8 @@ public class FragmentRSSFeedViewPager extends Fragment {
         }
     }
 
-
+    @Override
+    public void onRefresh() {
+        update();
+    }
 }

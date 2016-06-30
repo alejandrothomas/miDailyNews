@@ -16,13 +16,10 @@ import ar.com.thomas.mydailynews.R;
 public class FragmentNewsContainer extends Fragment {
 
     public static final String NEWS_TITLE_ID = "newsTitle";
-    public static final String RSS_SOURCE_LINK = "rssFeedLink";
     public static final String RSS_SOURCE = "rssFeed";
     public static final String POSITION = "position";
     public static final String RSS_FEED = "rssFeed";
-
-
-
+    private String selectedNewsRSSFeedID;
 
     @Nullable
     @Override
@@ -32,7 +29,7 @@ public class FragmentNewsContainer extends Fragment {
 
         Bundle bundle = getArguments();
 
-        String selectedNewsRSSFeedID = bundle.getString(RSS_FEED);
+        selectedNewsRSSFeedID = bundle.getString(RSS_FEED);
         Integer position = bundle.getInt(POSITION);
 
         ViewPager viewPager = (ViewPager)view.findViewById(R.id.viewpager_container);
