@@ -1,5 +1,6 @@
 package ar.com.thomas.mydailynews.view.RSSFeedFlow;
 
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.TabLayout;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -9,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import ar.com.thomas.mydailynews.R;
+import ar.com.thomas.mydailynews.controller.NewsController;
+import ar.com.thomas.mydailynews.dao.NewsDAO;
 
 
 /**
@@ -20,6 +23,7 @@ public class FragmentRSSFeedContainer extends Fragment{
     public static final String RSSFEED_TITLE = "rssFeedTitle";
     private String rssFeedCategory;
     private String rssfeedTitle;
+    public FloatingActionButton fab;
 
     @Override
     public void onResume() {
@@ -42,7 +46,19 @@ public class FragmentRSSFeedContainer extends Fragment{
 
         TabLayout tabLayout = (TabLayout)view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
+
+        fab = (FloatingActionButton) view.findViewById(R.id.fab_pressed);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                NewsDAO newsDAO = new NewsDAO(getActivity());
+                newsDAO.addToFavourites(rssfeedTitle);
+            }
+        });
+
         return view;
     }
+
+
 
 }

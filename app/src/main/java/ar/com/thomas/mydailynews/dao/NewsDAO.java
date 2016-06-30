@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.model.News;
+import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.util.DAOException;
 import ar.com.thomas.mydailynews.util.HTTPConnectionManager;
 import ar.com.thomas.mydailynews.util.ResultListener;
@@ -34,12 +35,12 @@ public class NewsDAO extends SQLiteOpenHelper {
     private static final String DESCRIPTION = "description";
     private static final String IMAGE_URL = "imageURL";
     private static final String RSS_FEED = "rssFeed";
+    private static final String TABLE_FAVOURITES = "Favourites";
+    private static final String IS_FAVOURITE = "is_favourite";
 
     public NewsDAO(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
-
     }
-
     //------------------OFFLINE--------------------//
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -52,11 +53,24 @@ public class NewsDAO extends SQLiteOpenHelper {
                 + DESCRIPTION + " TEXT " + ")";
 
         db.execSQL(createTable);
+
+        String createTableFavourites = "CREATE TABLE " + TABLE_FAVOURITES + "("
+                + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + RSS_FEED + " TEXT, "
+                + IS_FAVOURITE + " BOOL " + ")";
+
+        db.execSQL(createTableFavourites);
+    }
+
+    public void addToFavourites(String rssFeed){
+        SQLiteDatabase database = getWritableDatabase();
+        String selectQuery = "UPDATE " + TABLE_FAVOURITES
+                + " SET " + IS_FAVOURITE + " = " + true
+                + " WHERE " + RSS_FEED + "==" + "\"" + rssFeed + "\"" ;
     }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
     }
 
     public void addNewsListToDB(List<News> newsList, String rssFeed) {
@@ -90,7 +104,9 @@ public class NewsDAO extends SQLiteOpenHelper {
     public void addNewsToDB(News news, String rssFeed){
 
         SQLiteDatabase database = getWritableDatabase();
+        SQLiteDatabase database1 = getWritableDatabase();
         ContentValues row = new ContentValues();
+        ContentValues row1 = new ContentValues();
 
         row.put(TITLE, news.getTitle());
         row.put(DESCRIPTION, news.getDescription());
@@ -99,9 +115,12 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         database.insert(TABLE_NEWS, null, row);
         database.close();
+
+        database1 = getWritableDatabase();
+        row1.put(RSS_FEED,rssFeed);
+        database1.insert(TABLE_FAVOURITES,null,row1);
+        database1.close();
     }
-
-
 
     public List<News> getNewsListFromDatabase(String rssFeed){
 
@@ -223,7 +242,6 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         @Override
         protected void onPostExecute(List<News> input) {
-
             addNewsListToDB(input,rssFeed);
             this.listener.finish(input);
         }

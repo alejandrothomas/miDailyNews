@@ -41,6 +41,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
 
         populateNavigationDrawerMenu();
+        selectedMenuItem(navigationView.getMenu().getItem(15));
+        navigationView.getMenu().getItem(15).setChecked(true);
     }
 
     @Override

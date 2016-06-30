@@ -17,4 +17,6 @@ public class RSSFeedDAO extends GenericDAO {
 
         return rssFeedContainer.getRssFeedList();
     }
+
+
 }
