@@ -6,86 +6,70 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.Toast;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
-import ar.com.thomas.mydailynews.controller.NewsController;
-import ar.com.thomas.mydailynews.dao.NewsDAO;
-import ar.com.thomas.mydailynews.model.News;
+import ar.com.thomas.mydailynews.controller.RSSFeedController;
+import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
-import ar.com.thomas.mydailynews.model.RSSFeedCategoryContainer;
-import ar.com.thomas.mydailynews.view.NewsActivity.FragmentNewsContainer;
-import ar.com.thomas.mydailynews.view.RSSFeedsActivity.FragmentRSSFeedContainer;
-import ar.com.thomas.mydailynews.view.RSSFeedsActivity.FragmentRSSFeedViewPager;
+import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
+import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
+import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
 
 public class MainActivity extends AppCompatActivity implements FragmentRSSFeedViewPager.FragmentCalls{
 
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
     private List<RSSFeedCategory> rssFeedCategoryList;
     private NavigationView navigationView;
+    Context context;
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        context = this;
+
         navigationView=(NavigationView)findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
 
         populateNavigationDrawerMenu();
-
-
-        FragmentRSSFeedContainer fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
-        fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.fragment_container, fragmentRSSFeedContainer);
-        fragmentTransaction.commit();
-
     }
 
-
     @Override
-    public void getNotifications(News selectedNews, Integer newsPosition, List<News>newsList) {
+    public void getNotifications(String newsClickedID, Integer itemPosition, String rssFeedID) {
 
         FragmentNewsContainer fragmentNewsContainer = new FragmentNewsContainer();
         Bundle arguments = new Bundle();
-
-        arguments.putString(FragmentNewsContainer.NEWS_TITLE, selectedNews.getTitle());
-        arguments.putString(FragmentNewsContainer.NEWS_SUBTITLE, selectedNews.getSubtitle());
-        arguments.putString(FragmentNewsContainer.RSS_SOURCE, selectedNews.getRSSFeed());
-        arguments.putInt(FragmentNewsContainer.POSITION, newsPosition);
+        arguments.putString(FragmentNewsContainer.NEWS_TITLE_ID, newsClickedID);
+        arguments.putInt(FragmentNewsContainer.POSITION, itemPosition);
+        arguments.putString(FragmentNewsContainer.RSS_SOURCE, rssFeedID);
 
         fragmentNewsContainer.setArguments(arguments);
         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, fragmentNewsContainer).commit();
-        setTitle(selectedNews.getRSSFeed());
-
-    }
-
-    @Override
-    public void onBackPressed() {
-        super.onBackPressed();
-        setTitle(R.string.app_name);
     }
 
     private void selectedMenuItem(MenuItem item){
-        switch (item.getItemId()){
-            case 0:
-                NewsController newsController = new NewsController();
-                RSSFeed rssFeed = newsController.getRSSFeedList(this).get(0);
-                Toast.makeText(this,rssFeed.getTitle(),Toast.LENGTH_LONG).show();
-                break;
-            default:
-                Toast.makeText(this,"no funcionó",Toast.LENGTH_LONG).show();
-        }
 
+        RSSFeedCategory rssFeedCategory = rssFeedCategoryList.get(item.getItemId());
 
+        FragmentRSSFeedContainer fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
+        Bundle arguments = new Bundle();
+
+        arguments.putString(FragmentRSSFeedContainer.RSSFEED_CATEGORYID, rssFeedCategory.getObjectId());
+        arguments.putString(FragmentRSSFeedContainer.RSSFEED_TITLE, rssFeedCategory.getCategoryName());
+
+        fragmentRSSFeedContainer.setArguments(arguments);
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.replace(R.id.fragment_container, fragmentRSSFeedContainer);
+        fragmentTransaction.commit();
     }
 
     private class ListenerMenu implements NavigationView.OnNavigationItemSelectedListener{
@@ -96,11 +80,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }
     }
 
-
     public void populateNavigationDrawerMenu(){
         Menu menu = navigationView.getMenu();
-        NewsController newsController = new NewsController();
-        rssFeedCategoryList = newsController.getRSSFeedCategoryList(this);
+        RSSFeedCategoryDAO rssFeedCategoryDAO = new RSSFeedCategoryDAO();
+        rssFeedCategoryList = rssFeedCategoryDAO.getRSSFeedCategoryList(this);
 
         for (Integer i=0; i<rssFeedCategoryList.size();i++){
             menu.add(R.id.navigation_drawer_menu_RSSFeedCategories, i, i,rssFeedCategoryList.get(i).getCategoryName());

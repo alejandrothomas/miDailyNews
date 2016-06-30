@@ -5,31 +5,31 @@ import android.content.Context;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.dao.NewsDAO;
+import ar.com.thomas.mydailynews.dao.RSSFeedDAO;
 import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeed;
-import ar.com.thomas.mydailynews.model.RSSFeedCategory;
+import ar.com.thomas.mydailynews.util.ResultListener;
 
 /**
- * Created by alejandrothomas on 6/25/16.
+ * Created by alejandrothomas on 6/27/16.
  */
 public class NewsController {
+    Context context;
+    NewsDAO newsDAO;
 
-    private NewsDAO newsDAO;
+    public void getNews(final ResultListener<List<News>> listener,String feedLink,Context context, String rssFeed){
+        newsDAO = new NewsDAO(context);
 
-    public List<News> getNewsList(Context context, String rssFeed){
-
-        newsDAO = new NewsDAO();
-
-        return newsDAO.getNewsList(context, rssFeed);
+        newsDAO.getNewsList(new ResultListener<List<News>>() {
+            @Override
+            public void finish(List<News> result) {
+                listener.finish(result);
+            }
+        }, feedLink, rssFeed);
     }
 
-    public List<RSSFeedCategory> getRSSFeedCategoryList(Context context){
-        newsDAO = new NewsDAO();
-        return newsDAO.getRSSFeedCategoryList(context);
-    }
-
-    public List<RSSFeed> getRSSFeedList(Context context){
-        newsDAO = new NewsDAO();
-        return newsDAO.getRSSFeedList(context);
+    public List<News> getNewsListFromDB(String rssFeed,Context context){
+        newsDAO = new NewsDAO(context);
+        return newsDAO.getNewsListFromDatabase(rssFeed);
     }
 }

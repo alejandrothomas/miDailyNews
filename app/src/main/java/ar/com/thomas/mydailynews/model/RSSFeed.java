@@ -6,16 +6,18 @@ import java.util.List;
  * Created by alejandrothomas on 6/26/16.
  */
 public class RSSFeed {
-    private RSSFeedCategory rssFeedCategory;
+
+    private RSSFeedCategory category;
     private String title;
     private String createdAt;
     private String feedLink;
     private String iconLink;
+    private String objectId;
     private List<News> newsList;
 
 
-    public void setRssFeedCategory(RSSFeedCategory rssFeedCategory) {
-        this.rssFeedCategory = rssFeedCategory;
+    public void setCategory(RSSFeedCategory category) {
+        this.category = category;
     }
 
     public void setTitle(String title) {
@@ -38,8 +40,8 @@ public class RSSFeed {
         this.newsList = newsList;
     }
 
-    public RSSFeedCategory getRssFeedCategory() {
-        return rssFeedCategory;
+    public RSSFeedCategory getCategory() {
+        return category;
     }
 
     public String getTitle() {
@@ -60,5 +62,14 @@ public class RSSFeed {
 
     public List<News> getNewsList() {
         return newsList;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public String getObjectId() {
+
+        return objectId;
     }
 }
