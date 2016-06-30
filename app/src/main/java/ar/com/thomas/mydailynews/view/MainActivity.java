@@ -29,6 +29,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

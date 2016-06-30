@@ -80,7 +80,7 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
                 recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                newsAdapter = new NewsAdapter(result);
+                newsAdapter = new NewsAdapter(result, context);
                 recyclerView.setAdapter(newsAdapter);
 
                 NewsListener newsListener = new NewsListener();

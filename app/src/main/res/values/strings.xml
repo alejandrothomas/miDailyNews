@@ -1,23 +1,4 @@
 <resources>
     <string name="app_name">MyDailyNEWS</string>
-    <string name="nav_item_1">nav_item_1</string>
-    <string name="nav_item_2">nav_item_2</string>
-    <string name="nav_item_3">nav_item_3</string>
-    <string name="nav_item_4">nav_item_4</string>
-    <string name="nav_item_5">nav_item_5</string>
-    <string name="nav_item_6">nav_item_6</string>
-    <string name="nav_item_7">nav_item_7</string>
-    <string name="nav_item_8">nav_item_8</string>
-    <string name="nav_item_9">nav_item_9</string>
-    <string name="nav_item_10">nav_item_10</string>
-    <string name="nav_item_11">nav_item_11</string>
-    <string name="nav_item_12">nav_item_12</string>
-    <string name="nav_item_13">nav_item_13</string>
-    <string name="nav_item_14">nav_item_14</string>
-    <string name="nav_item_15">nav_item_15</string>
-    <string name="nav_item_16">nav_item_16</string>
-    <string name="nav_item_17">nav_item_17</string>
-    <string name="nav_item_18">nav_item_18</string>
-    <string name="nav_item_19">nav_item_19</string>
-    <string name="nav_item_20">nav_item_20</string>
+    <string name="center_dot">·</string>
 </resources>

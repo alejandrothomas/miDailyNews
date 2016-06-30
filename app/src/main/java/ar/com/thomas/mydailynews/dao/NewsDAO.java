@@ -90,21 +90,14 @@ public class NewsDAO extends SQLiteOpenHelper {
     public void addNewsToDB(News news, String rssFeed){
 
         SQLiteDatabase database = getWritableDatabase();
-
         ContentValues row = new ContentValues();
-
-
 
         row.put(TITLE, news.getTitle());
         row.put(DESCRIPTION, news.getDescription());
         row.put(IMAGE_URL, news.getImageUrl());
-
-
         row.put(RSS_FEED, rssFeed);
 
-
         database.insert(TABLE_NEWS, null, row);
-
         database.close();
     }
 
@@ -131,8 +124,6 @@ public class NewsDAO extends SQLiteOpenHelper {
             news.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
             news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
             news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
-//            news.setRssFeed(rssFeed);
-
 
             newsList.add(news);
         }
