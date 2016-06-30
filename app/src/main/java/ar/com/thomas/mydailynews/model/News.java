@@ -15,7 +15,7 @@ public class News {
     private String pubDate;
     private String imageUrl;
 
-    private RSSFeed rssFeed;
+    private String rssFeed;
     private String rssFeedIdToString;
     private Integer newsID;
 
@@ -39,11 +39,11 @@ public class News {
         return rssFeedIdToString;
     }
 
-    public void setRssFeed(RSSFeed rssFeed) {
+    public void setRssFeed(String rssFeed) {
         this.rssFeed = rssFeed;
     }
 
-    public RSSFeed getRssFeed() {
+    public String getRssFeed() {
 
         return rssFeed;
     }

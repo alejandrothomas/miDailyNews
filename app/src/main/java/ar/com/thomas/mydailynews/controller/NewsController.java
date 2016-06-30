@@ -17,7 +17,7 @@ public class NewsController {
     Context context;
     NewsDAO newsDAO;
 
-    public void getNews(final ResultListener<List<News>> listener,String feedLink,Context context, String rssFeedObjectID){
+    public void getNews(final ResultListener<List<News>> listener,String feedLink,Context context, String rssFeed){
         newsDAO = new NewsDAO(context);
 
         newsDAO.getNewsList(new ResultListener<List<News>>() {
@@ -25,7 +25,7 @@ public class NewsController {
             public void finish(List<News> result) {
                 listener.finish(result);
             }
-        }, feedLink);
+        }, feedLink, rssFeed);
     }
 
     public List<News> getNewsListFromDB(String rssFeed,Context context){

@@ -5,7 +5,7 @@
         jar="/Users/mbp/miDailyNews/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="6e488d8af3ad2d57b48f06c4c46870fcafd1ddbd">
+        sha1="76855a1bd2bd56367326013391c51f650af0f137">
         <dex dex="/Users/mbp/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_4fe1c8a13e8af4e4d6a78e26c67abc5971779c5f/classes.dex" />
     </item>
     <item
@@ -54,7 +54,7 @@
         jar="/Users/mbp/miDailyNews/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="a53b06c432237c871531c50609b8acd65d0940b4">
+        sha1="9727e7f9db3cc495f3fe59c607bf38e8ad2fef34">
         <dex dex="/Users/mbp/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_ab0a6e48d35712a4afb409ff87ee576258fdf186/classes.dex" />
     </item>
     <item

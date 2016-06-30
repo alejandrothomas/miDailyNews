@@ -64,32 +64,37 @@ public class NewsDAO extends SQLiteOpenHelper {
 
     }
 
-    public void addNewsListToDB(List<News> newsList) {
+    public void addNewsListToDB(List<News> newsList, String rssFeed) {
+
+
         for (News news : newsList) {
-            if(!checkIfExist(news.getNewsID())) {
-                this.addNewsToDB(news);
+            if(!checkIfExist(news)) {
+                this.addNewsToDB(news,rssFeed);
             }
         }
     }
 
-    private Boolean checkIfExist(Integer newsID){
+    private Boolean checkIfExist(News news){
 
         SQLiteDatabase database = getReadableDatabase();
 
-        String selectQuery = "SELECT * FROM " + TABLE_NEWS
-                + " WHERE " + ID + "==" + newsID;
+        String newsTitle = news.getTitle().replaceAll("'","\'");
+        newsTitle = news.getTitle().replaceAll("''","\''");
 
-        Cursor result = database.rawQuery(selectQuery, null);
+        String selectQuery = "SELECT * FROM " + TABLE_NEWS
+                + " WHERE " + TITLE + "==?";
+
+        Cursor result = database.rawQuery(selectQuery, new String[]{newsTitle});
         Integer count = result.getCount();
 
-        Log.v("NewsDAO", "La noticia " + newsID + " ya esta en la base");
+        Log.v("NewsDAO", "La noticia " + news.getTitle() + " ya esta en la base");
 
         database.close();
 
         return (count > 0);
     }
 
-    public void addNewsToDB(News news){
+    public void addNewsToDB(News news, String rssFeed){
 
         SQLiteDatabase database = getWritableDatabase();
 
@@ -102,7 +107,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         row.put(IMAGE_URL, news.getImageUrl());
 
 
-//        row.put(RSS_FEED, news.getRssFeed().getObjectId());
+        row.put(RSS_FEED, rssFeed);
 
 
         database.insert(TABLE_NEWS, null, row);
@@ -116,9 +121,13 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         SQLiteDatabase database = getReadableDatabase();
 
-        String selectQuery = "SELECT * FROM " + TABLE_NEWS;
-//                   + " WHERE " + RSS_FEED + "==" + rssFeed;
-        Cursor cursor = database.rawQuery(selectQuery, null);
+        rssFeed = rssFeed.replaceAll("'","\'");
+        rssFeed = rssFeed.replaceAll("''","\''");
+
+        String selectQuery = "SELECT * FROM " + TABLE_NEWS
+                + " WHERE " + RSS_FEED + "==?";
+
+        Cursor cursor = database.rawQuery(selectQuery, new String[]{rssFeed});
 
         List<News> newsList = new ArrayList<>();
 
@@ -126,10 +135,10 @@ public class NewsDAO extends SQLiteOpenHelper {
 
             News news = new News();
 
-//            news.setNewsID(cursor.getInt(cursor.getColumnIndex(ID)));
             news.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
             news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
             news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
+//            news.setRssFeed(rssFeed);
 
 
             newsList.add(news);
@@ -138,11 +147,15 @@ public class NewsDAO extends SQLiteOpenHelper {
         return newsList;
     }
 
+
+
+
+
     //---------------------ONLINE------------------//
 
-    public void getNewsList(ResultListener<List<News>> listener, String feedLink) {
+    public void getNewsList(ResultListener<List<News>> listener, String feedLink, String rssFeed) {
 
-        RetrieveFeedTask retrieveFeedTask = new RetrieveFeedTask(listener, feedLink);
+        RetrieveFeedTask retrieveFeedTask = new RetrieveFeedTask(listener, feedLink, rssFeed);
         retrieveFeedTask.execute();
     }
 
@@ -151,10 +164,12 @@ public class NewsDAO extends SQLiteOpenHelper {
         private ResultListener<List<News>> listener;
 
         private String feedLink;
+        private String rssFeed;
 
-        public RetrieveFeedTask(ResultListener<List<News>> listener, String feedLink) {
+        public RetrieveFeedTask(ResultListener<List<News>> listener, String feedLink, String rssFeed) {
             this.listener = listener;
             this.feedLink = feedLink;
+            this.rssFeed = rssFeed;
         }
 
 
@@ -225,7 +240,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         @Override
         protected void onPostExecute(List<News> input) {
 
-            addNewsListToDB(input);
+            addNewsListToDB(input,rssFeed);
             this.listener.finish(input);
         }
     }
