@@ -21,18 +21,21 @@ public class FragmentNewsContainer extends Fragment {
     public static final String RSS_FEED = "rssFeed";
     private String selectedNewsRSSFeedID;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        getActivity().setTitle(selectedNewsRSSFeedID);
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-
         View view = inflater.inflate(R.layout.fragment_news_container, container, false);
+        ViewPager viewPager = (ViewPager)view.findViewById(R.id.viewpager_container);
 
         Bundle bundle = getArguments();
-
         selectedNewsRSSFeedID = bundle.getString(RSS_FEED);
         Integer position = bundle.getInt(POSITION);
-
-        ViewPager viewPager = (ViewPager)view.findViewById(R.id.viewpager_container);
 
         FragmentNewsViewPagerAdapter fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getFragmentManager(),getContext(), selectedNewsRSSFeedID);
 

@@ -45,9 +45,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     @Override
     public void getNotifications(String newsClickedID, Integer itemPosition, String rssFeedID) {
 
-        RSSFeedController rssFeedController = new RSSFeedController();
-        List<RSSFeed> rssFeedList = rssFeedController.getRSSFeedList(this);
-
         FragmentNewsContainer fragmentNewsContainer = new FragmentNewsContainer();
         Bundle arguments = new Bundle();
         arguments.putString(FragmentNewsContainer.NEWS_TITLE_ID, newsClickedID);
