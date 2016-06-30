@@ -32,14 +32,12 @@ public class FragmentNewsContainer extends Fragment {
 
         Bundle bundle = getArguments();
 
-        String newsClicked = bundle.getString(RSS_FEED);
+        String selectedNewsRSSFeedID = bundle.getString(RSS_FEED);
         Integer position = bundle.getInt(POSITION);
-
-        getActivity().setTitle(newsClicked);
 
         ViewPager viewPager = (ViewPager)view.findViewById(R.id.viewpager_container);
 
-        FragmentNewsViewPagerAdapter fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getFragmentManager(),getContext(), newsClicked);
+        FragmentNewsViewPagerAdapter fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getFragmentManager(),getContext(), selectedNewsRSSFeedID);
 
         viewPager.setAdapter(fragmentNewsViewPagerAdapter);
         viewPager.setCurrentItem(position);

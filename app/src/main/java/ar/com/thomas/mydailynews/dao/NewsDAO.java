@@ -52,6 +52,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         String createTable = "CREATE TABLE " + TABLE_NEWS + "("
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + TITLE + " TEXT, "
+                + RSS_FEED + " TEXT, "
                 + IMAGE_URL + " TEXT, "
                 + DESCRIPTION + " TEXT " + ")";
 
@@ -100,6 +101,10 @@ public class NewsDAO extends SQLiteOpenHelper {
         row.put(DESCRIPTION, news.getDescription());
         row.put(IMAGE_URL, news.getImageUrl());
 
+
+//        row.put(RSS_FEED, news.getRssFeed().getObjectId());
+
+
         database.insert(TABLE_NEWS, null, row);
 
         database.close();
@@ -112,7 +117,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         SQLiteDatabase database = getReadableDatabase();
 
         String selectQuery = "SELECT * FROM " + TABLE_NEWS;
-//                + " WHERE " + RSS_FEED + "==" + rssFeed;
+//                   + " WHERE " + RSS_FEED + "==" + rssFeed;
         Cursor cursor = database.rawQuery(selectQuery, null);
 
         List<News> newsList = new ArrayList<>();
@@ -121,10 +126,11 @@ public class NewsDAO extends SQLiteOpenHelper {
 
             News news = new News();
 
-            news.setNewsID(cursor.getInt(cursor.getColumnIndex(ID)));
+//            news.setNewsID(cursor.getInt(cursor.getColumnIndex(ID)));
             news.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
             news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
             news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
+
 
             newsList.add(news);
         }

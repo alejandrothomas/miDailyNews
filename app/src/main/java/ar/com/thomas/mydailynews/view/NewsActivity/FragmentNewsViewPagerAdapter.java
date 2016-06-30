@@ -30,23 +30,9 @@ public class FragmentNewsViewPagerAdapter extends FragmentStatePagerAdapter {
         List<News> newsList = newsController.getNewsListFromDB(rssFeed,context);
 
         for (News news : newsList){
+
             fragmentNewsList.add(new FragmentNewsViewPager().generateFragment(news));
         }
-
-
-
-//        newsController.getNews(new ResultListener<List<News>>() {
-//            @Override
-//            public void finish(List<News> result) {
-//
-//                for (News news: result){
-//                    fragmentNewsList.add(new FragmentNewsViewPager().generateFragment(news));
-//                }
-//            }
-//        }, rssLink, );
-
-
-
     }
 
     @Override

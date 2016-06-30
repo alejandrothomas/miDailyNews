@@ -12,6 +12,7 @@ public class RSSFeed {
     private String createdAt;
     private String feedLink;
     private String iconLink;
+    private String objectId;
     private List<News> newsList;
 
 
@@ -61,5 +62,14 @@ public class RSSFeed {
 
     public List<News> getNewsList() {
         return newsList;
+    }
+
+    public void setObjectId(String objectId) {
+        this.objectId = objectId;
+    }
+
+    public String getObjectId() {
+
+        return objectId;
     }
 }

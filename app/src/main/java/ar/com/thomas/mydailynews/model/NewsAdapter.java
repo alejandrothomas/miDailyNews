@@ -29,9 +29,6 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
         return newsList.get(position).getTitle();
     }
 
-    public RSSFeed getRssFeedFromSelectedNews(Integer position){
-        return newsList.get(position).getRssFeed();
-    }
 
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {

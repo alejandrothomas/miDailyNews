@@ -31,11 +31,13 @@ import ar.com.thomas.mydailynews.util.ResultListener;
 public class FragmentRSSFeedViewPager extends Fragment {
 
     public static final String RSS_FEED = "RSSFeed";
+    public static final String RSS_FEED_OBJECTID = "RSSFeed";
     public static final String RSS_FEED_LINK = "rssFeedLink";
     private RecyclerView recyclerView;
     private String rssFeed;
     private FragmentCalls fragmentCalls;
     NewsAdapter newsAdapter;
+    String rssFeedObjectID;
     private final List<News> newsList = new ArrayList<>();
 
     @Nullable
@@ -48,13 +50,13 @@ public class FragmentRSSFeedViewPager extends Fragment {
         Bundle bundle = getArguments();
         rssFeed = bundle.getString(RSS_FEED);
         String rssFeedLink = bundle.getString(RSS_FEED_LINK);
+        rssFeedObjectID = bundle.getString(RSS_FEED_OBJECTID);
 
 
         newsController.getNews(new ResultListener<List<News>>() {
             @Override
             public void finish(List<News> result) {
 
-//                final List<News> newsList = new ArrayList<News>();
                 newsList.addAll(result);
 
                 recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
@@ -69,7 +71,7 @@ public class FragmentRSSFeedViewPager extends Fragment {
 
 
             }
-        }, rssFeedLink, getActivity());
+        }, rssFeedLink, getActivity(), rssFeedObjectID);
 
         return view;
     }
@@ -101,7 +103,7 @@ public class FragmentRSSFeedViewPager extends Fragment {
     }
 
     public interface FragmentCalls{
-        public void getNotifications(String newsClicked, Integer itemPosition);
+        public void getNotifications(String newsClicked, Integer itemPosition, String rssFeedID);
     }
 
     private class NewsListener implements View.OnClickListener{
@@ -110,8 +112,7 @@ public class FragmentRSSFeedViewPager extends Fragment {
             Integer itemPosition = recyclerView.getChildAdapterPosition(v);
             String itemClicked = newsAdapter.selectedNewsID(itemPosition);
 
-
-            fragmentCalls.getNotifications(itemClicked, itemPosition);
+            fragmentCalls.getNotifications(itemClicked, itemPosition, rssFeedObjectID);
         }
     }
 

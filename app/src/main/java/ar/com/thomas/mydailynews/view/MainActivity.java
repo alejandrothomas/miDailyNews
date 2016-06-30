@@ -13,8 +13,11 @@ import android.widget.Toast;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
+import ar.com.thomas.mydailynews.controller.NewsController;
+import ar.com.thomas.mydailynews.controller.RSSFeedController;
 import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
 import ar.com.thomas.mydailynews.model.News;
+import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 import ar.com.thomas.mydailynews.view.NewsActivity.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedsActivity.FragmentRSSFeedContainer;
@@ -25,6 +28,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     private List<RSSFeedCategory> rssFeedCategoryList;
+    private List<RSSFeed> rssFeedList;
     private NavigationView navigationView;
     Context context;
 
@@ -39,18 +43,24 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
         populateNavigationDrawerMenu();
 
-        setTitle(getString(R.string.app_name));
     }
 
     @Override
-    public void getNotifications(String newsClickedID, Integer itemPosition) {
+    public void getNotifications(String newsClickedID, Integer itemPosition, String rssFeedID) {
+
+        RSSFeedController rssFeedController = new RSSFeedController();
+        rssFeedList = rssFeedController.getRSSFeedList(this);
+
+        RSSFeed rssFeed = rssFeedList.get(itemPosition);
 
         FragmentNewsContainer fragmentNewsContainer = new FragmentNewsContainer();
         Bundle arguments = new Bundle();
         arguments.putString(FragmentNewsContainer.NEWS_TITLE_ID, newsClickedID);
         arguments.putInt(FragmentNewsContainer.POSITION,itemPosition);
+        arguments.putString(FragmentNewsContainer.RSS_SOURCE, rssFeedID);
 
-        Toast.makeText(this,newsClickedID,Toast.LENGTH_LONG).show();
+
+        Toast.makeText(this,rssFeedID,Toast.LENGTH_LONG).show();
 
         fragmentNewsContainer.setArguments(arguments);
         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, fragmentNewsContainer).commit();
@@ -69,7 +79,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragmentRSSFeedContainer);
         fragmentTransaction.commit();
-        setTitle(item.toString());
     }
 
     private class ListenerMenu implements NavigationView.OnNavigationItemSelectedListener{

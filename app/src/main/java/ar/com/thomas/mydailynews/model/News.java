@@ -1,5 +1,7 @@
 package ar.com.thomas.mydailynews.model;
 
+import java.util.List;
+
 import javax.xml.transform.Source;
 
 /**
@@ -12,9 +14,12 @@ public class News {
     private String author;
     private String pubDate;
     private String imageUrl;
-    private RSSFeed rssFeed;
 
+    private RSSFeed rssFeed;
+    private String rssFeedIdToString;
     private Integer newsID;
+
+
 
     public void setNewsID(Integer newsID) {
         this.newsID = newsID;
@@ -23,6 +28,15 @@ public class News {
     public Integer getNewsID() {
 
         return newsID;
+    }
+
+    public void setRssFeedIdToString(String rssFeedIdToString) {
+        this.rssFeedIdToString = rssFeedIdToString;
+    }
+
+    public String getRssFeedIdToString() {
+
+        return rssFeedIdToString;
     }
 
     public void setRssFeed(RSSFeed rssFeed) {
