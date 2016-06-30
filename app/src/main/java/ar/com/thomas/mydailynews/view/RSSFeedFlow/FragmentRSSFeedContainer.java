@@ -1,6 +1,5 @@
-package ar.com.thomas.mydailynews.view.RSSFeedsActivity;
+package ar.com.thomas.mydailynews.view.RSSFeedFlow;
 
-import android.content.Context;
 import android.support.design.widget.TabLayout;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -10,7 +9,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import ar.com.thomas.mydailynews.R;
-import ar.com.thomas.mydailynews.model.RSSFeed;
 
 
 /**

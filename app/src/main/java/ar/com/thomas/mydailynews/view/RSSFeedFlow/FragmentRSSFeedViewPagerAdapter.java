@@ -1,4 +1,4 @@
-package ar.com.thomas.mydailynews.view.RSSFeedsActivity;
+package ar.com.thomas.mydailynews.view.RSSFeedFlow;
 
 import android.content.Context;
 import android.support.v4.app.Fragment;

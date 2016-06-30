@@ -1,15 +1,12 @@
-package ar.com.thomas.mydailynews.view.NewsActivity;
+package ar.com.thomas.mydailynews.view.NewsFlow;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-
-import org.w3c.dom.Text;
 
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.model.News;

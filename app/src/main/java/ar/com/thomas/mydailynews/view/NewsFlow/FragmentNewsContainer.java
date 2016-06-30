@@ -1,4 +1,4 @@
-package ar.com.thomas.mydailynews.view.NewsActivity;
+package ar.com.thomas.mydailynews.view.NewsFlow;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;

@@ -1,4 +1,4 @@
-package ar.com.thomas.mydailynews.view.RSSFeedsActivity;
+package ar.com.thomas.mydailynews.view.RSSFeedFlow;
 
 import android.app.Activity;
 import android.os.Bundle;
@@ -6,12 +6,9 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.Toast;
 
 
 import java.util.ArrayList;
@@ -22,7 +19,6 @@ import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.NewsAdapter;
 import ar.com.thomas.mydailynews.model.RSSFeed;
-import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 import ar.com.thomas.mydailynews.util.ResultListener;
 
 /**

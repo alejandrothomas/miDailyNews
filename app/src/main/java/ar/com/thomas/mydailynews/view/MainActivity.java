@@ -13,15 +13,13 @@ import android.widget.Toast;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
-import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.controller.RSSFeedController;
 import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
-import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
-import ar.com.thomas.mydailynews.view.NewsActivity.FragmentNewsContainer;
-import ar.com.thomas.mydailynews.view.RSSFeedsActivity.FragmentRSSFeedContainer;
-import ar.com.thomas.mydailynews.view.RSSFeedsActivity.FragmentRSSFeedViewPager;
+import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
+import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
+import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
 
 public class MainActivity extends AppCompatActivity implements FragmentRSSFeedViewPager.FragmentCalls{
 
