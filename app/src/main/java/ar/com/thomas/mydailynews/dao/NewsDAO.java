@@ -41,6 +41,7 @@ public class NewsDAO extends SQLiteOpenHelper {
     public NewsDAO(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
+
     //------------------OFFLINE--------------------//
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -54,27 +55,27 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         db.execSQL(createTable);
 
-        String createTableFavourites = "CREATE TABLE " + TABLE_FAVOURITES + "("
-                + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-                + RSS_FEED + " TEXT, "
-                + IS_FAVOURITE + " BOOL " + ")";
-
-        db.execSQL(createTableFavourites);
+//        String createTableFavourites = "CREATE TABLE " + TABLE_FAVOURITES + "("
+//                + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+//                + RSS_FEED + " TEXT, "
+//                + IS_FAVOURITE + " TEXT " + ")";
+//
+//        db.execSQL(createTableFavourites);
     }
 
-    public void addToFavourites(String rssFeed){
-        SQLiteDatabase database = getWritableDatabase();
-        String selectQuery = "UPDATE " + TABLE_FAVOURITES
-                + " SET " + IS_FAVOURITE + " = " + true
-                + " WHERE " + RSS_FEED + "==" + "\"" + rssFeed + "\"" ;
-    }
+
+//    public void addToFavourites(String rssFeed){
+//        SQLiteDatabase database = getWritableDatabase();
+//        ContentValues cv = new ContentValues();
+//        cv.put(IS_FAVOURITE,"YES");
+//        database.update(TABLE_FAVOURITES, cv, RSS_FEED + "=" + rssFeed,null);
+//    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
     public void addNewsListToDB(List<News> newsList, String rssFeed) {
-
 
         for (News news : newsList) {
             if(!checkIfExist(news)) {
@@ -104,9 +105,7 @@ public class NewsDAO extends SQLiteOpenHelper {
     public void addNewsToDB(News news, String rssFeed){
 
         SQLiteDatabase database = getWritableDatabase();
-        SQLiteDatabase database1 = getWritableDatabase();
         ContentValues row = new ContentValues();
-        ContentValues row1 = new ContentValues();
 
         row.put(TITLE, news.getTitle());
         row.put(DESCRIPTION, news.getDescription());
@@ -116,10 +115,14 @@ public class NewsDAO extends SQLiteOpenHelper {
         database.insert(TABLE_NEWS, null, row);
         database.close();
 
-        database1 = getWritableDatabase();
-        row1.put(RSS_FEED,rssFeed);
-        database1.insert(TABLE_FAVOURITES,null,row1);
-        database1.close();
+
+//        SQLiteDatabase database1 = getWritableDatabase();
+//        ContentValues row1 = new ContentValues();
+
+//        database1 = getWritableDatabase();
+//        row1.put(RSS_FEED,rssFeed);
+//        database1.insert(TABLE_FAVOURITES,null,row1);
+//        database1.close();
     }
 
     public List<News> getNewsListFromDatabase(String rssFeed){

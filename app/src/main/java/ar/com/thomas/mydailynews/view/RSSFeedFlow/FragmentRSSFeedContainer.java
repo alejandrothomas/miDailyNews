@@ -9,6 +9,8 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Toast;
+
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.dao.NewsDAO;
@@ -51,8 +53,9 @@ public class FragmentRSSFeedContainer extends Fragment{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                NewsDAO newsDAO = new NewsDAO(getActivity());
-                newsDAO.addToFavourites(rssfeedTitle);
+                Toast.makeText(getActivity(), "Base de datos de mierda",Toast.LENGTH_LONG).show();
+//                NewsDAO newsDAO = new NewsDAO(getActivity());
+//                newsDAO.addToFavourites(rssfeedTitle);
             }
         });
 

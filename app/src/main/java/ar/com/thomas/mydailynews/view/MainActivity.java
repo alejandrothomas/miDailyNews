@@ -4,6 +4,8 @@ import android.content.Context;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.Menu;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, fragmentNewsContainer).commit();
     }
 
+
     private void selectedMenuItem(MenuItem item){
 
         RSSFeedCategory rssFeedCategory = rssFeedCategoryList.get(item.getItemId());
@@ -73,6 +76,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.replace(R.id.fragment_container, fragmentRSSFeedContainer);
         fragmentTransaction.commit();
+
+        DrawerLayout drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+        drawerLayout.closeDrawer(navigationView);
+
     }
 
     private class ListenerMenu implements NavigationView.OnNavigationItemSelectedListener{

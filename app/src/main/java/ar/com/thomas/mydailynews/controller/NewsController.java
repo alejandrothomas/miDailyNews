@@ -34,6 +34,6 @@ public class NewsController {
     }
 
     public void addToFavourites (String rssFeed){
-        newsDAO.addToFavourites(rssFeed);
+//        newsDAO.addToFavourites(rssFeed);
     }
 }

@@ -53,6 +53,8 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
 
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
+        int top_to_padding=50;
+        swipeRefreshLayout.setProgressViewOffset(false, 0,top_to_padding);
 
         newsController = new NewsController();
 
@@ -70,12 +72,10 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
     void update(){
 
 
-
+        swipeRefreshLayout.setRefreshing(true);
         newsController.getNews(new ResultListener<List<News>>() {
             @Override
             public void finish(List<News> result) {
-
-                swipeRefreshLayout.setRefreshing(true);
 
                 newsList.addAll(result);
 
@@ -90,6 +90,8 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
                 newsAdapter.notifyDataSetChanged();
 
                 swipeRefreshLayout.setRefreshing(false);
+
+
 
 
             }
