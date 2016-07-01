@@ -8,6 +8,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,6 +23,13 @@ import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.NewsAdapter;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.util.ResultListener;
+import me.everything.android.ui.overscroll.IOverScrollDecor;
+import me.everything.android.ui.overscroll.IOverScrollStateListener;
+import me.everything.android.ui.overscroll.IOverScrollUpdateListener;
+import me.everything.android.ui.overscroll.ListenerStubs;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
+import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator;
+import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter;
 
 /**
  * Created by alejandrothomas on 6/25/16.
@@ -51,6 +59,7 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
         view = inflater.inflate(R.layout.fragment_rssfeed_viewpager,container,false);
         context = getActivity();
 
+
         swipeRefreshLayout = (SwipeRefreshLayout)view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setOnRefreshListener(this);
         int top_to_padding=50;
@@ -64,7 +73,6 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
         rssFeedObjectID = bundle.getString(RSS_FEED_OBJECTID);
 
         onRefresh();
-
 
         return view;
     }
@@ -82,6 +90,7 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
                 recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                OverScrollDecoratorHelper.setUpOverScroll(recyclerView,OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
                 newsAdapter = new NewsAdapter(result, context);
                 recyclerView.setAdapter(newsAdapter);
 

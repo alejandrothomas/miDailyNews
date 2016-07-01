@@ -6,10 +6,13 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.animation.AccelerateInterpolator;
 import android.widget.Toast;
 
 import java.util.List;
@@ -30,12 +33,27 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     Context context;
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
-
+    DrawerLayout drawerLayout;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Toast.makeText(this,getString(R.string.welcome),Toast.LENGTH_LONG).show();
+        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        setSupportActionBar(toolbar);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+        ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(
+                this,  drawerLayout, toolbar,
+                R.string.app_name, R.string.app_name
+        );
+        drawerLayout.setDrawerListener(mDrawerToggle);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        getSupportActionBar().setHomeButtonEnabled(true);
+        mDrawerToggle.syncState();
 
         context = this;
 
@@ -43,8 +61,9 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
 
         populateNavigationDrawerMenu();
-        selectedMenuItem(navigationView.getMenu().getItem(15));
-        navigationView.getMenu().getItem(15).setChecked(true);
+        selectedMenuItem(navigationView.getMenu().getItem(0));
+        navigationView.getMenu().getItem(0).setChecked(true);
+
     }
 
     @Override
@@ -77,8 +96,9 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         fragmentTransaction.replace(R.id.fragment_container, fragmentRSSFeedContainer);
         fragmentTransaction.commit();
 
-        DrawerLayout drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
-        drawerLayout.closeDrawer(navigationView);
+        if (drawerLayout != null) {
+            drawerLayout.closeDrawer(navigationView);
+        }
 
     }
 

@@ -4,7 +4,8 @@
     android:orientation="vertical"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/fragment_rssfeed_viewpager_container">
+    android:id="@+id/fragment_rssfeed_viewpager_container"
+    android:clipToPadding="false">
 
     <TextView
         android:layout_width="match_parent"
@@ -17,7 +18,9 @@
         android:src="@drawable/ic_favorite_border_white_24dp"
         app:layout_anchor="@id/nab_anchor"
         app:layout_anchorGravity="right|bottom"
-        android:layout_margin="16dp"/>
+        android:layout_margin="16dp"
+        app:fabSize="mini"
+        android:elevation="20dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -33,7 +36,9 @@
             app:tabMode="scrollable"
             android:background="@color/colorPrimary"
             app:tabGravity="fill"
-            app:tabTextColor="@android:color/white"/>
+            app:tabTextColor="@android:color/white"
+            android:elevation="2dp"
+            app:layout_scrollFlags="scroll|enterAlways" />
 
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPagerMainActivity"

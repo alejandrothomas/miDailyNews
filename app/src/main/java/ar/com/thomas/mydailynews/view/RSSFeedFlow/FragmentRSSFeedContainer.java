@@ -14,6 +14,7 @@ import android.widget.Toast;
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.dao.NewsDAO;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 
 /**
@@ -38,6 +39,8 @@ public class FragmentRSSFeedContainer extends Fragment{
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_rrsfeed_container, container, false);
         ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPagerMainActivity);
+
+        OverScrollDecoratorHelper.setUpOverScroll(viewPager);
 
         Bundle bundle = getArguments();
         rssFeedCategory = bundle.getString(RSSFEED_CATEGORYID);
