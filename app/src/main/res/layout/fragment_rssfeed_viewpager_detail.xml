@@ -14,7 +14,7 @@
         app:cardBackgroundColor="#FFFFFF"
         android:elevation="5dp">
 
-        <ImageView
+        <com.fmsirvent.ParallaxEverywhere.PEWImageView
             android:id="@+id/imageUrl_textview_fragmentRSSHolderDetail"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
