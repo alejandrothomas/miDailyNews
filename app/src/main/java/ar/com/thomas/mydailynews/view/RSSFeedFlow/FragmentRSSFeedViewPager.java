@@ -8,11 +8,9 @@ import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
 
 import java.util.ArrayList;
 import java.util.List;
@@ -23,34 +21,36 @@ import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.NewsAdapter;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.util.ResultListener;
-import me.everything.android.ui.overscroll.IOverScrollDecor;
-import me.everything.android.ui.overscroll.IOverScrollStateListener;
-import me.everything.android.ui.overscroll.IOverScrollUpdateListener;
-import me.everything.android.ui.overscroll.ListenerStubs;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
-import me.everything.android.ui.overscroll.VerticalOverScrollBounceEffectDecorator;
-import me.everything.android.ui.overscroll.adapters.RecyclerViewOverScrollDecorAdapter;
 
-/**
- * Created by alejandrothomas on 6/25/16.
- */
 public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLayout.OnRefreshListener{
 
     public static final String RSS_FEED = "RSSFeed";
     public static final String RSS_FEED_OBJECTID = "RSSFeed";
     public static final String RSS_FEED_LINK = "rssFeedLink";
-    private RecyclerView recyclerView;
-    private Context context;
-    private String rssFeed;
-    private FragmentCalls fragmentCalls;
+    private final List<News> newsList = new ArrayList<>();
     SwipeRefreshLayout swipeRefreshLayout;
     NewsAdapter newsAdapter;
     String rssFeedLink;
     NewsController newsController;
     String rssFeedObjectID;
     View view;
+    private RecyclerView recyclerView;
+    private Context context;
+    private String rssFeed;
+    private FragmentCalls fragmentCalls;
 
-    private final List<News> newsList = new ArrayList<>();
+    public static FragmentRSSFeedViewPager generateFragment(RSSFeed rssFeed) {
+
+        FragmentRSSFeedViewPager fragmentRSSFeedViewPager = new FragmentRSSFeedViewPager();
+
+        Bundle arguments = new Bundle();
+        arguments.putString(RSS_FEED, rssFeed.getTitle());
+        arguments.putString(RSS_FEED_LINK, rssFeed.getFeedLink());
+        fragmentRSSFeedViewPager.setArguments(arguments);
+        fragmentRSSFeedViewPager.setRssFeed(rssFeed.getTitle());
+        return fragmentRSSFeedViewPager;
+    }
 
     @Nullable
     @Override
@@ -90,7 +90,10 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
                 recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+
                 OverScrollDecoratorHelper.setUpOverScroll(recyclerView,OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
+                recyclerView.setNestedScrollingEnabled(false);
+
                 newsAdapter = new NewsAdapter(result, context);
                 recyclerView.setAdapter(newsAdapter);
 
@@ -100,22 +103,8 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
 
                 swipeRefreshLayout.setRefreshing(false);
 
-
-
-
             }
         }, rssFeedLink, getActivity(), rssFeedObjectID);
-    }
-    public static FragmentRSSFeedViewPager generateFragment (RSSFeed rssFeed){
-
-        FragmentRSSFeedViewPager fragmentRSSFeedViewPager = new FragmentRSSFeedViewPager();
-
-        Bundle arguments = new Bundle();
-        arguments.putString(RSS_FEED, rssFeed.getTitle());
-        arguments.putString(RSS_FEED_LINK, rssFeed.getFeedLink());
-        fragmentRSSFeedViewPager.setArguments(arguments);
-        fragmentRSSFeedViewPager.setRssFeed(rssFeed.getTitle());
-        return fragmentRSSFeedViewPager;
     }
 
     @Override
@@ -132,8 +121,13 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
         this.rssFeed = rssFeed;
     }
 
+    @Override
+    public void onRefresh() {
+        update();
+    }
+
     public interface FragmentCalls{
-        public void getNotifications(String newsClicked, Integer itemPosition, String rssFeedID);
+        void getNotifications(String newsClicked, Integer itemPosition, String rssFeedID);
     }
 
     private class NewsListener implements View.OnClickListener{
@@ -144,11 +138,6 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
 
             fragmentCalls.getNotifications(itemClicked, itemPosition, rssFeedObjectID);
         }
-    }
-
-    @Override
-    public void onRefresh() {
-        update();
     }
 
 }

@@ -4,31 +4,30 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
     android:orientation="vertical"
-    tools:context=".view.MainActivity"
-    android:background="@color/colorPrimary">
+    tools:context=".view.MainActivity">
 
     <android.support.v7.widget.Toolbar xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:app="http://schemas.android.com/apk/res-auto"
         android:id="@+id/my_toolbar"
         android:layout_width="match_parent"
         android:layout_height="?attr/actionBarSize"
-        android:elevation="16dp"
         android:background="@color/colorPrimary"
-        app:layout_scrollFlags="scroll|enterAlways"
-        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"/>
+        android:elevation="16dp"
+        android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
+        app:layout_scrollFlags="scroll|enterAlways" />
 
     <android.support.v4.widget.DrawerLayout
+        android:id="@+id/drawerLayout"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:id="@+id/drawerLayout">
+        android:layout_height="match_parent">
 
         <LinearLayout
             android:id="@+id/fragment_container"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:orientation="vertical">
-
         </LinearLayout>
 
         <android.support.design.widget.NavigationView
