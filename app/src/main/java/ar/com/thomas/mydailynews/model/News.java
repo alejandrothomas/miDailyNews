@@ -14,7 +14,6 @@ public class News {
     private String author;
     private String pubDate;
     private String imageUrl;
-
     private String rssFeed;
     private String rssFeedIdToString;
     private Integer newsID;

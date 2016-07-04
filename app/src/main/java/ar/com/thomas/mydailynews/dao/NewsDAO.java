@@ -35,6 +35,7 @@ public class NewsDAO extends SQLiteOpenHelper {
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
     private static final String IMAGE_URL = "imageURL";
+    private static final String PUB_DATE = "pubDate";
     private static final String RSS_FEED = "rssFeed";
     private static final String TABLE_FAVOURITES = "Favourites";
     private static final String IS_FAVOURITE = "is_favourite";
@@ -49,6 +50,7 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         String createTable = "CREATE TABLE " + TABLE_NEWS + "("
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + PUB_DATE + " TEXT, "
                 + TITLE + " TEXT, "
                 + RSS_FEED + " TEXT, "
                 + IMAGE_URL + " TEXT, "
@@ -148,6 +150,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         row.put(DESCRIPTION, news.getDescription());
         row.put(IMAGE_URL, news.getImageUrl());
         row.put(RSS_FEED, rssFeed);
+        row.put(PUB_DATE, news.getPubDate());
 
         database.insert(TABLE_NEWS, null, row);
         database.close();
@@ -162,7 +165,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         rssFeed = rssFeed.replaceAll("''","\''");
 
         String selectQuery = "SELECT * FROM " + TABLE_NEWS
-                + " WHERE " + RSS_FEED + "==?";
+                + " WHERE " + RSS_FEED + "==?" + " ORDER BY " + PUB_DATE + " DESC ";
 
         Cursor cursor = database.rawQuery(selectQuery, new String[]{rssFeed});
 
@@ -175,6 +178,7 @@ public class NewsDAO extends SQLiteOpenHelper {
             news.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
             news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
             news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
+            news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
 
             newsList.add(news);
         }
@@ -262,10 +266,8 @@ public class NewsDAO extends SQLiteOpenHelper {
                                 } else if (parser.getName().equals("link")) {
                                     aNews.setLink(parser.nextText());
                                 } else if (parser.getName().equals("description")) {
-
                                     aNews.setDescription(parser.nextText());
                                 } else if (parser.getName().equals("pubDate")) {
-
                                     aNews.setPubDate(parser.nextText());
                                 } else if (parser.getName().equals("author")) {
 
