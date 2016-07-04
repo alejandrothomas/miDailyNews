@@ -208,9 +208,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         List<String> favouriteList = new ArrayList<>();
 
         while(cursor.moveToNext()){
-
             favouriteList.add(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
-            Log.v("test",cursor.getString(cursor.getColumnIndex(RSS_FEED)) + " has been added to list");
         }
 
         return favouriteList;

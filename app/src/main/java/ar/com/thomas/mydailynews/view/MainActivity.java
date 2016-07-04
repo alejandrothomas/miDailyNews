@@ -3,6 +3,7 @@ package ar.com.thomas.mydailynews.view;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -22,7 +23,6 @@ import java.util.List;
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
-import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private DrawerLayout drawerLayout;
     private List<RSSFeedCategory> rssFeedCategoryList;
     private NavigationView navigationView;
-    private List<String> favouriteList;
+    public List<String> favouriteListMainActivity;
+    private FragmentRSSFeedContainer fragmentRSSFeedContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -44,14 +45,14 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         setContentView(R.layout.activity_main);
         context = this;
 
-//        Toast.makeText(context,getString(R.string.welcome),Toast.LENGTH_LONG).show();
+        Toast.makeText(context,getString(R.string.welcome),Toast.LENGTH_LONG).show();
 
 
-        favouriteList = new ArrayList<>();
+        favouriteListMainActivity = new ArrayList<>();
         NewsController newsController = new NewsController();
-        favouriteList.addAll(newsController.getFavouritesFromDB(context));
-        newsController.updateFavourites(favouriteList,context);
-        Toast.makeText(this,String.valueOf(favouriteList.size()),Toast.LENGTH_LONG).show();
+        favouriteListMainActivity.addAll(newsController.getFavouritesFromDB(context));
+        newsController.updateFavourites(favouriteListMainActivity,context);
+        Toast.makeText(this,String.valueOf(favouriteListMainActivity.size()),Toast.LENGTH_LONG).show();
 
         Window window = getWindow();
         window.setStatusBarColor(0xFF37474F);
@@ -132,14 +133,19 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     }
 
     @Override
-    public void getFavNotifications(String rssFeed) {
+    public void getFavNotifications(String rssFeed, FloatingActionButton fab) {
 
-        if(favouriteList.contains(rssFeed)){
-            favouriteList.remove(rssFeed);
+        if(favouriteListMainActivity.contains(rssFeed)){
+            favouriteListMainActivity.remove(rssFeed);
+//            fragmentRSSFeedContainer.setFabStatus(false);
+            fab.setSelected(false);
             Toast.makeText(context, rssFeed + " ha sido removido de la lista de favoritos.",Toast.LENGTH_SHORT).show();
         }else{
-            favouriteList.add(rssFeed);
+            favouriteListMainActivity.add(rssFeed);
             Toast.makeText(context, rssFeed + " ha sido agregado de la lista de favoritos.",Toast.LENGTH_SHORT).show();
+//            fragmentRSSFeedContainer.setFabStatus(true);
+            fab.setSelected(true);
+
         }
     }
 
@@ -155,14 +161,14 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     protected void onPause() {
         super.onPause();
         NewsController newsController = new NewsController();
-        newsController.updateFavourites(favouriteList,this);
+        newsController.updateFavourites(favouriteListMainActivity,this);
 
     }
 
     public void displayFavourites(View view){
 
         NewsController newsController = new NewsController();
-        newsController.updateFavourites(favouriteList,context);
+        newsController.updateFavourites(favouriteListMainActivity,context);
         List<String> newFavouriteList = newsController.getFavouritesFromDB(context);
 
         if(newFavouriteList.size()>0) {

@@ -61,21 +61,40 @@ public class FragmentRSSFeedContainer extends Fragment{
         fab = (FloatingActionButton) view.findViewById(R.id.fab_pressed);
 
 
-
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 Integer currentPosition = viewPager.getCurrentItem();
                 String rssFeed = fragmentRSSFeedViewPagerAdapter.getPageTitle(currentPosition).toString();
-                favouriteCalls.getFavNotifications(rssFeed);
+                favouriteCalls.getFavNotifications(rssFeed, fab);
             }
         });
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+//                if(fragmentRSSFeedViewPagerAdapter.getPageTitle(position).toString())
+                fab.setSelected(false);
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
         return view;
     }
 
     public interface FavouriteCalls {
-        public void getFavNotifications(String rssFeed);
+        public void getFavNotifications(String rssFeed, FloatingActionButton fab);
     }
 
     @Override
@@ -83,6 +102,9 @@ public class FragmentRSSFeedContainer extends Fragment{
         super.onAttach(activity);
         favouriteCalls = (FavouriteCalls) activity;
     }
+
+
+
 
 
 }

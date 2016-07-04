@@ -18,7 +18,6 @@ import java.util.List;
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.model.News;
-import ar.com.thomas.mydailynews.model.NewsAdapter;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.util.ResultListener;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
