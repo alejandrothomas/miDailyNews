@@ -12,8 +12,11 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
 import android.widget.Toast;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
@@ -23,14 +26,15 @@ import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
 
-public class MainActivity extends AppCompatActivity implements FragmentRSSFeedViewPager.FragmentCalls{
+public class MainActivity extends AppCompatActivity implements FragmentRSSFeedViewPager.FragmentCalls, FragmentRSSFeedContainer.FavouriteCalls{
 
-    Context context;
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-    DrawerLayout drawerLayout;
+    protected Context context;
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private DrawerLayout drawerLayout;
     private List<RSSFeedCategory> rssFeedCategoryList;
     private NavigationView navigationView;
+    private List<String> favouriteList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -38,6 +42,13 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         setContentView(R.layout.activity_main);
 
         Toast.makeText(this,getString(R.string.welcome),Toast.LENGTH_LONG).show();
+
+
+        favouriteList = new ArrayList<>();
+        //agregar metodo para popular la lista de favoritos desde la base de datos
+
+        Window window = getWindow();
+        window.setStatusBarColor(0xFF37474F);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
@@ -109,11 +120,28 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }
     }
 
+    @Override
+    public void getFavNotifications(String rssFeed) {
+
+        if(favouriteList.contains(rssFeed)){
+            favouriteList.remove(rssFeed);
+            Toast.makeText(this, rssFeed + " ha sido removido de la lista de favoritos.",Toast.LENGTH_SHORT).show();
+        }else{
+            favouriteList.add(rssFeed);
+            Toast.makeText(this, rssFeed + " ha sido agregado de la lista de favoritos.",Toast.LENGTH_SHORT).show();
+
+        }
+    }
+
     private class ListenerMenu implements NavigationView.OnNavigationItemSelectedListener{
         @Override
         public boolean onNavigationItemSelected(MenuItem item) {
             selectedMenuItem(item);
             return true;
         }
+    }
+
+    public void displayFavourites(View view){
+        Toast.makeText(this,String.valueOf(favouriteList.size()), Toast.LENGTH_SHORT).show();
     }
 }

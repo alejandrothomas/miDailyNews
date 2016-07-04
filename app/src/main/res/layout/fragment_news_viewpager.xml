@@ -16,8 +16,7 @@
             android:id="@+id/fragmentNewsViewPager_IMAGEVIEW_ImageURL"
             android:layout_width="match_parent"
             android:layout_height="300dp"
-            android:scaleType="centerCrop"
-            app:interpolation="accelerate_decelerate" />
+            android:scaleType="centerCrop" />
 
         <TextView
             android:id="@+id/fragmentNewsViewPager_TEXTVIEW_Title"

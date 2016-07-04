@@ -55,21 +55,14 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         db.execSQL(createTable);
 
-//        String createTableFavourites = "CREATE TABLE " + TABLE_FAVOURITES + "("
-//                + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
-//                + RSS_FEED + " TEXT, "
-//                + IS_FAVOURITE + " TEXT " + ")";
-//
-//        db.execSQL(createTableFavourites);
+        String createTableFavourites = "CREATE TABLE " + TABLE_FAVOURITES + "("
+                + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + RSS_FEED + " TEXT, "
+                + IS_FAVOURITE + " TEXT " + ")";
+
+        db.execSQL(createTableFavourites);
     }
 
-
-//    public void addToFavourites(String rssFeed){
-//        SQLiteDatabase database = getWritableDatabase();
-//        ContentValues cv = new ContentValues();
-//        cv.put(IS_FAVOURITE,"YES");
-//        database.update(TABLE_FAVOURITES, cv, RSS_FEED + "=" + rssFeed,null);
-//    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -78,13 +71,36 @@ public class NewsDAO extends SQLiteOpenHelper {
     public void addNewsListToDB(List<News> newsList, String rssFeed) {
 
         for (News news : newsList) {
-            if(!checkIfExist(news)) {
+            if(!checkIfNewsExist(news)) {
                 this.addNewsToDB(news,rssFeed);
+            }
+            if(!checkIfRSSExist(rssFeed)){
+                this.addRSSToDB(rssFeed);
             }
         }
     }
 
-    private Boolean checkIfExist(News news){
+    private Boolean checkIfRSSExist(String rssFeed){
+        SQLiteDatabase database = getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + TABLE_FAVOURITES
+                + " WHERE " + RSS_FEED + "==?";
+        Cursor result = database.rawQuery(selectQuery, new String[]{rssFeed});
+        Integer count = result.getCount();
+
+        database.close();
+        return (count > 0);
+    }
+
+    public void addRSSToDB(String rssFeed){
+        SQLiteDatabase database = getWritableDatabase();
+        ContentValues row = new ContentValues();
+
+        row.put(RSS_FEED,rssFeed);
+        database.insert(TABLE_FAVOURITES,null,row);
+        database.close();
+    }
+
+    private Boolean checkIfNewsExist(News news){
 
         SQLiteDatabase database = getReadableDatabase();
 
@@ -115,14 +131,6 @@ public class NewsDAO extends SQLiteOpenHelper {
         database.insert(TABLE_NEWS, null, row);
         database.close();
 
-
-//        SQLiteDatabase database1 = getWritableDatabase();
-//        ContentValues row1 = new ContentValues();
-
-//        database1 = getWritableDatabase();
-//        row1.put(RSS_FEED,rssFeed);
-//        database1.insert(TABLE_FAVOURITES,null,row1);
-//        database1.close();
     }
 
     public List<News> getNewsListFromDatabase(String rssFeed){
@@ -168,7 +176,6 @@ public class NewsDAO extends SQLiteOpenHelper {
     class RetrieveFeedTask extends AsyncTask<String, Void, List<News>> {
 
         private ResultListener<List<News>> listener;
-
         private String feedLink;
         private String rssFeed;
 
