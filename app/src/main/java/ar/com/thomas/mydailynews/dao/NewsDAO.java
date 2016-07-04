@@ -39,10 +39,21 @@ public class NewsDAO extends SQLiteOpenHelper {
     private static final String RSS_FEED = "rssFeed";
     private static final String TABLE_FAVOURITES = "Favourites";
     private static final String IS_FAVOURITE = "is_favourite";
+    private static NewsDAO newsDAO = null;
 
-    public NewsDAO(Context context){
+    private NewsDAO(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
     }
+
+
+    public static NewsDAO getNewsDAO (Context context){
+        if(newsDAO == null){
+            newsDAO = new NewsDAO(context.getApplicationContext());
+        }
+        return newsDAO;
+    }
+
+
 
     //------------------OFFLINE--------------------//
     @Override
@@ -165,7 +176,8 @@ public class NewsDAO extends SQLiteOpenHelper {
         rssFeed = rssFeed.replaceAll("''","\''");
 
         String selectQuery = "SELECT * FROM " + TABLE_NEWS
-                + " WHERE " + RSS_FEED + "==?" + " ORDER BY " + PUB_DATE + " DESC ";
+                + " WHERE " + RSS_FEED + "==?";
+//                + " ORDER BY " + PUB_DATE + " DESC ";
 
         Cursor cursor = database.rawQuery(selectQuery, new String[]{rssFeed});
 
@@ -179,13 +191,10 @@ public class NewsDAO extends SQLiteOpenHelper {
             news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
             news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
             news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
-
             newsList.add(news);
         }
-
         return newsList;
     }
-
     public List<String> getFavouritesFromDatabase(){
 
         SQLiteDatabase database = getReadableDatabase();
@@ -200,16 +209,12 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         while(cursor.moveToNext()){
 
-            String favourite = new String();
-
-            favouriteList.add(favourite);
+            favouriteList.add(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
+            Log.v("test",cursor.getString(cursor.getColumnIndex(RSS_FEED)) + " has been added to list");
         }
 
         return favouriteList;
     }
-
-
-
 
 
     //---------------------ONLINE------------------//
@@ -231,8 +236,6 @@ public class NewsDAO extends SQLiteOpenHelper {
             this.feedLink = feedLink;
             this.rssFeed = rssFeed;
         }
-
-
 
         @Override
         protected List<News> doInBackground(String... params) {
@@ -287,7 +290,10 @@ public class NewsDAO extends SQLiteOpenHelper {
                             }
                             break;
                     }
+
+
                     status = parser.next();
+
                 }
             } catch (Exception e) {
                 e.printStackTrace();

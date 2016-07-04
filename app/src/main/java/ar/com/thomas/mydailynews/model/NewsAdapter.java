@@ -18,12 +18,20 @@ import ar.com.thomas.mydailynews.R;
  * Created by alejandrothomas on 6/25/16.
  */
 public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickListener{
-    Context context;
+    private Context context;
     private List<News> newsList;
     private View.OnClickListener listener;
 
     public NewsAdapter(List<News> newsList, Context context) {
         this.newsList = newsList;
+        this.context = context;
+    }
+
+    public NewsAdapter(){
+
+    }
+
+    public void setContext(Context context) {
         this.context = context;
     }
 

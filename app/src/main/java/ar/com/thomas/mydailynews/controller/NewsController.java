@@ -14,11 +14,11 @@ import ar.com.thomas.mydailynews.util.ResultListener;
  * Created by alejandrothomas on 6/27/16.
  */
 public class NewsController {
-    Context context;
-    NewsDAO newsDAO;
+
+    private NewsDAO newsDAO;
 
     public void getNews(final ResultListener<List<News>> listener,String feedLink,Context context, String rssFeed){
-        newsDAO = new NewsDAO(context);
+        newsDAO = NewsDAO.getNewsDAO(context);
 
         newsDAO.getNewsList(new ResultListener<List<News>>() {
             @Override
@@ -29,18 +29,18 @@ public class NewsController {
     }
 
     public List<News> getNewsListFromDB(String rssFeed,Context context){
-        newsDAO = new NewsDAO(context);
+        newsDAO = NewsDAO.getNewsDAO(context);
         return newsDAO.getNewsListFromDatabase(rssFeed);
     }
 
     public void updateFavourites (List<String> rssFeedFavouriteList, Context context){
 
-        newsDAO = new NewsDAO(context);
+        newsDAO = NewsDAO.getNewsDAO(context);
         newsDAO.updateFavouriteListDB(rssFeedFavouriteList);
     }
 
     public List<String> getFavouritesFromDB(Context context){
-        newsDAO = new NewsDAO(context);
+        newsDAO = NewsDAO.getNewsDAO(context);
         return newsDAO.getFavouritesFromDatabase();
     }
 }

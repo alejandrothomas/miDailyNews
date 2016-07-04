@@ -33,7 +33,7 @@
         jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="b2aaa533eaf610ca3ec19d1a134993cde89d0882">
+        sha1="b463b336bf958a89ea3b9015486d5ef7b1985937">
         <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_a53a1ce210a6ef7c302d9c45588535f47920c5d0/classes.dex" />
     </item>
     <item
@@ -68,8 +68,15 @@
         jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="49f9fb93c554dbfe29820fb416a08b9cfbd469c2">
+        sha1="97fbabe4537199e389a7acc4ceff3be7c9ce59c9">
         <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_1fbc6f531f4ec9d1a25f39a9940817f3ee262ef1/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/picasso-2.5.2_bdb8f44f793435e7384182b135fb7c0696626ad8/classes.dex" />
     </item>
     <item
         jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/jars/classes.jar"
@@ -91,13 +98,6 @@
         revision="23.0.3"
         sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
         <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.4.0_7931a51d1f0a613a86b66f1905aee8cb4c738746/classes.dex" />
-    </item>
-    <item
-        jar="/Users/alejandrothomas/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.0/7ff0e000d1e27e356567f56c92af3b8ab912636f/picasso-2.5.0.jar"
-        jumboMode="true"
-        revision="23.0.3"
-        sha1="7ff0e000d1e27e356567f56c92af3b8ab912636f">
-        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/picasso-2.5.0_ab0e0f6769cf2a1e6ea990e7636e2a707b9b449a/classes.dex" />
     </item>
     <item
         jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.4.0/jars/classes.jar"
