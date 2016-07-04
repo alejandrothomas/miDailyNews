@@ -4,7 +4,6 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -12,7 +11,6 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -67,8 +65,6 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
         int top_to_padding = 50;
         swipeRefreshLayout.setProgressViewOffset(false, 0, top_to_padding);
 
-        newsController = new NewsController();
-
         Bundle bundle = getArguments();
         rssFeed = bundle.getString(RSS_FEED);
         rssFeedLink = bundle.getString(RSS_FEED_LINK);
@@ -76,10 +72,14 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
 
         onRefresh();
 
+
         return view;
     }
 
     void update() {
+
+        newsController = new NewsController();
+        newsAdapter = new NewsAdapter();
 
 
         swipeRefreshLayout.setRefreshing(true);
@@ -92,16 +92,16 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
                 recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
                 recyclerView.setHasFixedSize(true);
                 recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+                newsAdapter = new NewsAdapter(result, context);
+                recyclerView.setAdapter(newsAdapter);
+                newsAdapter.notifyDataSetChanged();
 
                 OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
                 recyclerView.setNestedScrollingEnabled(false);
 
-                newsAdapter = new NewsAdapter(result, context);
-                recyclerView.setAdapter(newsAdapter);
-
                 NewsListener newsListener = new NewsListener();
                 newsAdapter.setOnClickListener(newsListener);
-                newsAdapter.notifyDataSetChanged();
+
 
                 swipeRefreshLayout.setRefreshing(false);
 
@@ -129,7 +129,7 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
     }
 
     public interface FragmentCalls {
-        public void getNotifications(String newsClicked, Integer itemPosition, String rssFeedID);
+        void getNotifications(String newsClicked, Integer itemPosition, String rssFeedID);
     }
 
     private class NewsListener implements View.OnClickListener {
