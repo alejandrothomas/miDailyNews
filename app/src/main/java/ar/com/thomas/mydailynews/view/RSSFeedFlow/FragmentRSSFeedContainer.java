@@ -29,7 +29,7 @@ public class FragmentRSSFeedContainer extends Fragment{
 
     public static final String RSSFEED_CATEGORYID = "rssFeedCategory";
     public static final String RSSFEED_TITLE = "rssFeedTitle";
-    private String rssFeedCategoryCode;
+    private String rssFeedCategoryID;
     private String rssfeedCategoryTitle;
     private FloatingActionButton fab;
     private FavouriteCalls favouriteCalls;
@@ -49,10 +49,10 @@ public class FragmentRSSFeedContainer extends Fragment{
         OverScrollDecoratorHelper.setUpOverScroll(viewPager);
 
         Bundle bundle = getArguments();
-        rssFeedCategoryCode = bundle.getString(RSSFEED_CATEGORYID);
+        rssFeedCategoryID = bundle.getString(RSSFEED_CATEGORYID);
         rssfeedCategoryTitle = bundle.getString(RSSFEED_TITLE);
 
-        final FragmentRSSFeedViewPagerAdapter fragmentRSSFeedViewPagerAdapter = new FragmentRSSFeedViewPagerAdapter(getChildFragmentManager(),getContext(),rssFeedCategoryCode);
+        final FragmentRSSFeedViewPagerAdapter fragmentRSSFeedViewPagerAdapter = new FragmentRSSFeedViewPagerAdapter(getChildFragmentManager(),getContext(),rssFeedCategoryID);
         viewPager.setAdapter(fragmentRSSFeedViewPagerAdapter);
 
         TabLayout tabLayout = (TabLayout)view.findViewById(R.id.tabs);
@@ -68,13 +68,9 @@ public class FragmentRSSFeedContainer extends Fragment{
 
                 Integer currentPosition = viewPager.getCurrentItem();
                 String rssFeed = fragmentRSSFeedViewPagerAdapter.getPageTitle(currentPosition).toString();
-                Log.v("test",rssFeed);
-
                 favouriteCalls.getFavNotifications(rssFeed);
-
             }
         });
-
         return view;
     }
 

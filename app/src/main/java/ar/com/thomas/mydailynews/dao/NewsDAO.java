@@ -16,6 +16,7 @@ import java.sql.RowId;
 import java.util.ArrayList;
 import java.util.List;
 
+import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.util.DAOException;
@@ -63,6 +64,26 @@ public class NewsDAO extends SQLiteOpenHelper {
         db.execSQL(createTableFavourites);
     }
 
+
+    public void updateFavouriteListDB (List<String> rssFeedFavouriteList){
+        SQLiteDatabase database = getWritableDatabase();
+        String updateQuery = "UPDATE " + TABLE_FAVOURITES + " SET " + IS_FAVOURITE + " = \'NO\';";
+        database.execSQL(updateQuery);
+        Log.v("borrado", "se limpio toda la tabla de favs");
+
+
+        for (String rssFeed:rssFeedFavouriteList){
+            this.updateFavourite(rssFeed);
+        }
+    }
+
+    public void updateFavourite(String rssFeed){
+        SQLiteDatabase database = getWritableDatabase();
+        String updateQuery = "UPDATE " + TABLE_FAVOURITES + " SET " + IS_FAVOURITE + " = \'YES\' WHERE " + RSS_FEED + " == '" + rssFeed + "'";
+        database.execSQL(updateQuery);
+        Log.v("agregado", rssFeed + "ahora esta marcado como FAVORITO");
+
+    }
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
@@ -159,6 +180,28 @@ public class NewsDAO extends SQLiteOpenHelper {
         }
 
         return newsList;
+    }
+
+    public List<String> getFavouritesFromDatabase(){
+
+        SQLiteDatabase database = getReadableDatabase();
+
+
+        String selectQuery = "SELECT * FROM " + TABLE_FAVOURITES
+                + " WHERE " + IS_FAVOURITE + "==?";
+
+        Cursor cursor = database.rawQuery(selectQuery, new String[]{"YES"});
+
+        List<String> favouriteList = new ArrayList<>();
+
+        while(cursor.moveToNext()){
+
+            String favourite = new String();
+
+            favouriteList.add(favourite);
+        }
+
+        return favouriteList;
     }
 
 

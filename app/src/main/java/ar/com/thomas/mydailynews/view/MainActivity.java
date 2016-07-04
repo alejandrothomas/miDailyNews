@@ -20,7 +20,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
+import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
+import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
@@ -82,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         arguments.putString(FragmentNewsContainer.RSS_SOURCE, rssFeedID);
 
         fragmentNewsContainer.setArguments(arguments);
+
         getSupportFragmentManager().beginTransaction().addToBackStack(null).replace(R.id.fragment_container, fragmentNewsContainer).commit();
     }
 
@@ -129,7 +132,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }else{
             favouriteList.add(rssFeed);
             Toast.makeText(this, rssFeed + " ha sido agregado de la lista de favoritos.",Toast.LENGTH_SHORT).show();
-
         }
     }
 
@@ -142,6 +144,18 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     }
 
     public void displayFavourites(View view){
-        Toast.makeText(this,String.valueOf(favouriteList.size()), Toast.LENGTH_SHORT).show();
+
+        NewsController newsController = new NewsController();
+        newsController.updateFavourites(favouriteList,this);
+        List<String> newFavouriteList = newsController.getFavouritesFromDB(this);
+
+        if(newFavouriteList.size()>0) {
+            Toast.makeText(this, String.valueOf(newFavouriteList.size()), Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(this, getString(R.string.favourites_rss_empty_list_warning), Toast.LENGTH_LONG).show();
+
+        }
+
+
     }
 }

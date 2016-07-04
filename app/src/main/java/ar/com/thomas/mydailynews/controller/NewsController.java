@@ -33,7 +33,14 @@ public class NewsController {
         return newsDAO.getNewsListFromDatabase(rssFeed);
     }
 
-    public void addToFavourites (String rssFeed){
-//        newsDAO.addToFavourites(rssFeed);
+    public void updateFavourites (List<String> rssFeedFavouriteList, Context context){
+
+        newsDAO = new NewsDAO(context);
+        newsDAO.updateFavouriteListDB(rssFeedFavouriteList);
+    }
+
+    public List<String> getFavouritesFromDB(Context context){
+        newsDAO = new NewsDAO(context);
+        return newsDAO.getFavouritesFromDatabase();
     }
 }
