@@ -1,2 +1,110 @@
 <?xml version="1.0" encoding="utf-8"?>
-<items version="2" />
+<items version="2" >
+
+    <item
+        jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/exploded-aar/com.android.support/design/23.4.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="5326d9a850d491714fef8cbfaa9ea3416f0bf0d2">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-design-23.4.0_d37d11159605b70f1729bdfdecfda91abbb0713a/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/.gradle/caches/modules-2/files-2.1/com.google.code.gson/gson/2.6.2/f1bc476cc167b18e66c297df599b2377131a8947/gson-2.6.2.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="f1bc476cc167b18e66c297df599b2377131a8947">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/gson-2.6.2_d2df5400d7204370f06c155b8d56cee69b1ab5b4/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/libs/internal_impl-23.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ea3c07504d2c8f4b13aa17c45c1b68ed9c1c3674">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/internal_impl-23.4.0_e102d2df914df5f593135848a497544742a2a0dd/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/exploded-aar/com.android.support/recyclerview-v7/23.4.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ec75036c3c52e451d0cde50a5aedaf5fd32354a0">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-recyclerview-v7-23.4.0_5f4eec68cc828e074c0e20a7bde7b21a6e856c18/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="5b0913dd83207d6568606b08a7aa671cb309cb5f">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_a53a1ce210a6ef7c302d9c45588535f47920c5d0/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/Library/Android/sdk/extras/android/m2repository/com/android/support/support-annotations/23.4.0/support-annotations-23.4.0.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ffbe55fdb2bb456b1485831706a9eac3300bb6b8">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/support-annotations-23.4.0_63e45e3cc4e11ce7a3225218c4d7050910698bdc/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/exploded-aar/me.everything/overscroll-decor-android/1.0.3/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="ba8947cadbea6f541311482465e0dbd13f1cded8">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/me.everything-overscroll-decor-android-1.0.3_a486e2c6f9b050c317315a0ddeee94f20a87af11/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/exploded-aar/com.android.support/animated-vector-drawable/23.4.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="de4db3785756bfb0915a9f59a9b3f2fea7407be4">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-animated-vector-drawable-23.4.0_c375e7a93dfb9afa469c4e9535a147a4510c96a6/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/exploded-aar/com.fmsirvent/parallaxeverywhere/1.0.4/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="254c6e49fb9d776a8c29f05bffa89b5fbe0e8e04">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.fmsirvent-parallaxeverywhere-1.0.4_d6e48a93f88c475d6fe3c338cfb9251476672613/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="e53deb866cc9573af1cee73509f18e7207dfb555">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_1fbc6f531f4ec9d1a25f39a9940817f3ee262ef1/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/.gradle/caches/modules-2/files-2.1/com.squareup.picasso/picasso/2.5.2/7446d06ec8d4f7ffcc53f1da37c95f200dcb9387/picasso-2.5.2.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="7446d06ec8d4f7ffcc53f1da37c95f200dcb9387">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/picasso-2.5.2_bdb8f44f793435e7384182b135fb7c0696626ad8/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/exploded-aar/com.android.support/appcompat-v7/23.4.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="548f06de403a9409f00554b3ee12a9fdea0e236c">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-appcompat-v7-23.4.0_39422623ff8c12732f2902231b5546d5f0a71fed/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/exploded-aar/com.android.support/cardview-v7/23.4.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="d9ecde39b460470e655de6e47c05573d2d5a8bfb">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-cardview-v7-23.4.0_a4d2ac5b3eec68e9ce1190030ffd5c52871b83b9/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/exploded-aar/com.android.support/support-v4/23.4.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="67bd36ee9340ec7c254108936ad16b24bed160cc">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-v4-23.4.0_7931a51d1f0a613a86b66f1905aee8cb4c738746/classes.dex" />
+    </item>
+    <item
+        jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/exploded-aar/com.android.support/support-vector-drawable/23.4.0/jars/classes.jar"
+        jumboMode="true"
+        revision="23.0.3"
+        sha1="c2c594cace5d83a3227b2b6e658ecbfd586d3ed9">
+        <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/com.android.support-support-vector-drawable-23.4.0_12ad0ee20f79eacfd7b4340d39d9b37d1ac52479/classes.dex" />
+    </item>
+
+</items>

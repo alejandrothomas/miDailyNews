@@ -17,6 +17,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
+import ar.com.thomas.mydailynews.controller.RSSFeedController;
 import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.util.DAOException;
@@ -35,14 +36,17 @@ public class NewsDAO extends SQLiteOpenHelper {
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
     private static final String IMAGE_URL = "imageURL";
+    private static final String RSS_FEED_LINK = "rssFeedLink";
     private static final String PUB_DATE = "pubDate";
     private static final String RSS_FEED = "rssFeed";
     private static final String TABLE_FAVOURITES = "Favourites";
     private static final String IS_FAVOURITE = "is_favourite";
     private static NewsDAO newsDAO = null;
+    private Context context;
 
     private NewsDAO(Context context){
         super(context,DATABASE_NAME,null,DATABASE_VERSION);
+        this.context = context;
     }
 
 
@@ -64,6 +68,7 @@ public class NewsDAO extends SQLiteOpenHelper {
                 + PUB_DATE + " TEXT, "
                 + TITLE + " TEXT, "
                 + RSS_FEED + " TEXT, "
+                + RSS_FEED_LINK + " TEXT, "
                 + IMAGE_URL + " TEXT, "
                 + DESCRIPTION + " TEXT " + ")";
 
@@ -72,6 +77,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         String createTableFavourites = "CREATE TABLE " + TABLE_FAVOURITES + "("
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + RSS_FEED + " TEXT, "
+                + RSS_FEED_LINK + " TEXT, "
                 + IS_FAVOURITE + " TEXT " + ")";
 
         db.execSQL(createTableFavourites);
@@ -104,6 +110,8 @@ public class NewsDAO extends SQLiteOpenHelper {
 
     public void addNewsListToDB(List<News> newsList, String rssFeed) {
 
+
+
         for (News news : newsList) {
             if(!checkIfNewsExist(news)) {
                 this.addNewsToDB(news,rssFeed);
@@ -126,10 +134,25 @@ public class NewsDAO extends SQLiteOpenHelper {
     }
 
     public void addRSSToDB(String rssFeed){
+
+        String rssFeedLink = null;
+
+        RSSFeedController rssFeedController = new RSSFeedController();
+        List<RSSFeed> rssFeedList = rssFeedController.getRSSFeedList(context);
+
+        for(Integer i=0; i<rssFeedList.size();i++){
+            if(rssFeedList.get(i).getTitle().equals(rssFeed)){
+                rssFeedLink = rssFeedList.get(i).getFeedLink();
+            }
+        }
+
         SQLiteDatabase database = getWritableDatabase();
         ContentValues row = new ContentValues();
 
+
+
         row.put(RSS_FEED,rssFeed);
+        row.put(RSS_FEED_LINK,rssFeedLink);
         database.insert(TABLE_FAVOURITES,null,row);
         database.close();
     }
@@ -157,6 +180,8 @@ public class NewsDAO extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues row = new ContentValues();
 
+
+        row.put(RSS_FEED_LINK,news.getLink());
         row.put(TITLE, news.getTitle());
         row.put(DESCRIPTION, news.getDescription());
         row.put(IMAGE_URL, news.getImageUrl());
@@ -191,6 +216,8 @@ public class NewsDAO extends SQLiteOpenHelper {
             news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
             news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
             news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
+            news.setLink(cursor.getString(cursor.getColumnIndex(RSS_FEED_LINK)));
+            news.setRssFeed(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
             newsList.add(news);
         }
         return newsList;
