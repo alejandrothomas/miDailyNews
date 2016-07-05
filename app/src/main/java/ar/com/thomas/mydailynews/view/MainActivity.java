@@ -36,7 +36,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private DrawerLayout drawerLayout;
     private List<RSSFeedCategory> rssFeedCategoryList;
     private NavigationView navigationView;
-    public List<String> favouriteListMainActivity;
+    private List<String> favouriteListMainActivity;
+    private FragmentRSSFeedContainer fragmentRSSFeedContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -52,7 +53,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         favouriteListMainActivity.addAll(newsController.getFavouritesFromDB(context));
         newsController.updateFavourites(favouriteListMainActivity,context);
 
-        Toast.makeText(this,String.valueOf(favouriteListMainActivity.size()),Toast.LENGTH_LONG).show();
 
         Window window = getWindow();
         window.setStatusBarColor(0xFF37474F);
@@ -121,8 +121,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             favouriteListMainActivity.add(rssFeed);
             Toast.makeText(context, rssFeed + " ha sido agregado de la lista de favoritos.",Toast.LENGTH_SHORT).show();
             fab.setSelected(true);
-
         }
+        fragmentRSSFeedContainer.setFavouriteList(favouriteListMainActivity);
     }
 
     private class ListenerMenu implements NavigationView.OnNavigationItemSelectedListener{
@@ -130,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         public boolean onNavigationItemSelected(MenuItem item) {
             RSSFeedCategory rssFeedCategory = rssFeedCategoryList.get(item.getItemId());
 
-            FragmentRSSFeedContainer fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
+            fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
             Bundle arguments = new Bundle();
 
             arguments.putString(FragmentRSSFeedContainer.RSSFEED_CATEGORYID, rssFeedCategory.getObjectId());
@@ -142,6 +142,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
             fragmentTransaction.replace(R.id.fragment_container, fragmentRSSFeedContainer,"rss_container_tag");
             fragmentTransaction.commit();
+            fragmentRSSFeedContainer.setFavouriteList(favouriteListMainActivity);
 
             if (drawerLayout != null) {
                 drawerLayout.closeDrawer(navigationView);

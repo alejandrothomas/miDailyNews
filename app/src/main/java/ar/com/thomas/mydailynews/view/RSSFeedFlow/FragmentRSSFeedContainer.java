@@ -33,6 +33,13 @@ public class FragmentRSSFeedContainer extends Fragment{
     private String rssfeedCategoryTitle;
     private FloatingActionButton fab;
     private FavouriteCalls favouriteCalls;
+    private List<String> favouriteList;
+    private Integer currentPosition;
+    private String rssFeed;
+
+    public void setFavouriteList(List<String> favouriteList) {
+        this.favouriteList = favouriteList;
+    }
 
     @Override
     public void onResume() {
@@ -60,13 +67,20 @@ public class FragmentRSSFeedContainer extends Fragment{
         tabLayout.setupWithViewPager(viewPager);
 
         fab = (FloatingActionButton) view.findViewById(R.id.fab_pressed);
-        
+        currentPosition = viewPager.getCurrentItem();
+        rssFeed = fragmentRSSFeedViewPagerAdapter.getPageTitle(currentPosition).toString();
+        if(favouriteList.contains(rssFeed)){
+            fab.setSelected(true);
+        }else{
+            fab.setSelected(false);
+        }
+
+
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
-                Integer currentPosition = viewPager.getCurrentItem();
-                String rssFeed = fragmentRSSFeedViewPagerAdapter.getPageTitle(currentPosition).toString();
+
                 favouriteCalls.getFavNotifications(rssFeed, fab);
             }
         });
@@ -79,7 +93,14 @@ public class FragmentRSSFeedContainer extends Fragment{
 
             @Override
             public void onPageSelected(int position) {
-                fab.setSelected(false);
+                currentPosition = viewPager.getCurrentItem();
+                rssFeed = fragmentRSSFeedViewPagerAdapter.getPageTitle(currentPosition).toString();
+
+                if(favouriteList.contains(rssFeed)){
+                    fab.setSelected(true);
+                }else{
+                    fab.setSelected(false);
+                }
 
             }
 
@@ -88,6 +109,7 @@ public class FragmentRSSFeedContainer extends Fragment{
 
             }
         });
+
 
         return view;
     }

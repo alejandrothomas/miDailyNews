@@ -35,6 +35,7 @@ public class FragmentRSSFeedViewPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
+
     @Override
     public Fragment getItem(int position) {
         return this.fragmentRSSFeedList.get(position);
