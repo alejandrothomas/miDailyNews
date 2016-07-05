@@ -33,7 +33,7 @@
         jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/incremental-runtime-classes/debug/instant-run.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="5b0913dd83207d6568606b08a7aa671cb309cb5f">
+        sha1="d2384bdf5483bcdab1b4b62a205969493389c62c">
         <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run_a53a1ce210a6ef7c302d9c45588535f47920c5d0/classes.dex" />
     </item>
     <item
@@ -68,7 +68,7 @@
         jar="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/incremental-classes/debug/instant-run-bootstrap.jar"
         jumboMode="true"
         revision="23.0.3"
-        sha1="e53deb866cc9573af1cee73509f18e7207dfb555">
+        sha1="3820dccc915dbdd8d1925f49db5478a673896bbf">
         <dex dex="/Users/alejandrothomas/Digital House/miDailyNews/app/build/intermediates/transforms/dex/debug/folders/1000/10/instant-run-bootstrap_1fbc6f531f4ec9d1a25f39a9940817f3ee262ef1/classes.dex" />
     </item>
     <item

@@ -4,5 +4,6 @@
     <string name="select_categories">Select Category</string>
     <string name="welcome">Hello User!</string>
     <string name="yes">YES</string>
+    <string name="favourites">Favourite Feeds</string>
     <string name="favourites_rss_empty_list_warning">No tienes ningún feed guardado en favoritos.</string>
 </resources>

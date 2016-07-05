@@ -222,7 +222,8 @@ public class NewsDAO extends SQLiteOpenHelper {
         }
         return newsList;
     }
-    public List<String> getFavouritesFromDatabase(){
+
+    public List<RSSFeed> getFavouritesFromDatabase(){
 
         SQLiteDatabase database = getReadableDatabase();
 
@@ -232,10 +233,13 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         Cursor cursor = database.rawQuery(selectQuery, new String[]{"YES"});
 
-        List<String> favouriteList = new ArrayList<>();
+        List<RSSFeed> favouriteList = new ArrayList<>();
 
         while(cursor.moveToNext()){
-            favouriteList.add(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
+            RSSFeed rssFeed = new RSSFeed();
+            rssFeed.setTitle(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
+            rssFeed.setFeedLink(cursor.getString(cursor.getColumnIndex(RSS_FEED_LINK)));
+            favouriteList.add(rssFeed);
         }
 
         return favouriteList;

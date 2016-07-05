@@ -35,6 +35,17 @@ public class FragmentRSSFeedViewPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
+    public FragmentRSSFeedViewPagerAdapter(FragmentManager fm, Context context, List<RSSFeed> favouriteList){
+        super(fm);
+
+        this.fragmentRSSFeedList = new ArrayList<>();
+
+        for(RSSFeed favourite : favouriteList){
+            this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment(favourite));
+        }
+
+    }
+
 
     @Override
     public Fragment getItem(int position) {

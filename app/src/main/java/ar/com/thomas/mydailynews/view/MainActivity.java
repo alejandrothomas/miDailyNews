@@ -1,6 +1,6 @@
 package ar.com.thomas.mydailynews.view;
 
-import android.annotation.SuppressLint;
+
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -16,14 +16,14 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
+import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
+import ar.com.thomas.mydailynews.view.FavouriteFlow.FragmentFavouriteContainer;
 import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
@@ -38,6 +38,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private NavigationView navigationView;
     private List<String> favouriteListMainActivity;
     private FragmentRSSFeedContainer fragmentRSSFeedContainer;
+    private FragmentFavouriteContainer fragmentFavouriteContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,7 +51,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         favouriteListMainActivity = new ArrayList<>();
         NewsController newsController = new NewsController();
         newsController.clearNewsDB(context);
-        favouriteListMainActivity.addAll(newsController.getFavouritesFromDB(context));
+        List<RSSFeed> rssFeedList = newsController.getFavouritesFromDB(context);
+        for (RSSFeed rssFeed:rssFeedList){
+            favouriteListMainActivity.add(rssFeed.getTitle());
+        }
         newsController.updateFavourites(favouriteListMainActivity,context);
 
 
@@ -93,7 +97,15 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         fragmentNewsContainer.setArguments(arguments);
 
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.hide(getSupportFragmentManager().findFragmentByTag("rss_container_tag"));
+
+        if(getSupportFragmentManager().findFragmentByTag("rss_container_tag")!=null){
+            fragmentTransaction.hide(getSupportFragmentManager().findFragmentByTag("rss_container_tag"));
+        }
+
+        if(getSupportFragmentManager().findFragmentByTag("favourites")!=null){
+            fragmentTransaction.hide(getSupportFragmentManager().findFragmentByTag("favourites"));
+        }
+
         fragmentTransaction.add(R.id.fragment_container,fragmentNewsContainer);
         fragmentTransaction.addToBackStack(null).commit();
     }
@@ -157,23 +169,23 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         super.onPause();
         NewsController newsController = new NewsController();
         newsController.updateFavourites(favouriteListMainActivity,this);
-
-
     }
 
     public void displayFavourites(View view){
 
         NewsController newsController = new NewsController();
         newsController.updateFavourites(favouriteListMainActivity,context);
-        List<String> newFavouriteList = newsController.getFavouritesFromDB(context);
+        List<RSSFeed> newFavouriteList = newsController.getFavouritesFromDB(context);
 
         if(newFavouriteList.size()>0) {
-            Toast.makeText(context, String.valueOf(newFavouriteList.size()), Toast.LENGTH_SHORT).show();
+            fragmentFavouriteContainer = new FragmentFavouriteContainer();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.replace(R.id.fragment_container,fragmentFavouriteContainer,"favourites");
+            fragmentTransaction.addToBackStack(null).commit();
+            fragmentFavouriteContainer.setRssFeedList(newFavouriteList);
         }else{
             Toast.makeText(context, getString(R.string.favourites_rss_empty_list_warning), Toast.LENGTH_LONG).show();
 
         }
-
-
     }
 }

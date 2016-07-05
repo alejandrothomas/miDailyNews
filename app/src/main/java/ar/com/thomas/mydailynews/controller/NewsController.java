@@ -39,7 +39,7 @@ public class NewsController {
         newsDAO.updateFavouriteListDB(rssFeedFavouriteList);
     }
 
-    public List<String> getFavouritesFromDB(Context context){
+    public List<RSSFeed> getFavouritesFromDB(Context context){
         newsDAO = NewsDAO.getNewsDAO(context);
         return newsDAO.getFavouritesFromDatabase();
     }
