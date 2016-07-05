@@ -54,13 +54,13 @@ public class FragmentRSSFeedContainer extends Fragment{
 
         final FragmentRSSFeedViewPagerAdapter fragmentRSSFeedViewPagerAdapter = new FragmentRSSFeedViewPagerAdapter(getChildFragmentManager(),getContext(),rssFeedCategoryID);
         viewPager.setAdapter(fragmentRSSFeedViewPagerAdapter);
+        viewPager.setOffscreenPageLimit(10);
 
         TabLayout tabLayout = (TabLayout)view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         fab = (FloatingActionButton) view.findViewById(R.id.fab_pressed);
-
-
+        
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -79,7 +79,6 @@ public class FragmentRSSFeedContainer extends Fragment{
 
             @Override
             public void onPageSelected(int position) {
-//                if(fragmentRSSFeedViewPagerAdapter.getPageTitle(position).toString())
                 fab.setSelected(false);
 
             }

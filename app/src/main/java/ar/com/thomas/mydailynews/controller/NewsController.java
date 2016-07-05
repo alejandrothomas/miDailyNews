@@ -43,4 +43,9 @@ public class NewsController {
         newsDAO = NewsDAO.getNewsDAO(context);
         return newsDAO.getFavouritesFromDatabase();
     }
+
+    public void clearNewsDB(Context context){
+        newsDAO = NewsDAO.getNewsDAO(context);
+        newsDAO.clearNewsDB();
+    }
 }

@@ -37,7 +37,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private List<RSSFeedCategory> rssFeedCategoryList;
     private NavigationView navigationView;
     public List<String> favouriteListMainActivity;
-    private FragmentRSSFeedContainer fragmentRSSFeedContainer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,11 +46,12 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
         Toast.makeText(context,getString(R.string.welcome),Toast.LENGTH_LONG).show();
 
-
         favouriteListMainActivity = new ArrayList<>();
         NewsController newsController = new NewsController();
+        newsController.clearNewsDB(context);
         favouriteListMainActivity.addAll(newsController.getFavouritesFromDB(context));
         newsController.updateFavourites(favouriteListMainActivity,context);
+
         Toast.makeText(this,String.valueOf(favouriteListMainActivity.size()),Toast.LENGTH_LONG).show();
 
         Window window = getWindow();
@@ -75,7 +75,9 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
 
         populateNavigationDrawerMenu();
-        selectedMenuItem(navigationView.getMenu().getItem(15));
+
+        ListenerMenu listenerMenu = new ListenerMenu();
+        listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(15));
         navigationView.getMenu().getItem(15).setChecked(true);
     }
 
@@ -96,30 +98,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         fragmentTransaction.addToBackStack(null).commit();
     }
 
-
-    @SuppressLint("CommitTransaction")
-    private void selectedMenuItem(MenuItem item){
-
-        RSSFeedCategory rssFeedCategory = rssFeedCategoryList.get(item.getItemId());
-
-        FragmentRSSFeedContainer fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
-        Bundle arguments = new Bundle();
-
-        arguments.putString(FragmentRSSFeedContainer.RSSFEED_CATEGORYID, rssFeedCategory.getObjectId());
-        arguments.putString(FragmentRSSFeedContainer.RSSFEED_TITLE, rssFeedCategory.getCategoryName());
-
-        fragmentRSSFeedContainer.setArguments(arguments);
-        fragmentManager = getSupportFragmentManager();
-
-        fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
-        fragmentTransaction.replace(R.id.fragment_container, fragmentRSSFeedContainer,"rss_container_tag");
-        fragmentTransaction.commit();
-
-        if (drawerLayout != null) {
-            drawerLayout.closeDrawer(navigationView);
-        }
-    }
-
     public void populateNavigationDrawerMenu() {
         Menu menu = navigationView.getMenu();
         RSSFeedCategoryDAO rssFeedCategoryDAO = new RSSFeedCategoryDAO();
@@ -137,13 +115,11 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
         if(favouriteListMainActivity.contains(rssFeed)){
             favouriteListMainActivity.remove(rssFeed);
-//            fragmentRSSFeedContainer.setFabStatus(false);
             fab.setSelected(false);
             Toast.makeText(context, rssFeed + " ha sido removido de la lista de favoritos.",Toast.LENGTH_SHORT).show();
         }else{
             favouriteListMainActivity.add(rssFeed);
             Toast.makeText(context, rssFeed + " ha sido agregado de la lista de favoritos.",Toast.LENGTH_SHORT).show();
-//            fragmentRSSFeedContainer.setFabStatus(true);
             fab.setSelected(true);
 
         }
@@ -152,7 +128,25 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private class ListenerMenu implements NavigationView.OnNavigationItemSelectedListener{
         @Override
         public boolean onNavigationItemSelected(MenuItem item) {
-            selectedMenuItem(item);
+            RSSFeedCategory rssFeedCategory = rssFeedCategoryList.get(item.getItemId());
+
+            FragmentRSSFeedContainer fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
+            Bundle arguments = new Bundle();
+
+            arguments.putString(FragmentRSSFeedContainer.RSSFEED_CATEGORYID, rssFeedCategory.getObjectId());
+            arguments.putString(FragmentRSSFeedContainer.RSSFEED_TITLE, rssFeedCategory.getCategoryName());
+
+            fragmentRSSFeedContainer.setArguments(arguments);
+            fragmentManager = getSupportFragmentManager();
+
+            fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
+            fragmentTransaction.replace(R.id.fragment_container, fragmentRSSFeedContainer,"rss_container_tag");
+            fragmentTransaction.commit();
+
+            if (drawerLayout != null) {
+                drawerLayout.closeDrawer(navigationView);
+            }
+
             return true;
         }
     }
@@ -162,6 +156,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         super.onPause();
         NewsController newsController = new NewsController();
         newsController.updateFavourites(favouriteListMainActivity,this);
+
 
     }
 

@@ -172,25 +172,6 @@
         "category": {
             "__type": "Pointer",
             "className": "RSSFeedCategory",
-            "objectId": "J4Oq3C7nxg"
-        },
-        "createdAt": "2015-02-03T13:48:40.820Z",
-        "feedLink": "http://fabiensanglard.net/rss.xml",
-        "iconLink": "http://fabiensanglard.net/gift_of_life/gol.png",
-        "objectId": "0Vmdb9njPH",
-        "searchableTitle": "fabiensanglard.net gaming",
-        "title": "fabiensanglard.net",
-        "updatedAt": "2015-02-03T13:48:40.820Z"
-    },
-	{
-        "ACL": {
-            "*": {
-                "read": true
-            }
-        },
-        "category": {
-            "__type": "Pointer",
-            "className": "RSSFeedCategory",
             "objectId": "C4iDiuriB8"
         },
         "createdAt": "2015-02-03T13:45:01.186Z",
@@ -751,25 +732,7 @@
         "title": "Uploads by BMW",
         "updatedAt": "2015-02-03T13:50:06.899Z"
     },
-	{
-        "ACL": {
-            "*": {
-                "read": true
-            }
-        },
-        "category": {
-            "__type": "Pointer",
-            "className": "RSSFeedCategory",
-            "objectId": "yjHwfD1z3Y"
-        },
-        "createdAt": "2015-02-03T13:44:07.860Z",
-        "feedLink": "http://fivethirtyeight.com/all/feed",
-        "iconLink": "http://0.gravatar.com/blavatar/cb2459913f2d34a9135edfd3cbae1a15?s=96\u0026d=http%3A%2F%2Fs2.wp.com%2Fi%2Fbuttonw-com.png",
-        "objectId": "3pL17RE56D",
-        "searchableTitle": "fivethirtyeight: politics done right sports",
-        "title": "FiveThirtyEight: Politics Done Right",
-        "updatedAt": "2015-02-03T13:44:07.860Z"
-    },
+
 	{
         "ACL": {
             "*": {
@@ -875,7 +838,7 @@
             "objectId": "yjHwfD1z3Y"
         },
         "createdAt": "2015-02-03T13:44:21.988Z",
-        "feedLink": "http://journal.crossfit.com/rss.xml",
+        "feedLink": "https://journal.crossfit.com/rss.xml",
         "objectId": "4GuDT2RrGo",
         "searchableTitle": "crossfit journal sports",
         "title": "CrossFit Journal",
@@ -1337,24 +1300,7 @@
         "title": "Calvin and Hobbes (Unofficial)",
         "updatedAt": "2015-02-03T13:50:52.136Z"
     },
-	{
-        "ACL": {
-            "*": {
-                "read": true
-            }
-        },
-        "category": {
-            "__type": "Pointer",
-            "className": "RSSFeedCategory",
-            "objectId": "yjHwfD1z3Y"
-        },
-        "createdAt": "2015-02-03T13:44:01.676Z",
-        "feedLink": "http://www.crossfit.com/index.rdf",
-        "objectId": "6hwOUy3J5W",
-        "searchableTitle": "crossfit: forging elite fitness sports",
-        "title": "CrossFit: Forging Elite Fitness",
-        "updatedAt": "2015-02-03T13:44:01.676Z"
-    },
+
 	{
         "ACL": {
             "*": {
@@ -3362,24 +3308,7 @@
         "title": "Giant Bombcast",
         "updatedAt": "2015-02-03T13:48:39.964Z"
     },
-	{
-        "ACL": {
-            "*": {
-                "read": true
-            }
-        },
-        "category": {
-            "__type": "Pointer",
-            "className": "RSSFeedCategory",
-            "objectId": "yjHwfD1z3Y"
-        },
-        "createdAt": "2015-02-03T13:43:59.087Z",
-        "feedLink": "http://bikesnobnyc.blogspot.com/feeds/posts/default",
-        "objectId": "Hja25QdeE7",
-        "searchableTitle": "bike snob nyc sports",
-        "title": "Bike Snob NYC",
-        "updatedAt": "2015-02-03T13:43:59.087Z"
-    },
+
 	{
         "ACL": {
             "*": {

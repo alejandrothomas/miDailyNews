@@ -53,6 +53,8 @@ public class NewsDAO extends SQLiteOpenHelper {
         return newsDAO;
     }
 
+
+
     //------------------OFFLINE--------------------//
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -210,6 +212,11 @@ public class NewsDAO extends SQLiteOpenHelper {
         }
 
         return favouriteList;
+    }
+
+    public void clearNewsDB(){
+        SQLiteDatabase database = getWritableDatabase();
+        database.execSQL("DELETE FROM " + TABLE_NEWS);
     }
 
 
