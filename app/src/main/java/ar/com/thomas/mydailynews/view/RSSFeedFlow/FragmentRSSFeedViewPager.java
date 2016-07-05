@@ -83,28 +83,39 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
 
         onRefresh();
 
+        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
+        recyclerView.setNestedScrollingEnabled(false);
+
+
 
         return view;
     }
 
-    void update() {
-
-
-
-
+    @Override
+    public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
+
+        if(newsList.size()>0){
+            newsList.clear();
+        }
+
+
+
         newsController.getNews(new ResultListener<List<News>>() {
             @Override
             public void finish(List<News> result) {
 
-                newsList.addAll(result);
+                for (News news: result){
+                    if(!newsList.contains(news)){
+                        newsList.add(news);
+                    }
+                }
                 newsAdapter.notifyDataSetChanged();
-                OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
-                recyclerView.setNestedScrollingEnabled(false);
                 swipeRefreshLayout.setRefreshing(false);
 
             }
         }, rssFeedLink, getActivity(), rssFeedObjectID);
+
     }
 
     @Override
@@ -119,11 +130,6 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
 
     public void setRssFeed(String rssFeed) {
         this.rssFeed = rssFeed;
-    }
-
-    @Override
-    public void onRefresh() {
-        update();
     }
 
     public interface FragmentCalls {
