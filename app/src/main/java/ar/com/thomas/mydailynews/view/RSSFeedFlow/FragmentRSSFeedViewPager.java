@@ -69,6 +69,18 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
         rssFeedLink = bundle.getString(RSS_FEED_LINK);
         rssFeedObjectID = bundle.getString(RSS_FEED_OBJECTID);
 
+        newsController = new NewsController();
+        newsAdapter = new NewsAdapter(newsList,context);
+
+        recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
+        recyclerView.setHasFixedSize(true);
+
+        recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
+        recyclerView.setAdapter(newsAdapter);
+
+        NewsListener newsListener = new NewsListener();
+        newsAdapter.setOnClickListener(newsListener);
+
         onRefresh();
 
 
@@ -77,8 +89,7 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
 
     void update() {
 
-        newsController = new NewsController();
-        newsAdapter = new NewsAdapter();
+
 
 
         swipeRefreshLayout.setRefreshing(true);
@@ -87,21 +98,9 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
             public void finish(List<News> result) {
 
                 newsList.addAll(result);
-
-                recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
-                recyclerView.setHasFixedSize(true);
-                recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
-                newsAdapter = new NewsAdapter(result, context);
-                recyclerView.setAdapter(newsAdapter);
                 newsAdapter.notifyDataSetChanged();
-
                 OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
                 recyclerView.setNestedScrollingEnabled(false);
-
-                NewsListener newsListener = new NewsListener();
-                newsAdapter.setOnClickListener(newsListener);
-
-
                 swipeRefreshLayout.setRefreshing(false);
 
             }

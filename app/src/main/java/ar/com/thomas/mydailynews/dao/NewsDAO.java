@@ -53,8 +53,6 @@ public class NewsDAO extends SQLiteOpenHelper {
         return newsDAO;
     }
 
-
-
     //------------------OFFLINE--------------------//
     @Override
     public void onCreate(SQLiteDatabase db) {
