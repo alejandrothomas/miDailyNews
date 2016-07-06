@@ -75,10 +75,7 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
 
         newsController = new NewsController();
         bookmarkedNewsList = newsController.getBookmarkNewsList(context);
-
-        if(bookmarkedNewsList.contains(news)){
-            newsViewHolder.bookmarkButton.setSelected(true);
-        }
+        
 
         newsViewHolder.bindNews(news, context);
         newsViewHolder.bookmarkButton.setOnClickListener(new View.OnClickListener(){
@@ -88,13 +85,14 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
                 if(bookmarkedNewsList.contains(news)){
                     newsViewHolder.bookmarkButton.setSelected(false);
                     newsController.removeBookmark(context,news);
+                    bookmarkedNewsList.remove(news);
                     Toast.makeText(context, news.getTitle() + " ha sido removido de los Bookmarks.",Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context, news.getTitle() + " ha sido agregado de los Bookmarks.",Toast.LENGTH_SHORT).show();
                     newsViewHolder.bookmarkButton.setSelected(true);
                     newsController.addBookmark(context,news);
+                    bookmarkedNewsList.add(news);
                 }
-
             }
         });
 
@@ -131,6 +129,16 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
         }
 
         public void bindNews(News news, Context context){
+
+            NewsController newsController = new NewsController();
+            List<News> newsListBookmarked = newsController.getBookmarkNewsList(context);
+
+            for(Integer i=0;i<newsListBookmarked.size();i++){
+                if(newsListBookmarked.get(i).getTitle().equals(news.getTitle())){
+                    bookmarkButton.setSelected(true);
+                }
+            }
+
 
 
             textViewTitle.setText(news.getTitle());
