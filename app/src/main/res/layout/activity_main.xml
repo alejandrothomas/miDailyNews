@@ -25,6 +25,23 @@
             android:background="@drawable/favourite_button"
             android:layout_gravity="end"
             android:layout_marginEnd="16dp"/>
+
+        <Button
+            android:layout_width="24dp"
+            android:id="@+id/bookmarked_button"
+            android:layout_height="24dp"
+            android:background="@drawable/bookmarked_button"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"/>
+
+        <Button
+            android:layout_width="24dp"
+            android:id="@+id/history_button"
+            android:layout_height="24dp"
+            android:background="@drawable/ic_history_white_24dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"/>
+
     </android.support.v7.widget.Toolbar>
 
 

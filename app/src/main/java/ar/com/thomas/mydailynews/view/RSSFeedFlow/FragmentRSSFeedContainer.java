@@ -67,8 +67,10 @@ public class FragmentRSSFeedContainer extends Fragment{
         tabLayout.setupWithViewPager(viewPager);
 
         fab = (FloatingActionButton) view.findViewById(R.id.fab_pressed);
+
         currentPosition = viewPager.getCurrentItem();
         rssFeed = fragmentRSSFeedViewPagerAdapter.getPageTitle(currentPosition).toString();
+
         if(favouriteList.contains(rssFeed)){
             fab.setSelected(true);
         }else{
@@ -79,7 +81,6 @@ public class FragmentRSSFeedContainer extends Fragment{
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-
 
                 favouriteCalls.getFavNotifications(rssFeed, fab);
             }

@@ -22,12 +22,14 @@ import java.util.List;
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
+import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 import ar.com.thomas.mydailynews.view.FavouriteFlow.FragmentFavouriteContainer;
 import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
+import ar.com.thomas.mydailynews.view.RSSFeedFlow.NewsAdapter;
 
 public class MainActivity extends AppCompatActivity implements FragmentRSSFeedViewPager.FragmentCalls, FragmentRSSFeedContainer.FavouriteCalls{
 
@@ -50,8 +52,11 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         Toast.makeText(context,getString(R.string.welcome),Toast.LENGTH_LONG).show();
 
         favouriteListMainActivity = new ArrayList<>();
+
         NewsController newsController = new NewsController();
         newsController.clearNewsDB(context);
+
+
         List<RSSFeed> rssFeedList = newsController.getFavouritesFromDB(context);
         for (RSSFeed rssFeed:rssFeedList){
             favouriteListMainActivity.add(rssFeed.getTitle());
@@ -68,6 +73,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }
 
         drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         drawerLayout.setDrawerListener(mDrawerToggle);
         getSupportActionBar().setHomeButtonEnabled(true);
@@ -106,7 +112,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         if(favouriteListMainActivity.size()<1) {
             ListenerMenu listenerMenu = new ListenerMenu();
             listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(1));
-            navigationView.getMenu().getItem(1).setChecked(true);
+            navigationView.getMenu().getItem(0).setChecked(true);
         }else{
             if (favourites != null) {
                 favourites.performClick();
@@ -165,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }
         fragmentRSSFeedContainer.setFavouriteList(favouriteListMainActivity);
     }
+
 
     private class ListenerMenu implements NavigationView.OnNavigationItemSelectedListener{
         @Override

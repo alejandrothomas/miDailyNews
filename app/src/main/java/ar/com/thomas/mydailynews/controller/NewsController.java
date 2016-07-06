@@ -48,4 +48,19 @@ public class NewsController {
         newsDAO = NewsDAO.getNewsDAO(context);
         newsDAO.clearNewsDB();
     }
+
+    public void addBookmark(Context context, News news){
+        newsDAO = NewsDAO.getNewsDAO(context);
+        newsDAO.addBookmark(news);
+    }
+
+    public void removeBookmark(Context context, News news){
+        newsDAO = NewsDAO.getNewsDAO(context);
+        newsDAO.removeBookmark(news);
+    }
+
+    public List<News> getBookmarkNewsList(Context context){
+        newsDAO = NewsDAO.getNewsDAO(context);
+        return newsDAO.getBookmarks();
+    }
 }
