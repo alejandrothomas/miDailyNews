@@ -15,6 +15,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.widget.Button;
 import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
@@ -57,7 +58,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }
         newsController.updateFavourites(favouriteListMainActivity,context);
 
-
         Window window = getWindow();
         window.setStatusBarColor(0xFF37474F);
 
@@ -73,16 +73,45 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle.syncState();
 
-
-
         navigationView=(NavigationView)findViewById(R.id.navigationView);
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
 
         populateNavigationDrawerMenu();
 
-        ListenerMenu listenerMenu = new ListenerMenu();
-        listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(15));
-        navigationView.getMenu().getItem(15).setChecked(true);
+        Button favourites = (Button)findViewById(R.id.favourites_button);
+        if (favourites != null) {
+            favourites.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NewsController newsController = new NewsController();
+                    newsController.updateFavourites(favouriteListMainActivity,context);
+                    List<RSSFeed> newFavouriteList = newsController.getFavouritesFromDB(context);
+
+                    if(newFavouriteList.size()>0) {
+                        fragmentFavouriteContainer = new FragmentFavouriteContainer();
+                        fragmentManager = getSupportFragmentManager();
+
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_container,fragmentFavouriteContainer,"favourites");
+                        fragmentTransaction.addToBackStack(null).commit();
+                        fragmentFavouriteContainer.setRssFeedList(newFavouriteList);
+                    }else{
+                        Toast.makeText(context, getString(R.string.favourites_rss_empty_list_warning), Toast.LENGTH_LONG).show();
+
+                    }
+                }
+            });
+        }
+
+        if(favouriteListMainActivity.size()<1) {
+            ListenerMenu listenerMenu = new ListenerMenu();
+            listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(1));
+            navigationView.getMenu().getItem(1).setChecked(true);
+        }else{
+            if (favourites != null) {
+                favourites.performClick();
+            }
+        }
     }
 
     @Override
@@ -171,21 +200,4 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         newsController.updateFavourites(favouriteListMainActivity,this);
     }
 
-    public void displayFavourites(View view){
-
-        NewsController newsController = new NewsController();
-        newsController.updateFavourites(favouriteListMainActivity,context);
-        List<RSSFeed> newFavouriteList = newsController.getFavouritesFromDB(context);
-
-        if(newFavouriteList.size()>0) {
-            fragmentFavouriteContainer = new FragmentFavouriteContainer();
-            fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container,fragmentFavouriteContainer,"favourites");
-            fragmentTransaction.addToBackStack(null).commit();
-            fragmentFavouriteContainer.setRssFeedList(newFavouriteList);
-        }else{
-            Toast.makeText(context, getString(R.string.favourites_rss_empty_list_warning), Toast.LENGTH_LONG).show();
-
-        }
-    }
 }

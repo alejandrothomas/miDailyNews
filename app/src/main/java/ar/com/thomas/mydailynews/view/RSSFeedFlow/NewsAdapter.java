@@ -91,7 +91,11 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
         public void bindNews(News news, Context context){
 
             textViewTitle.setText(news.getTitle());
-            Picasso.with(context).load(news.getImageUrl()).placeholder(R.drawable.placeholder_unavailable_image).into(imageViewImageUrl);
+            if (news.getImageUrl()==null){
+                imageViewImageUrl.setImageResource(R.drawable.placeholder_unavailable_image);
+            }else{
+                Picasso.with(context).load(news.getImageUrl()).into(imageViewImageUrl);
+            }
         }
     }
 

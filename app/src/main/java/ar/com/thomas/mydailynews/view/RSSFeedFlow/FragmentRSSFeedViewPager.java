@@ -86,8 +86,6 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
         OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         recyclerView.setNestedScrollingEnabled(false);
 
-
-
         return view;
     }
 
