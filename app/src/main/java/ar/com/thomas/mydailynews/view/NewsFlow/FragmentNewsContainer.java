@@ -20,6 +20,7 @@ public class FragmentNewsContainer extends Fragment {
     public static final String POSITION = "position";
     public static final String RSS_FEED = "rssFeed";
     private String selectedNewsRSSFeedID;
+    private FragmentNewsViewPagerAdapter fragmentNewsViewPagerAdapter;
 
     @Override
     public void onResume() {
@@ -35,9 +36,14 @@ public class FragmentNewsContainer extends Fragment {
 
         Bundle bundle = getArguments();
         selectedNewsRSSFeedID = bundle.getString(RSS_FEED);
+
         Integer position = bundle.getInt(POSITION);
 
-        FragmentNewsViewPagerAdapter fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getFragmentManager(),getContext(), selectedNewsRSSFeedID);
+        if(selectedNewsRSSFeedID.equals("bookmarkedString")){
+            fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getFragmentManager(),getContext());
+        }else{
+            fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getFragmentManager(),getContext(), selectedNewsRSSFeedID);
+        }
 
         viewPager.setAdapter(fragmentNewsViewPagerAdapter);
         viewPager.setCurrentItem(position);

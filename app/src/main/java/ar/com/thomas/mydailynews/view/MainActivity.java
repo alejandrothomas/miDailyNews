@@ -26,6 +26,7 @@ import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 import ar.com.thomas.mydailynews.view.FavouriteFlow.FragmentFavouriteContainer;
+import ar.com.thomas.mydailynews.view.FragmentBookMarkFlow.FragmentBookmarkContainer;
 import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
@@ -125,9 +126,14 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             bookmarks.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    NewsController newsController = new NewsController();
-                    List<News> bookmarkedNewsList = newsController.getBookmarkNewsList(context);
-                    Toast.makeText(context, String.valueOf(bookmarkedNewsList.size()) , Toast.LENGTH_SHORT).show();
+
+                    if(newsController.getBookmarkNewsList(context).size()<1){
+                        Toast.makeText(context, "No has añadido ninguna noticia a los Bookmarks.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        FragmentBookmarkContainer fragmentBookmarkContainer = new FragmentBookmarkContainer();
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_container,fragmentBookmarkContainer).addToBackStack(null).commit();
+                    }
                 }
             });
         }

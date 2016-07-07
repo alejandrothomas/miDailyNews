@@ -16,10 +16,11 @@ import ar.com.thomas.mydailynews.model.News;
  */
 public class FragmentNewsViewPagerAdapter extends FragmentStatePagerAdapter {
     private final List<FragmentNewsViewPager> fragmentNewsList = new ArrayList<>();
+    private NewsController newsController;
 
     public FragmentNewsViewPagerAdapter(FragmentManager fm, Context context, String rssFeed) {
         super(fm);
-        NewsController newsController = new NewsController();
+        newsController = new NewsController();
 
         List<News> newsList = newsController.getNewsListFromDB(rssFeed,context);
 
@@ -27,6 +28,18 @@ public class FragmentNewsViewPagerAdapter extends FragmentStatePagerAdapter {
 
             fragmentNewsList.add(new FragmentNewsViewPager().generateFragment(news));
         }
+    }
+
+    public FragmentNewsViewPagerAdapter(FragmentManager fm, Context context){
+        super(fm);
+        newsController = new NewsController();
+
+        List<News> bookmarkedNewsList = newsController.getBookmarkNewsList(context);
+
+        for(News news:bookmarkedNewsList){
+            fragmentNewsList.add(new FragmentNewsViewPager().generateFragment(news));
+        }
+
     }
 
     @Override

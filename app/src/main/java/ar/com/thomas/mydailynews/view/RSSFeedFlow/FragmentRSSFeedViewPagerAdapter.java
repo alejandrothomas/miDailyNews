@@ -35,6 +35,7 @@ public class FragmentRSSFeedViewPagerAdapter extends FragmentStatePagerAdapter {
         }
     }
 
+
     public FragmentRSSFeedViewPagerAdapter(FragmentManager fm, Context context, List<RSSFeed> favouriteList){
         super(fm);
 
