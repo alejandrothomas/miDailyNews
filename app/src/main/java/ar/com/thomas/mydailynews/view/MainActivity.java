@@ -84,7 +84,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
         populateNavigationDrawerMenu();
 
-        Button favourites = (Button)findViewById(R.id.favourites_button);
+        final Button favourites = (Button)findViewById(R.id.favourites_button);
         if (favourites != null) {
             favourites.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -94,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                     List<RSSFeed> newFavouriteList = newsController.getFavouritesFromDB(context);
 
                     if(newFavouriteList.size()>0) {
+                        favourites.setSelected(true);
                         fragmentFavouriteContainer = new FragmentFavouriteContainer();
                         fragmentManager = getSupportFragmentManager();
 
@@ -103,7 +104,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                         fragmentFavouriteContainer.setRssFeedList(newFavouriteList);
                     }else{
                         Toast.makeText(context, getString(R.string.favourites_rss_empty_list_warning), Toast.LENGTH_LONG).show();
-
                     }
                 }
             });
@@ -118,8 +118,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                 favourites.performClick();
             }
         }
-
-
 
         Button bookmarks = (Button) findViewById(R.id.bookmarked_button);
 
