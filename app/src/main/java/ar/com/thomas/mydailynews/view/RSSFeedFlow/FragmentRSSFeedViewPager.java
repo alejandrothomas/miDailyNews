@@ -97,8 +97,6 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
             newsList.clear();
         }
 
-
-
         newsController.getNews(new ResultListener<List<News>>() {
             @Override
             public void finish(List<News> result) {
@@ -140,9 +138,11 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
             Integer itemPosition = recyclerView.getChildAdapterPosition(v);
             String itemClicked = newsAdapter.selectedNewsID(itemPosition);
 
+            NewsController newsController = new NewsController();
+            newsController.addHistory(context,newsAdapter.getNews(itemPosition));
+
             fragmentCalls.getNotifications(itemClicked, itemPosition, rssFeedObjectID);
         }
     }
-
 
 }

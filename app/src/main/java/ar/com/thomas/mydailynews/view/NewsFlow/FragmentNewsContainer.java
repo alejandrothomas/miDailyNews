@@ -7,7 +7,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import ar.com.thomas.mydailynews.R;
+import ar.com.thomas.mydailynews.controller.NewsController;
+import ar.com.thomas.mydailynews.model.News;
 
 
 /**
@@ -32,21 +35,49 @@ public class FragmentNewsContainer extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_container, container, false);
-        ViewPager viewPager = (ViewPager)view.findViewById(R.id.viewpager_container);
+        final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager_container);
 
         Bundle bundle = getArguments();
         selectedNewsRSSFeedID = bundle.getString(RSS_FEED);
 
         Integer position = bundle.getInt(POSITION);
 
-        if(selectedNewsRSSFeedID.equals("bookmarkedString")){
-            fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getFragmentManager(),getContext());
-        }else{
-            fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getFragmentManager(),getContext(), selectedNewsRSSFeedID);
-        }
+        fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getFragmentManager(), getContext(), selectedNewsRSSFeedID);
+
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+                NewsController newsController = new NewsController();
+
+                switch (selectedNewsRSSFeedID) {
+                    case "Bookmarks":
+                        newsController.addHistory(getContext(), fragmentNewsViewPagerAdapter.getBookmarkNews(position));
+                        break;
+                    case "History":
+                        newsController.addHistory(getContext(), fragmentNewsViewPagerAdapter.getHistoryNews(position));
+                        break;
+                    default:
+                        newsController.addHistory(getContext(), fragmentNewsViewPagerAdapter.getNews(position));
+                        break;
+                }
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
 
         viewPager.setAdapter(fragmentNewsViewPagerAdapter);
         viewPager.setCurrentItem(position);
+
 
         return view;
     }

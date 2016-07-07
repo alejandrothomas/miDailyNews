@@ -1,6 +1,5 @@
 package ar.com.thomas.mydailynews.view;
 
-
 import android.content.Context;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -22,15 +21,13 @@ import java.util.List;
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
-import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 import ar.com.thomas.mydailynews.view.FavouriteFlow.FragmentFavouriteContainer;
-import ar.com.thomas.mydailynews.view.FragmentBookMarkFlow.FragmentBookmarkContainer;
+import ar.com.thomas.mydailynews.view.FragmentSavedContainer.FragmentSavedContainer;
 import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
-import ar.com.thomas.mydailynews.view.RSSFeedFlow.NewsAdapter;
 
 public class MainActivity extends AppCompatActivity implements FragmentRSSFeedViewPager.FragmentCalls, FragmentRSSFeedContainer.FavouriteCalls{
 
@@ -130,9 +127,35 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                     if(newsController.getBookmarkNewsList(context).size()<1){
                         Toast.makeText(context, "No has añadido ninguna noticia a los Bookmarks.", Toast.LENGTH_SHORT).show();
                     }else{
-                        FragmentBookmarkContainer fragmentBookmarkContainer = new FragmentBookmarkContainer();
+                        FragmentSavedContainer fragmentSavedContainer = new FragmentSavedContainer();
+                        Bundle arguments = new Bundle();
+                        arguments.putString(FragmentSavedContainer.SECTION,"Bookmarks");
+                        fragmentSavedContainer.setArguments(arguments);
+
                         fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.fragment_container,fragmentBookmarkContainer).addToBackStack(null).commit();
+                        fragmentTransaction.replace(R.id.fragment_container, fragmentSavedContainer).addToBackStack(null).commit();
+                    }
+                }
+            });
+        }
+
+        Button history = (Button) findViewById(R.id.history_button);
+
+        if (history != null) {
+            history.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                    if(newsController.getHistoryNewsList(context).size()<1){
+                        Toast.makeText(context, "No has leído ninguna noticia en esta sesión.", Toast.LENGTH_SHORT).show();
+                    }else{
+                        FragmentSavedContainer fragmentSavedContainer = new FragmentSavedContainer();
+                        Bundle arguments = new Bundle();
+                        arguments.putString(FragmentSavedContainer.SECTION,"History");
+                        fragmentSavedContainer.setArguments(arguments);
+
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.replace(R.id.fragment_container, fragmentSavedContainer).addToBackStack(null).commit();
                     }
                 }
             });

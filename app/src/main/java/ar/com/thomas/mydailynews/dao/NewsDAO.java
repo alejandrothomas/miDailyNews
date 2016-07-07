@@ -33,6 +33,8 @@ public class NewsDAO extends SQLiteOpenHelper {
     private static final Integer DATABASE_VERSION = 1;
     private static final String TABLE_NEWS = "News";
     private static final String TABLE_BOOKMARKS = "Bookmarks";
+    private static final String TABLE_FAVOURITES = "Favourites";
+    private static final String TABLE_HISTORY = "History";
     private static final String ID = "ID";
     private static final String TITLE = "title";
     private static final String DESCRIPTION = "description";
@@ -40,9 +42,7 @@ public class NewsDAO extends SQLiteOpenHelper {
     private static final String RSS_FEED_LINK = "rssFeedLink";
     private static final String PUB_DATE = "pubDate";
     private static final String RSS_FEED = "rssFeed";
-    private static final String TABLE_FAVOURITES = "Favourites";
     private static final String IS_FAVOURITE = "is_favourite";
-    private static final String IS_BOOKMARK = "is_bookmark";
     private static NewsDAO newsDAO = null;
     private Context context;
 
@@ -80,7 +80,6 @@ public class NewsDAO extends SQLiteOpenHelper {
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + PUB_DATE + " TEXT, "
                 + TITLE + " TEXT, "
-                + RSS_FEED_LINK + " TEXT, "
                 + IMAGE_URL + " TEXT, "
                 + DESCRIPTION + " TEXT " + ")";
 
@@ -93,6 +92,15 @@ public class NewsDAO extends SQLiteOpenHelper {
                 + IS_FAVOURITE + " TEXT " + ")";
 
         db.execSQL(createTableFavourites);
+
+        String createTableHistory = "CREATE TABLE " + TABLE_HISTORY + "("
+                + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + PUB_DATE + " TEXT, "
+                + TITLE + " TEXT, "
+                + IMAGE_URL + " TEXT, "
+                + DESCRIPTION + " TEXT " + ")";
+
+        db.execSQL(createTableHistory);
     }
 
 
@@ -235,6 +243,33 @@ public class NewsDAO extends SQLiteOpenHelper {
         return (count > 0);
     }
 
+    public void addHistory(News news){
+
+        if(!checkIfHistoryExist(news.getTitle())) {
+            SQLiteDatabase database = getWritableDatabase();
+            ContentValues row = new ContentValues();
+
+            row.put(TITLE, news.getTitle());
+            row.put(DESCRIPTION, news.getDescription());
+            row.put(IMAGE_URL, news.getImageUrl());
+            row.put(PUB_DATE, news.getPubDate());
+            database.insert(TABLE_HISTORY, null, row);
+            database.close();
+        }
+
+    }
+
+    private Boolean checkIfHistoryExist(String newsTitle){
+        SQLiteDatabase database = getReadableDatabase();
+        String selectQuery = "SELECT * FROM " + TABLE_HISTORY
+                + " WHERE " + TITLE + "==?";
+        Cursor result = database.rawQuery(selectQuery, new String[]{newsTitle});
+        Integer count = result.getCount();
+
+        database.close();
+        return (count > 0);
+    }
+
     public void removeBookmark(News news){
         SQLiteDatabase database = getWritableDatabase();
         database.delete(TABLE_BOOKMARKS,TITLE + "='" + news.getTitle() + "'",null );
@@ -260,11 +295,36 @@ public class NewsDAO extends SQLiteOpenHelper {
             news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
             news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
             news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
-            news.setLink(cursor.getString(cursor.getColumnIndex(RSS_FEED_LINK)));
             bookmarkNewsList.add(news);
         }
         return bookmarkNewsList;
     }
+
+    public List<News> getHistory(){
+
+        SQLiteDatabase database = getReadableDatabase();
+
+        String selectQuery = "SELECT * FROM " + TABLE_HISTORY;
+
+
+        Cursor cursor = database.rawQuery(selectQuery, null);
+
+        List<News> historyNewsList = new ArrayList<>();
+
+        while(cursor.moveToNext()){
+
+            News news = new News();
+
+            news.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
+            news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
+            news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
+            news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
+            historyNewsList.add(news);
+        }
+        return historyNewsList;
+    }
+
+
 
     public List<News> getNewsListFromDatabase(String rssFeed){
 
@@ -289,7 +349,6 @@ public class NewsDAO extends SQLiteOpenHelper {
             news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
             news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
             news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
-            news.setLink(cursor.getString(cursor.getColumnIndex(RSS_FEED_LINK)));
             news.setRssFeed(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
             newsList.add(news);
         }

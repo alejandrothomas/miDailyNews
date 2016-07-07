@@ -63,4 +63,14 @@ public class NewsController {
         newsDAO = NewsDAO.getNewsDAO(context);
         return newsDAO.getBookmarks();
     }
+
+    public List<News> getHistoryNewsList(Context context){
+        newsDAO = NewsDAO.getNewsDAO(context);
+        return newsDAO.getHistory();
+    }
+
+    public void addHistory(Context context, News news){
+        newsDAO = NewsDAO.getNewsDAO(context);
+        newsDAO.addHistory(news);
+    }
 }

@@ -56,6 +56,10 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
     }
 
 
+    public News getNews(Integer position) {
+        return newsList.get(position);
+    }
+
     @Override
     public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
 
