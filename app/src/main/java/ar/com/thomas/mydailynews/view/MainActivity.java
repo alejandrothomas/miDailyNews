@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
         favouriteListMainActivity = new ArrayList<>();
 
-        NewsController newsController = new NewsController();
+        final NewsController newsController = new NewsController();
         newsController.clearNewsDB(context);
 
 
@@ -117,6 +117,21 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             if (favourites != null) {
                 favourites.performClick();
             }
+        }
+
+
+
+        Button bookmarks = (Button) findViewById(R.id.bookmarked_button);
+
+        if (bookmarks != null) {
+            bookmarks.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+                    NewsController newsController = new NewsController();
+                    List<News> bookmarkedNewsList = newsController.getBookmarkNewsList(context);
+                    Toast.makeText(context, String.valueOf(bookmarkedNewsList.size()) , Toast.LENGTH_SHORT).show();
+                }
+            });
         }
     }
 

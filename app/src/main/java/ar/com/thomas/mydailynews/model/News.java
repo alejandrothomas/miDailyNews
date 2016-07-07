@@ -94,4 +94,10 @@ public class News {
     public void setPubDate(String pubDate) {
         this.pubDate = pubDate;
     }
+
+    @Override
+    public boolean equals(Object o) {
+        News otherNews = (News) o;
+        return (this.title.equals(otherNews.getTitle()));
+    }
 }

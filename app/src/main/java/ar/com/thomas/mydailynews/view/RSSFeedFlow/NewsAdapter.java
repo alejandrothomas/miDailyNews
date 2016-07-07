@@ -63,6 +63,9 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
         NewsViewHolder newsViewHolder = new NewsViewHolder(itemView);
         itemView.setOnClickListener(this);
 
+        newsController = new NewsController();
+        bookmarkedNewsList = newsController.getBookmarkNewsList(context);
+
         return newsViewHolder;
     }
 
@@ -72,12 +75,8 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
         final News news = newsList.get(position);
         final NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
-
-        newsController = new NewsController();
-        bookmarkedNewsList = newsController.getBookmarkNewsList(context);
-        
-
         newsViewHolder.bindNews(news, context);
+
         newsViewHolder.bookmarkButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -86,19 +85,18 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
                     newsViewHolder.bookmarkButton.setSelected(false);
                     newsController.removeBookmark(context,news);
                     bookmarkedNewsList.remove(news);
+                    notifyDataSetChanged();
                     Toast.makeText(context, news.getTitle() + " ha sido removido de los Bookmarks.",Toast.LENGTH_SHORT).show();
                 }else{
                     Toast.makeText(context, news.getTitle() + " ha sido agregado de los Bookmarks.",Toast.LENGTH_SHORT).show();
                     newsViewHolder.bookmarkButton.setSelected(true);
                     newsController.addBookmark(context,news);
                     bookmarkedNewsList.add(news);
+                    notifyDataSetChanged();
                 }
             }
         });
-
-
     }
-
 
     @Override
     public int getItemCount() {
@@ -130,16 +128,14 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
 
         public void bindNews(News news, Context context){
 
+            bookmarkButton.setSelected(false);
+
             NewsController newsController = new NewsController();
             List<News> newsListBookmarked = newsController.getBookmarkNewsList(context);
 
-            for(Integer i=0;i<newsListBookmarked.size();i++){
-                if(newsListBookmarked.get(i).getTitle().equals(news.getTitle())){
-                    bookmarkButton.setSelected(true);
-                }
+            if(newsListBookmarked.contains(news)){
+                bookmarkButton.setSelected(true);
             }
-
-
 
             textViewTitle.setText(news.getTitle());
             if (news.getImageUrl()==null){
