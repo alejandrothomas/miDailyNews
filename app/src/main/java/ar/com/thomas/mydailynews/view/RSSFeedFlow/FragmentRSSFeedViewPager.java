@@ -13,7 +13,9 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
@@ -82,7 +84,15 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
         NewsListener newsListener = new NewsListener();
         newsAdapter.setOnClickListener(newsListener);
 
-        onRefresh();
+
+        if(newsList.size()<1){
+            newsList.addAll(newsController.getNewsListFromDB(rssFeed,context));
+        }
+
+        if(newsList.size()<1){
+            onRefresh();
+        }
+
 
         OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         recyclerView.setNestedScrollingEnabled(false);

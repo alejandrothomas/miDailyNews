@@ -145,6 +145,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                         fragmentSavedContainer.setArguments(arguments);
 
                         fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setCustomAnimations(R.anim.slide_in,R.anim.slide_out,R.anim.slide_in,R.anim.slide_out);
                         fragmentTransaction.replace(R.id.fragment_container, fragmentSavedContainer).addToBackStack(null).commit();
                     }
                 }
@@ -167,6 +168,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                         fragmentSavedContainer.setArguments(arguments);
 
                         fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setCustomAnimations(R.anim.slide_in,R.anim.slide_out,R.anim.slide_in,R.anim.slide_out);
                         fragmentTransaction.replace(R.id.fragment_container, fragmentSavedContainer).addToBackStack(null).commit();
                     }
                 }
@@ -186,17 +188,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         fragmentNewsContainer.setArguments(arguments);
 
         fragmentTransaction = fragmentManager.beginTransaction();
-
-//        if(getSupportFragmentManager().findFragmentByTag("rss_container_tag")!=null){
-//            fragmentTransaction.hide(getSupportFragmentManager().findFragmentByTag("rss_container_tag"));
-//        }
-//
-//        if(getSupportFragmentManager().findFragmentByTag("favourites")!=null){
-//            fragmentTransaction.hide(getSupportFragmentManager().findFragmentByTag("favourites"));
-//        }
-
         fragmentTransaction.setCustomAnimations(R.anim.slide_in,R.anim.slide_out,R.anim.slide_in,R.anim.slide_out);
-
         fragmentTransaction.replace(R.id.fragment_container,fragmentNewsContainer);
         fragmentTransaction.addToBackStack(null).commit();
     }
@@ -243,9 +235,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             fragmentRSSFeedContainer.setArguments(arguments);
             fragmentManager = getSupportFragmentManager();
 
-            fragmentTransaction = fragmentManager.beginTransaction().addToBackStack(null);
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.setCustomAnimations(R.anim.slide_in,R.anim.slide_out,R.anim.slide_in,R.anim.slide_out);
             fragmentTransaction.replace(R.id.fragment_container, fragmentRSSFeedContainer,"rss_container_tag");
-            fragmentTransaction.commit();
+            fragmentTransaction.addToBackStack("rss_container_tag").commit();
             fragmentRSSFeedContainer.setFavouriteList(favouriteListMainActivity);
 
             if (drawerLayout != null) {
