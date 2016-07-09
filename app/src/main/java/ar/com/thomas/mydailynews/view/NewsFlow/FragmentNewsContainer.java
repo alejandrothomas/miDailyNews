@@ -11,6 +11,7 @@ import android.view.ViewGroup;
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.model.News;
+import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 
 /**
@@ -36,6 +37,8 @@ public class FragmentNewsContainer extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_container, container, false);
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager_container);
+
+        OverScrollDecoratorHelper.setUpOverScroll(viewPager);
 
         Bundle bundle = getArguments();
         selectedNewsRSSFeedID = bundle.getString(RSS_FEED);

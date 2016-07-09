@@ -48,6 +48,7 @@ public class FragmentSavedContainer extends Fragment {
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewBookmark);
         recyclerView.setHasFixedSize(true);
 
+
         Bundle arguments = getArguments();
         section = arguments.getString(SECTION);
 

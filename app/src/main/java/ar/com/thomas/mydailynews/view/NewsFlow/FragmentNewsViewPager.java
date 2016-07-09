@@ -57,8 +57,8 @@ public class FragmentNewsViewPager extends Fragment {
                 if (lightMuted != null) {
 
                     linearLayoutNews.setBackgroundColor(lightMuted.getRgb());
-                    textViewNewsTitle.setTextColor(lightMuted.getTitleTextColor());
-                    textViewNewsSubtitle.setTextColor(lightMuted.getBodyTextColor());
+//                    textViewNewsTitle.setTextColor(lightMuted.getTitleTextColor());
+//                    textViewNewsSubtitle.setTextColor(lightMuted.getBodyTextColor());
 
 
 
@@ -90,7 +90,7 @@ public class FragmentNewsViewPager extends Fragment {
 
         textViewNewsTitle.setText(newsTitle);
         textViewNewsSubtitle.setText(newsDescription);
-        Picasso.with(getActivity()).load(newsImageUrl).placeholder(R.drawable.placeholder_unavailable_image).into(imageViewImageUrl, new Callback() {
+        Picasso.with(getActivity()).load(newsImageUrl).placeholder(R.drawable.placeholder_unavailable_image).resize(0,300).into(imageViewImageUrl, new Callback() {
             @Override
             public void onSuccess() {
                 loadPalette();

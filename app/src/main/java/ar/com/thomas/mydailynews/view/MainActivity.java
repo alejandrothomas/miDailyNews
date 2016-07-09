@@ -94,40 +94,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
         populateNavigationDrawerMenu();
 
-        final Button favourites = (Button)findViewById(R.id.favourites_button);
-        if (favourites != null) {
-            favourites.setOnClickListener(new View.OnClickListener() {
-                @Override
-                public void onClick(View v) {
-                    NewsController newsController = new NewsController();
-                    newsController.updateFavourites(favouriteListMainActivity,context);
-                    List<RSSFeed> newFavouriteList = newsController.getFavouritesFromDB(context);
 
-                    if(newFavouriteList.size()>0) {
-                        favourites.setSelected(true);
-                        fragmentFavouriteContainer = new FragmentFavouriteContainer();
-                        fragmentManager = getSupportFragmentManager();
-
-                        fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.replace(R.id.fragment_container,fragmentFavouriteContainer,"favourites");
-                        fragmentTransaction.addToBackStack(null).commit();
-                        fragmentFavouriteContainer.setRssFeedList(newFavouriteList);
-                    }else{
-                        setSnackbar(getString(R.string.snack_favourites_empty));
-                    }
-                }
-            });
-        }
-
-        if(favouriteListMainActivity.size()<1) {
-            ListenerMenu listenerMenu = new ListenerMenu();
-            listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(1));
-            navigationView.getMenu().getItem(1).setChecked(true);
-        }else{
-            if (favourites != null) {
-                favourites.performClick();
-            }
-        }
 
         Button bookmarks = (Button) findViewById(R.id.bookmarked_button);
 
@@ -173,6 +140,42 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                     }
                 }
             });
+        }
+
+        final Button favourites = (Button)findViewById(R.id.favourites_button);
+        if (favourites != null) {
+            favourites.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    NewsController newsController = new NewsController();
+                    newsController.updateFavourites(favouriteListMainActivity,context);
+                    List<RSSFeed> newFavouriteList = newsController.getFavouritesFromDB(context);
+
+                    if(newFavouriteList.size()>0) {
+                        favourites.setSelected(true);
+                        fragmentFavouriteContainer = new FragmentFavouriteContainer();
+                        fragmentManager = getSupportFragmentManager();
+
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.setCustomAnimations(R.anim.slide_in,R.anim.slide_out,R.anim.slide_in,R.anim.slide_out);
+                        fragmentTransaction.replace(R.id.fragment_container,fragmentFavouriteContainer,"favourites");
+                        fragmentTransaction.addToBackStack(null).commit();
+                        fragmentFavouriteContainer.setRssFeedList(newFavouriteList);
+                    }else{
+                        setSnackbar(getString(R.string.snack_favourites_empty));
+                    }
+                }
+            });
+        }
+
+        if(favouriteListMainActivity.size()<1) {
+            ListenerMenu listenerMenu = new ListenerMenu();
+            listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(1));
+            navigationView.getMenu().getItem(1).setChecked(true);
+        }else{
+            if (favourites != null) {
+                favourites.performClick();
+            }
         }
     }
 

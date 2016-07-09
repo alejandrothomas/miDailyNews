@@ -40,7 +40,7 @@ public class FragmentFavouriteContainer extends Fragment {
 
         final FragmentRSSFeedViewPagerAdapter fragmentRSSFeedViewPagerAdapter = new FragmentRSSFeedViewPagerAdapter(getChildFragmentManager(),getContext(),rssFeedList);
         viewPager.setAdapter(fragmentRSSFeedViewPagerAdapter);
-        viewPager.setOffscreenPageLimit(10);
+        viewPager.setOffscreenPageLimit(1);
 
         TabLayout tabLayout = (TabLayout)view.findViewById(R.id.tabs_favourite);
         tabLayout.setupWithViewPager(viewPager);
