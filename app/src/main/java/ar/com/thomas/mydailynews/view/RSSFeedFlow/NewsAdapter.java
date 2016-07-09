@@ -77,6 +77,8 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+
+
         final News news = newsList.get(position);
         final NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
         newsViewHolder.bindNews(news, context);
@@ -86,13 +88,15 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
             public void onClick(View v){
 
                 if(bookmarkedNewsList.contains(news)){
+                    ((MainActivity)context).setSnackbar(news.getTitle()+context.getResources().getString(R.string.snack_bookmarks_remove));
                     newsViewHolder.bookmarkButton.setSelected(false);
                     newsController.removeBookmark(context,news);
                     bookmarkedNewsList.remove(news);
                     notifyDataSetChanged();
-                    Toast.makeText(context, news.getTitle() + " ha sido removido de los Bookmarks.",Toast.LENGTH_SHORT).show();
+
+
                 }else{
-                    Toast.makeText(context, news.getTitle() + " ha sido agregado de los Bookmarks.",Toast.LENGTH_SHORT).show();
+                    ((MainActivity)context).setSnackbar(news.getTitle()+context.getResources().getString(R.string.snack_bookmarks_add));
                     newsViewHolder.bookmarkButton.setSelected(true);
                     newsController.addBookmark(context,news);
                     bookmarkedNewsList.add(news);

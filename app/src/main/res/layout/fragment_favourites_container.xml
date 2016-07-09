@@ -18,7 +18,7 @@
             android:id="@+id/tabs_favourite"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="@color/colorPrimary"
+            android:background="#424242"
             android:elevation="2dp"
             app:layout_scrollFlags="scroll|enterAlways"
             app:tabGravity="fill"

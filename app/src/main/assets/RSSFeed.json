@@ -622,24 +622,7 @@
         "title": "Aquarium Drunkard",
         "updatedAt": "2015-02-03T13:48:49.308Z"
     },
-	{
-        "ACL": {
-            "*": {
-                "read": true
-            }
-        },
-        "category": {
-            "__type": "Pointer",
-            "className": "RSSFeedCategory",
-            "objectId": "5dBaQy4wpf"
-        },
-        "createdAt": "2015-02-03T13:43:03.650Z",
-        "feedLink": "http://www.smashingmagazine.com/feed/",
-        "objectId": "2uzxsFghnr",
-        "searchableTitle": "smashing magazine technology",
-        "title": "Smashing Magazine",
-        "updatedAt": "2015-02-03T13:43:03.650Z"
-    },
+
 	{
         "ACL": {
             "*": {

@@ -6,5 +6,11 @@
     <string name="yes">YES</string>
     <string name="favourites">Favourite Feeds</string>
     <string name="bookmarks">Bookmarks</string>
-    <string name="favourites_rss_empty_list_warning">No tienes ningún feed guardado en favoritos.</string>
+    <string name="snack_favourites_empty">No tienes ningún feed guardado en favoritos.</string>
+    <string name="snack_favourites_add">: ha sido agregado a la lista de favoritos</string>
+    <string name="snack_favourites_remove">: ha sido removido de la lista de favoritos</string>
+    <string name="snack_bookmarks_empty">No tienes noticias guardadas en los bookmarks.</string>
+    <string name="snack_bookmarks_add">: ha sido añadida a los bookmarks.</string>
+    <string name="snack_bookmarks_remove">: ha sido removida de los bookmarks</string>
+    <string name="snack_historial_empty">No has leído noticias en esta sesión.</string>
 </resources>

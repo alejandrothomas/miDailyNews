@@ -2,8 +2,10 @@ package ar.com.thomas.mydailynews.view;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
@@ -40,6 +42,15 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private List<String> favouriteListMainActivity;
     private FragmentRSSFeedContainer fragmentRSSFeedContainer;
     private FragmentFavouriteContainer fragmentFavouriteContainer;
+    private Snackbar snackbar;
+    private CoordinatorLayout coordinatorLayout;
+
+    public void setSnackbar(String snackbarMessage) {
+        if (coordinatorLayout != null) {
+            snackbar = Snackbar.make(coordinatorLayout, snackbarMessage, Snackbar.LENGTH_LONG);
+            snackbar.getView().setBackgroundColor(0x89000000);
+            snackbar.show();
+        }    }
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -47,7 +58,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         setContentView(R.layout.activity_main);
         context = this;
 
-        Toast.makeText(context,getString(R.string.welcome),Toast.LENGTH_LONG).show();
+        coordinatorLayout = (CoordinatorLayout)findViewById(R.id.coordinatorLayout);
+        setSnackbar(getString(R.string.welcome));
 
         favouriteListMainActivity = new ArrayList<>();
 
@@ -62,7 +74,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         newsController.updateFavourites(favouriteListMainActivity,context);
 
         Window window = getWindow();
-        window.setStatusBarColor(0xFF37474F);
+        window.setStatusBarColor(0xFF424242);
 
         Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
@@ -101,7 +113,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                         fragmentTransaction.addToBackStack(null).commit();
                         fragmentFavouriteContainer.setRssFeedList(newFavouriteList);
                     }else{
-                        Toast.makeText(context, getString(R.string.favourites_rss_empty_list_warning), Toast.LENGTH_LONG).show();
+                        setSnackbar(getString(R.string.snack_favourites_empty));
                     }
                 }
             });
@@ -110,7 +122,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         if(favouriteListMainActivity.size()<1) {
             ListenerMenu listenerMenu = new ListenerMenu();
             listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(1));
-            navigationView.getMenu().getItem(0).setChecked(true);
+            navigationView.getMenu().getItem(1).setChecked(true);
         }else{
             if (favourites != null) {
                 favourites.performClick();
@@ -125,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                 public void onClick(View view) {
 
                     if(newsController.getBookmarkNewsList(context).size()<1){
-                        Toast.makeText(context, "No has añadido ninguna noticia a los Bookmarks.", Toast.LENGTH_SHORT).show();
+                        setSnackbar(getString(R.string.snack_bookmarks_empty));
                     }else{
                         FragmentSavedContainer fragmentSavedContainer = new FragmentSavedContainer();
                         Bundle arguments = new Bundle();
@@ -147,7 +159,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                 public void onClick(View view) {
 
                     if(newsController.getHistoryNewsList(context).size()<1){
-                        Toast.makeText(context, "No has leído ninguna noticia en esta sesión.", Toast.LENGTH_SHORT).show();
+                        setSnackbar(getString(R.string.snack_historial_empty));
                     }else{
                         FragmentSavedContainer fragmentSavedContainer = new FragmentSavedContainer();
                         Bundle arguments = new Bundle();
@@ -175,15 +187,17 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
         fragmentTransaction = fragmentManager.beginTransaction();
 
-        if(getSupportFragmentManager().findFragmentByTag("rss_container_tag")!=null){
-            fragmentTransaction.hide(getSupportFragmentManager().findFragmentByTag("rss_container_tag"));
-        }
+//        if(getSupportFragmentManager().findFragmentByTag("rss_container_tag")!=null){
+//            fragmentTransaction.hide(getSupportFragmentManager().findFragmentByTag("rss_container_tag"));
+//        }
+//
+//        if(getSupportFragmentManager().findFragmentByTag("favourites")!=null){
+//            fragmentTransaction.hide(getSupportFragmentManager().findFragmentByTag("favourites"));
+//        }
 
-        if(getSupportFragmentManager().findFragmentByTag("favourites")!=null){
-            fragmentTransaction.hide(getSupportFragmentManager().findFragmentByTag("favourites"));
-        }
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in,R.anim.slide_out,R.anim.slide_in,R.anim.slide_out);
 
-        fragmentTransaction.add(R.id.fragment_container,fragmentNewsContainer);
+        fragmentTransaction.replace(R.id.fragment_container,fragmentNewsContainer);
         fragmentTransaction.addToBackStack(null).commit();
     }
 
@@ -205,10 +219,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         if(favouriteListMainActivity.contains(rssFeed)){
             favouriteListMainActivity.remove(rssFeed);
             fab.setSelected(false);
-            Toast.makeText(context, rssFeed + " ha sido removido de la lista de favoritos.",Toast.LENGTH_SHORT).show();
+            setSnackbar(rssFeed+getString(R.string.snack_favourites_remove));
         }else{
             favouriteListMainActivity.add(rssFeed);
-            Toast.makeText(context, rssFeed + " ha sido agregado de la lista de favoritos.",Toast.LENGTH_SHORT).show();
+            setSnackbar(rssFeed+getString(R.string.snack_favourites_add));
             fab.setSelected(true);
         }
         fragmentRSSFeedContainer.setFavouriteList(favouriteListMainActivity);
