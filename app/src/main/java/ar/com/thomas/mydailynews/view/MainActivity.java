@@ -256,4 +256,5 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         newsController.updateFavourites(favouriteListMainActivity,this);
     }
 
+
 }

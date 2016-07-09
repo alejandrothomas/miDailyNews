@@ -26,6 +26,7 @@ import com.squareup.picasso.Picasso;
 
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.model.News;
+import ar.com.thomas.mydailynews.view.MainActivity;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
@@ -51,13 +52,16 @@ public class FragmentNewsViewPager extends Fragment {
             @Override
             public void onGenerated(Palette palette) {
 
-                Palette.Swatch lightMuted = palette.getLightMutedSwatch();
+                Palette.Swatch lightMuted = palette.getMutedSwatch();
 
                 if (lightMuted != null) {
 
                     linearLayoutNews.setBackgroundColor(lightMuted.getRgb());
                     textViewNewsTitle.setTextColor(lightMuted.getTitleTextColor());
                     textViewNewsSubtitle.setTextColor(lightMuted.getBodyTextColor());
+
+
+
                 }
 
             }

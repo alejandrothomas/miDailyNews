@@ -4,30 +4,38 @@
     android:id="@+id/scroll_view"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:clipToPadding="false">
+    android:clipToPadding="false"
+    android:orientation="vertical">
 
     <LinearLayout
+        android:id="@+id/linear_layout_news"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:clipToPadding="false">
-
-
-        <com.fmsirvent.ParallaxEverywhere.PEWImageView
-            android:id="@+id/fragmentNewsViewPager_IMAGEVIEW_ImageURL"
-            android:layout_width="match_parent"
-            android:layout_height="300dp"
-            android:scaleType="centerCrop"
-            android:src="@drawable/placeholder_unavailable_image" />
+        android:orientation="vertical">
 
         <LinearLayout
-            android:id="@+id/linear_layout_news"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:background="#d0ffffff"
             android:elevation="6dp"
             >
+
+            <com.fmsirvent.ParallaxEverywhere.PEWImageView
+                android:id="@+id/fragmentNewsViewPager_IMAGEVIEW_ImageURL"
+                android:layout_width="match_parent"
+                android:layout_height="300dp"
+                android:scaleType="centerCrop"
+                android:layout_margin="1dp"
+                android:src="@drawable/placeholder_unavailable_image" />
+        </LinearLayout>
+
+        <LinearLayout
+
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:elevation="16dp"
+            android:orientation="vertical">
 
             <TextView
                 android:id="@+id/fragmentNewsViewPager_TEXTVIEW_Title"
@@ -38,8 +46,8 @@
                 android:layout_marginRight="8dp"
                 android:layout_marginTop="8dp"
                 android:fontFamily="sans-serif-medium"
-                android:textSize="36sp"
-                android:textColor="@android:color/white"/>
+                android:textColor="@android:color/white"
+                android:textSize="36sp" />
 
 
             <TextView
@@ -48,10 +56,10 @@
                 android:layout_height="wrap_content"
                 android:layout_marginLeft="24dp"
                 android:layout_marginRight="24dp"
-                android:paddingBottom="120dp"
                 android:fontFamily="sans-serif-light"
-                android:textSize="18sp"
-                android:textColor="@android:color/white"/>
+                android:paddingBottom="120dp"
+                android:textColor="@android:color/white"
+                android:textSize="18sp" />
 
         </LinearLayout>
 

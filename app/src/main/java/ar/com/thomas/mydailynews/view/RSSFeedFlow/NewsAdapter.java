@@ -149,7 +149,7 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
             if (news.getImageUrl()==null){
                 imageViewImageUrl.setImageResource(R.drawable.placeholder_unavailable_image);
             }else{
-                Picasso.with(context).load(news.getImageUrl()).into(imageViewImageUrl);
+                Picasso.with(context).load(news.getImageUrl()).resize(0,200).into(imageViewImageUrl);
             }
         }
     }

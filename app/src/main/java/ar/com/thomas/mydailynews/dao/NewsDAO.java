@@ -382,6 +382,11 @@ public class NewsDAO extends SQLiteOpenHelper {
         database.execSQL("DELETE FROM " + TABLE_NEWS);
     }
 
+    public void clearSelectedRSSNewsFromDB(String rssFeed){
+        SQLiteDatabase database = getWritableDatabase();
+        database.execSQL("DELETE FROM " + TABLE_NEWS + " WHERE " + RSS_FEED + " == '" + rssFeed + "'");
+    }
+
 
     //---------------------ONLINE------------------//
 

@@ -49,6 +49,11 @@ public class NewsController {
         newsDAO.clearNewsDB();
     }
 
+    public void clearSelectedRSSNewsFromDB(Context context,String rssFeed){
+        newsDAO = NewsDAO.getNewsDAO(context);
+        newsDAO.clearSelectedRSSNewsFromDB(rssFeed);
+    }
+
     public void addBookmark(Context context, News news){
         newsDAO = NewsDAO.getNewsDAO(context);
         newsDAO.addBookmark(news);

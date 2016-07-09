@@ -106,6 +106,7 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
 
         if(newsList.size()>0){
             newsList.clear();
+            newsController.clearSelectedRSSNewsFromDB(context,rssFeed);
         }
 
         newsController.getNews(new ResultListener<List<News>>() {
