@@ -1,32 +1,23 @@
 package ar.com.thomas.mydailynews.view.NewsFlow;
 
-import android.app.ActionBar;
+import android.app.Activity;
+import android.content.Context;
 import android.graphics.Bitmap;
-import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.media.Image;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-
 import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.HorizontalScrollView;
 import android.widget.ImageView;
-import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
-import android.widget.Toast;
-
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
-
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.model.News;
-import ar.com.thomas.mydailynews.view.MainActivity;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
@@ -40,8 +31,14 @@ public class FragmentNewsViewPager extends Fragment {
     private ImageView imageViewImageUrl;
     private TextView textViewNewsTitle;
     private TextView textViewNewsSubtitle;
-    private LinearLayout linearLayoutNews;
+    private Integer backgroundColor;
+    private BackgroundColorCalls backgroundColorCalls;
+    private Context context;
 
+
+    public Integer getBackgroundColor() {
+        return backgroundColor;
+    }
 
     private void loadPalette() {
         BitmapDrawable drawable = (BitmapDrawable) imageViewImageUrl.getDrawable();
@@ -55,19 +52,31 @@ public class FragmentNewsViewPager extends Fragment {
                 Palette.Swatch lightMuted = palette.getMutedSwatch();
 
                 if (lightMuted != null) {
-
-                    linearLayoutNews.setBackgroundColor(lightMuted.getRgb());
-//                    textViewNewsTitle.setTextColor(lightMuted.getTitleTextColor());
-//                    textViewNewsSubtitle.setTextColor(lightMuted.getBodyTextColor());
-
-
-
+                    backgroundColor = lightMuted.getRgb();
+                    if(backgroundColorCalls!=null)
+                    backgroundColorCalls.backgroundColor(backgroundColor);
                 }
-
             }
         });
     }
+    public interface BackgroundColorCalls{
+        public void backgroundColor(Integer color);
+    }
 
+    @Override
+    public void onCreate(@Nullable Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        this.context = getContext();
+        onAttachFragment(getParentFragment());
+    }
+
+    public void onAttachFragment (Fragment fragment){
+        try{
+            backgroundColorCalls = (BackgroundColorCalls) fragment;
+        }catch (ClassCastException e){
+            throw new ClassCastException(fragment.toString());
+        }
+    }
 
     @Nullable
     @Override
@@ -86,7 +95,6 @@ public class FragmentNewsViewPager extends Fragment {
         textViewNewsTitle = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Title);
         textViewNewsSubtitle = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Subtitle);
         imageViewImageUrl = (ImageView) view.findViewById(R.id.fragmentNewsViewPager_IMAGEVIEW_ImageURL);
-        linearLayoutNews = (LinearLayout) view.findViewById(R.id.linear_layout_news);
 
         textViewNewsTitle.setText(newsTitle);
         textViewNewsSubtitle.setText(newsDescription);

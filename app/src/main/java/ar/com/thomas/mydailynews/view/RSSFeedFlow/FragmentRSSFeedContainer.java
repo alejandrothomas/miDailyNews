@@ -19,6 +19,7 @@ import java.util.List;
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.dao.NewsDAO;
+import ar.com.thomas.mydailynews.view.MainActivity;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 
@@ -32,7 +33,6 @@ public class FragmentRSSFeedContainer extends Fragment{
     private String rssFeedCategoryID;
     private String rssfeedCategoryTitle;
     private FloatingActionButton fab;
-    private FavouriteCalls favouriteCalls;
     private List<String> favouriteList;
     private Integer currentPosition;
     private String rssFeed;
@@ -65,25 +65,12 @@ public class FragmentRSSFeedContainer extends Fragment{
         TabLayout tabLayout = (TabLayout)view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
-        fab = (FloatingActionButton) view.findViewById(R.id.fab_pressed);
+
 
         currentPosition = viewPager.getCurrentItem();
         rssFeed = fragmentRSSFeedViewPagerAdapter.getPageTitle(currentPosition).toString();
+        ((MainActivity)getContext()).setCurrentRSSFeed(rssFeed);
 
-        if(favouriteList.contains(rssFeed)){
-            fab.setSelected(true);
-        }else{
-            fab.setSelected(false);
-        }
-
-
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-
-                favouriteCalls.getFavNotifications(rssFeed, fab);
-            }
-        });
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -95,12 +82,7 @@ public class FragmentRSSFeedContainer extends Fragment{
             public void onPageSelected(int position) {
                 currentPosition = viewPager.getCurrentItem();
                 rssFeed = fragmentRSSFeedViewPagerAdapter.getPageTitle(currentPosition).toString();
-
-                if(favouriteList.contains(rssFeed)){
-                    fab.setSelected(true);
-                }else{
-                    fab.setSelected(false);
-                }
+                ((MainActivity)getContext()).setCurrentRSSFeed(rssFeed);
 
             }
 
@@ -114,14 +96,10 @@ public class FragmentRSSFeedContainer extends Fragment{
         return view;
     }
 
-    public interface FavouriteCalls {
-        public void getFavNotifications(String rssFeed, FloatingActionButton fab);
-    }
 
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
-        favouriteCalls = (FavouriteCalls) activity;
     }
 
 

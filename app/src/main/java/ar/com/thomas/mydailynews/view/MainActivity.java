@@ -12,12 +12,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 import ar.com.thomas.mydailynews.R;
@@ -31,7 +31,7 @@ import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
 
-public class MainActivity extends AppCompatActivity implements FragmentRSSFeedViewPager.FragmentCalls, FragmentRSSFeedContainer.FavouriteCalls{
+public class MainActivity extends AppCompatActivity implements FragmentRSSFeedViewPager.FragmentCalls{
 
     protected Context context;
     private FragmentManager fragmentManager;
@@ -44,6 +44,30 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private FragmentFavouriteContainer fragmentFavouriteContainer;
     private Snackbar snackbar;
     private CoordinatorLayout coordinatorLayout;
+    private FloatingActionButton fab;
+    private String currentRSSFeed;
+    private Toolbar toolbar;
+    private Window window;
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
+        if(drawerLayout!=null && toolbar!=null && window!=null){
+            drawerLayout.setBackgroundColor(0xFF212121);
+            toolbar.setBackgroundColor(0xFF212121);
+            window.setStatusBarColor(0xFF212121);
+        }
+    }
+
+    public void setDrawerLayoutBackgroundColor(Integer color){
+        if(drawerLayout!=null && color!=null && toolbar!=null && window!=null){
+            drawerLayout.setBackgroundColor(color);
+            toolbar.setBackgroundColor(color);
+            window.setStatusBarColor(color);
+        }
+
+
+    }
 
     public void setSnackbar(String snackbarMessage) {
         if (coordinatorLayout != null) {
@@ -73,16 +97,16 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }
         newsController.updateFavourites(favouriteListMainActivity,context);
 
-        Window window = getWindow();
-        window.setStatusBarColor(0xFF424242);
+        window = getWindow();
+        window.setStatusBarColor(0xFF212121);
 
-        Toolbar toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
 
-        drawerLayout = (DrawerLayout)findViewById(R.id.drawerLayout);
+        drawerLayout = (DrawerLayout)findViewById(R.id.drawer_layout);
 
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         drawerLayout.setDrawerListener(mDrawerToggle);
@@ -93,6 +117,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
 
         populateNavigationDrawerMenu();
+
+        fab = (FloatingActionButton) findViewById(R.id.fab_pressed);
 
 
 
@@ -153,6 +179,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
                     if(newFavouriteList.size()>0) {
                         favourites.setSelected(true);
+//                        fab.setSelected(true);
                         fragmentFavouriteContainer = new FragmentFavouriteContainer();
                         fragmentManager = getSupportFragmentManager();
 
@@ -177,12 +204,28 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                 favourites.performClick();
             }
         }
+
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(favouriteListMainActivity.contains(currentRSSFeed)){
+                    favouriteListMainActivity.remove(currentRSSFeed);
+                    fab.setSelected(false);
+                    setSnackbar(currentRSSFeed+getString(R.string.snack_favourites_remove));
+                }else{
+                    favouriteListMainActivity.add(currentRSSFeed);
+                    setSnackbar(currentRSSFeed+getString(R.string.snack_favourites_add));
+                    fab.setSelected(true);
+                }
+            }
+        });
     }
 
     @Override
     public void getNotifications(String newsClickedID, Integer itemPosition, String rssFeedID) {
 
         FragmentNewsContainer fragmentNewsContainer = new FragmentNewsContainer();
+
         Bundle arguments = new Bundle();
         arguments.putString(FragmentNewsContainer.NEWS_TITLE_ID, newsClickedID);
         arguments.putInt(FragmentNewsContainer.POSITION, itemPosition);
@@ -192,7 +235,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.setCustomAnimations(R.anim.slide_in,R.anim.slide_out,R.anim.slide_in,R.anim.slide_out);
-        fragmentTransaction.replace(R.id.fragment_container,fragmentNewsContainer);
+        fragmentTransaction.replace(R.id.fragment_container,fragmentNewsContainer,"news_container");
         fragmentTransaction.addToBackStack(null).commit();
     }
 
@@ -208,19 +251,17 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }
     }
 
-    @Override
-    public void getFavNotifications(String rssFeed, FloatingActionButton fab) {
+    public void setCurrentRSSFeed(String rssFeed) {
 
-        if(favouriteListMainActivity.contains(rssFeed)){
-            favouriteListMainActivity.remove(rssFeed);
-            fab.setSelected(false);
-            setSnackbar(rssFeed+getString(R.string.snack_favourites_remove));
-        }else{
-            favouriteListMainActivity.add(rssFeed);
-            setSnackbar(rssFeed+getString(R.string.snack_favourites_add));
+        this.currentRSSFeed = rssFeed;
+        if (favouriteListMainActivity.contains(currentRSSFeed)) {
             fab.setSelected(true);
+        } else {
+            fab.setSelected(false);
         }
-        fragmentRSSFeedContainer.setFavouriteList(favouriteListMainActivity);
+
+
+//        fragmentRSSFeedContainer.setFavouriteList(favouriteListMainActivity);
     }
 
 
@@ -245,7 +286,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             fragmentRSSFeedContainer.setFavouriteList(favouriteListMainActivity);
 
             if (drawerLayout != null) {
-                drawerLayout.closeDrawer(navigationView);
+                drawerLayout.closeDrawer(Gravity.LEFT);
             }
 
             return true;

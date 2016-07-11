@@ -7,22 +7,6 @@
     android:clipToPadding="false"
     android:orientation="vertical">
 
-    <TextView
-        android:id="@+id/nab_anchor"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent" />
-
-    <android.support.design.widget.FloatingActionButton
-        android:id="@+id/fab_pressed"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_margin="16dp"
-        android:elevation="20dp"
-        android:src="@drawable/favourite_button"
-        app:fabSize="mini"
-        app:layout_anchor="@id/nab_anchor"
-        app:layout_anchorGravity="right|bottom" />
-
     <LinearLayout
         android:id="@+id/linearLayout"
         android:layout_width="match_parent"
@@ -34,7 +18,7 @@
             android:id="@+id/tabs"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:background="#424242"
+            android:background="#212121"
             android:elevation="2dp"
             app:layout_scrollFlags="scroll|enterAlways"
             app:tabGravity="fill"
@@ -45,7 +29,9 @@
         <android.support.v4.view.ViewPager
             android:id="@+id/viewPagerMainActivity"
             android:layout_width="match_parent"
-            android:layout_height="match_parent" />
+            android:layout_height="match_parent"
+            app:layout_behavior="@string/appbar_scrolling_view_behavior" />
     </LinearLayout>
+
 
 </android.support.design.widget.CoordinatorLayout>

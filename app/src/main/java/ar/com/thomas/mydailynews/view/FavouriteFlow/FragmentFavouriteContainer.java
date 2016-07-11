@@ -12,6 +12,8 @@ import java.util.ArrayList;
 import java.util.List;
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.model.RSSFeed;
+import ar.com.thomas.mydailynews.view.MainActivity;
+import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPagerAdapter;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
@@ -33,7 +35,7 @@ public class FragmentFavouriteContainer extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favourites_container, container, false);
-        ViewPager viewPager = (ViewPager)view.findViewById(R.id.viewpager_favourites);
+        final ViewPager viewPager = (ViewPager)view.findViewById(R.id.viewpager_favourites);
         OverScrollDecoratorHelper.setUpOverScroll(viewPager);
 
 
@@ -44,7 +46,27 @@ public class FragmentFavouriteContainer extends Fragment {
 
         TabLayout tabLayout = (TabLayout)view.findViewById(R.id.tabs_favourite);
         tabLayout.setupWithViewPager(viewPager);
+        ((MainActivity)getContext()).setCurrentRSSFeed(fragmentRSSFeedViewPagerAdapter.getPageTitle(0).toString());
+
+        viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                ((MainActivity)getContext()).setCurrentRSSFeed(fragmentRSSFeedViewPagerAdapter.getPageTitle(position).toString());
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
 
         return view;
     }
+
 }

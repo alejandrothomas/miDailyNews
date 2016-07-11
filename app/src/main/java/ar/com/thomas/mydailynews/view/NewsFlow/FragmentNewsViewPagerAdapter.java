@@ -20,6 +20,7 @@ public class FragmentNewsViewPagerAdapter extends FragmentStatePagerAdapter {
     private List<News> newsList;
     private List<News> bookmarkedNewsList;
     private  List<News> historyNewsList;
+    private Integer backgroundColor;
 
     public News getNews(Integer position) {
         return newsList.get(position);
@@ -60,8 +61,6 @@ public class FragmentNewsViewPagerAdapter extends FragmentStatePagerAdapter {
             }
 
         }
-
-
     }
 
 

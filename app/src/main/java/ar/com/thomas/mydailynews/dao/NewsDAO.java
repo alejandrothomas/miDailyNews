@@ -200,6 +200,9 @@ public class NewsDAO extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues row = new ContentValues();
 
+        rssFeed = rssFeed.replaceAll("'","\'");
+        rssFeed = rssFeed.replaceAll("''","\'\'");
+
 
         row.put(RSS_FEED_LINK,news.getLink());
         row.put(TITLE, news.getTitle());
@@ -331,7 +334,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         SQLiteDatabase database = getReadableDatabase();
 
         rssFeed = rssFeed.replaceAll("'","\'");
-        rssFeed = rssFeed.replaceAll("''","\''");
+        rssFeed = rssFeed.replaceAll("''","\'\'");
 
         String selectQuery = "SELECT * FROM " + TABLE_NEWS
                 + " WHERE " + RSS_FEED + "==?";
