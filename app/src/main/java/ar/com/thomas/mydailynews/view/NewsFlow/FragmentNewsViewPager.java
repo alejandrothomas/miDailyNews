@@ -5,8 +5,10 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.support.v7.graphics.Palette;
+import android.support.v7.widget.Toolbar;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -64,14 +66,20 @@ public class FragmentNewsViewPager extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_news_viewpager, container, false);
 
-        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
-        OverScrollDecoratorHelper.setUpOverScroll(scrollView);
+//        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
+//        OverScrollDecoratorHelper.setUpOverScroll(scrollView);
 
         Bundle bundle = getArguments();
 
         String newsTitle = bundle.getString(NEWS_TITLE);
         String newsDescription = bundle.getString(NEWS_DESCRIPTION);
         String newsImageUrl = bundle.getString(NEWS_IMAGE_URL);
+
+        final Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar_news);
+        ((MainActivity)getContext()).setSupportActionBar(toolbar);
+
+        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle("Test Title");
 
         textViewNewsTitle = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Title);
         textViewNewsSubtitle = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Subtitle);

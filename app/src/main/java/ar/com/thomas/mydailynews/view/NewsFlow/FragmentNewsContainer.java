@@ -36,7 +36,6 @@ public class FragmentNewsContainer extends Fragment {
     private FragmentNewsViewPager fragmentNewsViewPager;
     private Context context;
 
-
     @Override
     public void onResume() {
         super.onResume();
@@ -49,7 +48,7 @@ public class FragmentNewsContainer extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_container, container, false);
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager_container);
-        viewPager.setOffscreenPageLimit(5);
+        viewPager.setOffscreenPageLimit(1);
 
         OverScrollDecoratorHelper.setUpOverScroll(viewPager);
 
