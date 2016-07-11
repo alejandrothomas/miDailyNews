@@ -1,5 +1,8 @@
 package ar.com.thomas.mydailynews.view.NewsFlow;
 
+import android.app.Activity;
+import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
@@ -19,7 +22,7 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 /**
  * Created by alejandrothomas on 6/25/16.
  */
-public class FragmentNewsContainer extends Fragment implements FragmentNewsViewPager.BackgroundColorCalls {
+public class FragmentNewsContainer extends Fragment {
 
     public static final String NEWS_TITLE_ID = "newsTitle";
     public static final String RSS_SOURCE = "rssFeed";
@@ -31,6 +34,7 @@ public class FragmentNewsContainer extends Fragment implements FragmentNewsViewP
     private Integer position;
     private FragmentManager fragmentManager;
     private FragmentNewsViewPager fragmentNewsViewPager;
+    private Context context;
 
 
     @Override
@@ -39,26 +43,12 @@ public class FragmentNewsContainer extends Fragment implements FragmentNewsViewP
         getActivity().setTitle(selectedNewsRSSFeedID);
     }
 
-    @Override
-    public void backgroundColor(Integer color){
-
-        fragmentManager = getChildFragmentManager();
-        fragmentNewsViewPager = (FragmentNewsViewPager)fragmentNewsViewPagerAdapter.getItem(position);
-        if(fragmentNewsViewPager!=null){
-            backgroundColor = fragmentNewsViewPager.getBackgroundColor();
-            if(((MainActivity)getActivity())!=null){
-                ((MainActivity)getActivity()).setDrawerLayoutBackgroundColor(backgroundColor);
-            }
-
-        }
-    }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_container, container, false);
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager_container);
-        viewPager.setOffscreenPageLimit(0);
 
         OverScrollDecoratorHelper.setUpOverScroll(viewPager);
 
@@ -69,20 +59,24 @@ public class FragmentNewsContainer extends Fragment implements FragmentNewsViewP
 
         fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getChildFragmentManager(), getContext(), selectedNewsRSSFeedID);
 
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
             }
+
             @Override
             public void onPageSelected(int position) {
 
-                if(fragmentNewsViewPager!=null){
+                fragmentManager = getChildFragmentManager();
+                fragmentNewsViewPager = (FragmentNewsViewPager) fragmentNewsViewPagerAdapter.getItem(position);
+                if (fragmentNewsViewPager != null) {
                     backgroundColor = fragmentNewsViewPager.getBackgroundColor();
-                    if(((MainActivity)getActivity())!=null){
-                        ((MainActivity)getActivity()).setDrawerLayoutBackgroundColor(backgroundColor);
+                    if (((MainActivity) getActivity()) != null) {
+                        ((MainActivity) getActivity()).setDrawerLayoutBackgroundColor(backgroundColor);
                     }
                 }
-
                 NewsController newsController = new NewsController();
 
                 switch (selectedNewsRSSFeedID) {
@@ -109,6 +103,7 @@ public class FragmentNewsContainer extends Fragment implements FragmentNewsViewP
         });
         viewPager.setAdapter(fragmentNewsViewPagerAdapter);
         viewPager.setCurrentItem(position);
+
         return view;
     }
 

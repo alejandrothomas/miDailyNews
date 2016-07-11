@@ -52,6 +52,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     @Override
     public void onBackPressed() {
         super.onBackPressed();
+        resetColors();
+    }
+
+    public void resetColors(){
         if(drawerLayout!=null && toolbar!=null && window!=null){
             drawerLayout.setBackgroundColor(0xFF212121);
             toolbar.setBackgroundColor(0xFF212121);
@@ -123,7 +127,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
 
         Button bookmarks = (Button) findViewById(R.id.bookmarked_button);
-
+        resetColors();
         if (bookmarks != null) {
             bookmarks.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -146,7 +150,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }
 
         Button history = (Button) findViewById(R.id.history_button);
-
+        resetColors();
         if (history != null) {
             history.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -169,6 +173,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }
 
         final Button favourites = (Button)findViewById(R.id.favourites_button);
+        resetColors();
         if (favourites != null) {
             favourites.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -237,6 +242,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         fragmentTransaction.setCustomAnimations(R.anim.slide_in,R.anim.slide_out,R.anim.slide_in,R.anim.slide_out);
         fragmentTransaction.replace(R.id.fragment_container,fragmentNewsContainer,"news_container");
         fragmentTransaction.addToBackStack(null).commit();
+        resetColors();
     }
 
     public void populateNavigationDrawerMenu() {
@@ -259,10 +265,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         } else {
             fab.setSelected(false);
         }
-
-
-//        fragmentRSSFeedContainer.setFavouriteList(favouriteListMainActivity);
     }
+
 
 
     private class ListenerMenu implements NavigationView.OnNavigationItemSelectedListener{
@@ -288,6 +292,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             if (drawerLayout != null) {
                 drawerLayout.closeDrawer(Gravity.LEFT);
             }
+            resetColors();
 
             return true;
         }

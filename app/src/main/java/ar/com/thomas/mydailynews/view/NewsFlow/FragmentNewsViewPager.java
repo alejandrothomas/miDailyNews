@@ -1,6 +1,5 @@
 package ar.com.thomas.mydailynews.view.NewsFlow;
 
-import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
@@ -32,7 +31,6 @@ public class FragmentNewsViewPager extends Fragment {
     private TextView textViewNewsTitle;
     private TextView textViewNewsSubtitle;
     private Integer backgroundColor;
-    private BackgroundColorCalls backgroundColorCalls;
     private Context context;
 
 
@@ -53,30 +51,11 @@ public class FragmentNewsViewPager extends Fragment {
 
                 if (lightMuted != null) {
                     backgroundColor = lightMuted.getRgb();
-                    if(backgroundColorCalls!=null)
-                    backgroundColorCalls.backgroundColor(backgroundColor);
                 }
             }
         });
     }
-    public interface BackgroundColorCalls{
-        public void backgroundColor(Integer color);
-    }
 
-    @Override
-    public void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        this.context = getContext();
-        onAttachFragment(getParentFragment());
-    }
-
-    public void onAttachFragment (Fragment fragment){
-        try{
-            backgroundColorCalls = (BackgroundColorCalls) fragment;
-        }catch (ClassCastException e){
-            throw new ClassCastException(fragment.toString());
-        }
-    }
 
     @Nullable
     @Override
