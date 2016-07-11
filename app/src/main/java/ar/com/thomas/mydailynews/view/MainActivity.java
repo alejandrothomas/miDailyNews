@@ -1,6 +1,7 @@
 package ar.com.thomas.mydailynews.view;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -49,7 +50,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private String currentRSSFeed;
     private Toolbar toolbar;
     private Window window;
-    private ActionBar actionBar;
 
     @Override
     public void onBackPressed() {
@@ -63,10 +63,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
         if(trueOrFalse!=null){
             if(trueOrFalse){
-//                toolbar.setVisibility(View.VISIBLE);
+                toolbar.setVisibility(View.VISIBLE);
                 fab.setVisibility(View.VISIBLE);
             }else{
-//                toolbar.setVisibility(View.GONE);
+                toolbar.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
             }
         }
@@ -111,7 +111,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         final NewsController newsController = new NewsController();
         newsController.clearNewsDB(context);
 
-
         List<RSSFeed> rssFeedList = newsController.getFavouritesFromDB(context);
         for (RSSFeed rssFeed:rssFeedList){
             favouriteListMainActivity.add(rssFeed.getTitle());
@@ -122,6 +121,9 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         window.setStatusBarColor(0xFF212121);
 
         toolbar = (Toolbar) findViewById(R.id.my_toolbar);
+        if (toolbar != null) {
+            toolbar.setTitleTextColor(Color.WHITE);
+        }
         setSupportActionBar(toolbar);
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);

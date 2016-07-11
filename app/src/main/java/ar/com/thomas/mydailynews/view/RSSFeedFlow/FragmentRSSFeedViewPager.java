@@ -64,7 +64,7 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
         swipeRefreshLayout = (SwipeRefreshLayout) view.findViewById(R.id.swipeRefreshLayout);
         swipeRefreshLayout.setColorSchemeResources(R.color.colorAccent);
         swipeRefreshLayout.setOnRefreshListener(this);
-        int top_to_padding = 50;
+        int top_to_padding = 56;
         swipeRefreshLayout.setProgressViewOffset(false, 0, top_to_padding);
 
         Bundle bundle = getArguments();

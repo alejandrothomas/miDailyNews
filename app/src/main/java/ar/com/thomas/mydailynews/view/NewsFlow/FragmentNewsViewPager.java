@@ -17,6 +17,7 @@ import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.model.News;
+import ar.com.thomas.mydailynews.view.MainActivity;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 /**
@@ -60,6 +61,7 @@ public class FragmentNewsViewPager extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+
         View view = inflater.inflate(R.layout.fragment_news_viewpager, container, false);
 
         ScrollView scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
