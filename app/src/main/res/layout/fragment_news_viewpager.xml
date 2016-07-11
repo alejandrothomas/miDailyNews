@@ -56,8 +56,7 @@
             android:layout_marginRight="16dp"
             android:layout_marginLeft="16dp"
             android:layout_marginBottom="16dp"
-            android:background="#8cffffff"
-            >
+            android:background="#8cffffff">
 
             <TextView
                 android:id="@+id/fragmentNewsViewPager_TEXTVIEW_Title"
@@ -71,7 +70,6 @@
                 android:textColor="#e4000000"
                 android:textSize="36sp" />
 
-
             <TextView
                 android:id="@+id/fragmentNewsViewPager_TEXTVIEW_Subtitle"
                 android:layout_width="match_parent"
@@ -82,10 +80,20 @@
                 android:paddingBottom="120dp"
                 android:textColor="#c9000000"
                 android:textSize="18sp" />
-
         </LinearLayout>
 
     </android.support.v4.widget.NestedScrollView>
+
+    <android.support.design.widget.FloatingActionButton
+        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        app:layout_anchor="@id/appbar"
+        app:layout_anchorGravity="bottom|right|end"
+        android:src="@drawable/bookmarked_button"
+        android:layout_margin="32dp"
+        app:fabSize="mini"
+        android:clickable="true"/>
+
 
 
 

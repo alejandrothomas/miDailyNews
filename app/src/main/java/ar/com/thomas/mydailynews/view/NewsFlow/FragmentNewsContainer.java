@@ -1,5 +1,6 @@
 package ar.com.thomas.mydailynews.view.NewsFlow;
 
+import android.animation.ArgbEvaluator;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Color;
@@ -8,9 +9,13 @@ import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
+import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
+import java.util.ArrayList;
+import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
@@ -32,7 +37,6 @@ public class FragmentNewsContainer extends Fragment {
     private FragmentNewsViewPagerAdapter fragmentNewsViewPagerAdapter;
     private Integer backgroundColor;
     private Integer position;
-    private FragmentManager fragmentManager;
     private FragmentNewsViewPager fragmentNewsViewPager;
     private Context context;
 
@@ -62,19 +66,21 @@ public class FragmentNewsContainer extends Fragment {
         fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getChildFragmentManager(), getContext(), selectedNewsRSSFeedID);
 
 
+
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
 
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
             }
 
             @Override
             public void onPageSelected(int position) {
 
-                fragmentManager = getChildFragmentManager();
                 fragmentNewsViewPager = (FragmentNewsViewPager) fragmentNewsViewPagerAdapter.getItem(position);
                 if (fragmentNewsViewPager != null) {
                     backgroundColor = fragmentNewsViewPager.getBackgroundColor();
+
                     if (((MainActivity) getActivity()) != null) {
                         ((MainActivity) getActivity()).setDrawerLayoutBackgroundColor(backgroundColor);
                     }
