@@ -5,7 +5,7 @@
     android:layout_height="?attr/actionBarSize"
     android:elevation="16dp"
     android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-    app:layout_scrollFlags="scroll|enterAlways|snap">
+    app:layout_scrollFlags="scroll|enterAlways">
 
     <Button
         android:id="@+id/favourites_button"

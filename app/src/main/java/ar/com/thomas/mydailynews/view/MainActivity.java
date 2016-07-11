@@ -9,6 +9,7 @@ import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -48,11 +49,27 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private String currentRSSFeed;
     private Toolbar toolbar;
     private Window window;
+    private ActionBar actionBar;
 
     @Override
     public void onBackPressed() {
         super.onBackPressed();
         resetColors();
+        setToolbarAndFabVisibility(true);
+    }
+
+    public void setToolbarAndFabVisibility(Boolean trueOrFalse){
+
+
+        if(trueOrFalse!=null){
+            if(trueOrFalse){
+//                toolbar.setVisibility(View.VISIBLE);
+                fab.setVisibility(View.VISIBLE);
+            }else{
+//                toolbar.setVisibility(View.GONE);
+                fab.setVisibility(View.GONE);
+            }
+        }
     }
 
     public void resetColors(){
@@ -66,8 +83,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     public void setDrawerLayoutBackgroundColor(Integer color){
         if(drawerLayout!=null && color!=null && toolbar!=null && window!=null){
             drawerLayout.setBackgroundColor(color);
-            toolbar.setBackgroundColor(color);
             window.setStatusBarColor(color);
+            toolbar.setBackgroundColor(color);
         }
 
 

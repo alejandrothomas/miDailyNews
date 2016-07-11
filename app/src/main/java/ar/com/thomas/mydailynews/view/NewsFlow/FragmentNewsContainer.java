@@ -49,6 +49,7 @@ public class FragmentNewsContainer extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_news_container, container, false);
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager_container);
+        viewPager.setOffscreenPageLimit(5);
 
         OverScrollDecoratorHelper.setUpOverScroll(viewPager);
 
@@ -56,6 +57,8 @@ public class FragmentNewsContainer extends Fragment {
         selectedNewsRSSFeedID = bundle.getString(RSS_FEED);
 
         position = bundle.getInt(POSITION);
+
+        ((MainActivity)getContext()).setToolbarAndFabVisibility(false);
 
         fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getChildFragmentManager(), getContext(), selectedNewsRSSFeedID);
 
