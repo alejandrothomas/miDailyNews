@@ -28,7 +28,7 @@ import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 import ar.com.thomas.mydailynews.view.FavouriteFlow.FragmentFavouriteContainer;
-import ar.com.thomas.mydailynews.view.FragmentSavedContainer.FragmentSavedContainer;
+import ar.com.thomas.mydailynews.view.SavedFlow.FragmentSavedContainer;
 import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
