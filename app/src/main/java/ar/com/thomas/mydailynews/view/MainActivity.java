@@ -2,6 +2,7 @@ package ar.com.thomas.mydailynews.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
@@ -49,6 +50,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private String currentRSSFeed;
     private Toolbar toolbar;
     private Window window;
+    private int currentapiVersion = android.os.Build.VERSION.SDK_INT;
 
     @Override
     public void onBackPressed() {
@@ -75,14 +77,14 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         if(drawerLayout!=null && toolbar!=null && window!=null){
             drawerLayout.setBackgroundColor(0xFF212121);
             toolbar.setBackgroundColor(0xFF212121);
-            window.setStatusBarColor(0xFF212121);
+            setWindowStatusBarColor(0xFF212121);
         }
     }
 
     public void setDrawerLayoutBackgroundColor(Integer color){
         if(drawerLayout!=null && color!=null && toolbar!=null && window!=null){
             drawerLayout.setBackgroundColor(color);
-            window.setStatusBarColor(color);
+            setWindowStatusBarColor(color);
             toolbar.setBackgroundColor(color);
         }
 
@@ -117,7 +119,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         newsController.updateFavourites(favouriteListMainActivity,context);
 
         window = getWindow();
-        window.setStatusBarColor(0xFF212121);
+        setWindowStatusBarColor(0xFF212121);
 
         toolbar = (Toolbar) findViewById(R.id.my_toolbar);
         if (toolbar != null) {
@@ -321,6 +323,12 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         super.onPause();
         NewsController newsController = new NewsController();
         newsController.updateFavourites(favouriteListMainActivity,this);
+    }
+
+    public void setWindowStatusBarColor(Integer color){
+        if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP){
+            window.setStatusBarColor(color);
+        }
     }
 
 

@@ -327,8 +327,6 @@ public class NewsDAO extends SQLiteOpenHelper {
         return historyNewsList;
     }
 
-
-
     public List<News> getNewsListFromDatabase(String rssFeed){
 
         SQLiteDatabase database = getReadableDatabase();
