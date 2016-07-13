@@ -51,9 +51,6 @@ public class FragmentNewsViewPager extends Fragment {
         String newsImageUrl = bundle.getString(NEWS_IMAGE_URL);
         String rssFeed = bundle.getString(RSS_FEED);
 
-//        final Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar_news);
-//        ((MainActivity)getContext()).setSupportActionBar(toolbar);
-
         collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(rssFeed);
 

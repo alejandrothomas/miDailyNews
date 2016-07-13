@@ -183,8 +183,8 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         SQLiteDatabase database = getReadableDatabase();
 
-        String newsTitle = news.getTitle().replaceAll("'","\'");
-        newsTitle = newsTitle.replaceAll("''","\'\'");
+        String newsTitle = news.getTitle().replaceAll("'", "\\'");
+        newsTitle = newsTitle.replaceAll("\"","&quote;");
 
         String selectQuery = "SELECT * FROM " + TABLE_NEWS
                 + " WHERE " + TITLE + "==?";
@@ -202,12 +202,17 @@ public class NewsDAO extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues row = new ContentValues();
 
-        rssFeed = rssFeed.replaceAll("'","\'");
-        rssFeed = rssFeed.replaceAll("''","\'\'");
+        rssFeed = rssFeed.replaceAll("'", "\\'");
+        rssFeed = rssFeed.replaceAll("\"","&quote;");
+
+        String newsTitle = news.getTitle().replaceAll("'", "\\'");
+        newsTitle = newsTitle.replaceAll("\"","&quote;");
+
+
 
 
         row.put(RSS_FEED_LINK,news.getLink());
-        row.put(TITLE, news.getTitle());
+        row.put(TITLE, newsTitle);
         row.put(DESCRIPTION, news.getDescription());
         row.put(IMAGE_URL, news.getImageUrl());
         row.put(RSS_FEED, rssFeed);
@@ -220,8 +225,8 @@ public class NewsDAO extends SQLiteOpenHelper {
 
     public void addBookmark(News news){
 
-        String newsTitle = news.getTitle().replaceAll("'","\'");
-        newsTitle = newsTitle.replaceAll("''","\'\'");
+        String newsTitle = news.getTitle().replaceAll("'", "\\'");
+        newsTitle = newsTitle.replaceAll("\"","&quote;");
 
 
         if(!checkIfBookmarkExist(newsTitle)) {
@@ -283,8 +288,8 @@ public class NewsDAO extends SQLiteOpenHelper {
     public void removeBookmark(News news) {
         SQLiteDatabase database = getWritableDatabase();
 
-        String newsTitle = news.getTitle().replaceAll("'", "\'");
-        newsTitle = newsTitle.replaceAll("''","\'\'");
+        String newsTitle = news.getTitle().replaceAll("'", "\\'");
+        newsTitle = newsTitle.replaceAll("\"","&quote;");
 
         database.delete(TABLE_BOOKMARKS, TITLE + "='" + newsTitle + "'", null);
     }
@@ -292,10 +297,10 @@ public class NewsDAO extends SQLiteOpenHelper {
     public void removeHistory(News news){
         SQLiteDatabase database = getWritableDatabase();
 
-        String newsTitle = news.getTitle().replaceAll("'","\'");
-        newsTitle = newsTitle.replaceAll("''","\'\'");
+        String newsTitle = news.getTitle().replaceAll("'", "\\'");
+        newsTitle = newsTitle.replaceAll("\"","&quote;");
 
-        database.delete(TABLE_HISTORY,TITLE + "='" + newsTitle + "'",null );
+        database.execSQL("DELETE FROM " + TABLE_HISTORY + " WHERE " + TITLE + " == '" + newsTitle + "'");
 
     }
 
@@ -354,8 +359,8 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         SQLiteDatabase database = getReadableDatabase();
 
-        rssFeed = rssFeed.replaceAll("'","\'");
-        rssFeed = rssFeed.replaceAll("''","\'\'");
+        rssFeed = rssFeed.replaceAll("'", "\\'");
+        rssFeed = rssFeed.replaceAll("\"","&quote;");
 
         String selectQuery = "SELECT * FROM " + TABLE_NEWS
                 + " WHERE " + RSS_FEED + "==?";

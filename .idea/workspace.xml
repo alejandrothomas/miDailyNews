@@ -17,51 +17,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="d32ee685-2660-4495-93d3-71baf51839e5" name="Default" comment="">
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/animated_vector_drawable_23_4_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/appcompat_v7_23_4_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/cardview_v7_23_4_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/design_23_4_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/gson_2_6_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/hamcrest_core_1_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/junit_4_12.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/overscroll_decor_android_1_0_3.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/palette_v7_23_4_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/picasso_2_5_2.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/recyclerview_v7_23_4_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_annotations_23_4_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_v4_23_4_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/.idea/libraries/support_vector_drawable_23_4_0.xml" afterPath="" />
-      <change type="DELETED" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/placeholder_unavailable_image_old.png" afterPath="" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/cache.properties.lock" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileHashes.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/fileSnapshots.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/outputFileStates.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/taskArtifacts/taskArtifacts.bin" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localClassSetAnalysis/localClassSetAnalysis.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.bin" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" afterPath="$PROJECT_DIR$/.gradle/2.10/tasks/_app_compileDebugJavaWithJavac/localJarClasspathSnapshot/localJarClasspathSnapshot.lock" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/drawable/placeholder_unavailable_image.png" afterPath="$PROJECT_DIR$/app/src/main/res/drawable/placeholder_unavailable_image.png" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/generated/mockable-android-23.jar" afterPath="$PROJECT_DIR$/build/generated/mockable-android-23.jar" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/.idea/workspace.xml" afterPath="$PROJECT_DIR$/.idea/workspace.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/app.iml" afterPath="$PROJECT_DIR$/app/app.iml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/build.gradle" afterPath="$PROJECT_DIR$/app/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/controller/NewsController.java" afterPath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/controller/NewsController.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/dao/NewsDAO.java" afterPath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/dao/NewsDAO.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/FavouriteFlow/FragmentFavouriteContainer.java" afterPath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/FavouriteFlow/FragmentFavouriteContainer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/MainActivity.java" afterPath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/MainActivity.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/NewsFlow/FragmentNewsContainer.java" afterPath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/NewsFlow/FragmentNewsContainer.java" />
       <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/NewsFlow/FragmentNewsViewPager.java" afterPath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/NewsFlow/FragmentNewsViewPager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/RSSFeedFlow/FragmentRSSFeedContainer.java" afterPath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/RSSFeedFlow/FragmentRSSFeedContainer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/RSSFeedFlow/FragmentRSSFeedViewPager.java" afterPath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/RSSFeedFlow/FragmentRSSFeedViewPager.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/RSSFeedFlow/NewsAdapter.java" afterPath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/RSSFeedFlow/NewsAdapter.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/SavedFlow/FragmentSavedContainer.java" afterPath="$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/SavedFlow/FragmentSavedContainer.java" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/layout/fragment_news_viewpager.xml" afterPath="$PROJECT_DIR$/app/src/main/res/layout/fragment_news_viewpager.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" afterPath="$PROJECT_DIR$/app/src/main/res/values/strings.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build.gradle" afterPath="$PROJECT_DIR$/build.gradle" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" afterPath="$PROJECT_DIR$/build/intermediates/dex-cache/cache.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/gradle.properties" afterPath="$PROJECT_DIR$/gradle.properties" />
     </list>
     <ignored path="miDailyNews.iws" />
     <ignored path=".idea/workspace.xml" />
@@ -111,26 +75,21 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="activity_main.xml" pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/activity_main.xml">
+      <file leaf-file-name="FragmentNewsViewPager.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/NewsFlow/FragmentNewsViewPager.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-5.09434">
-              <caret line="18" column="0" selection-start-line="18" selection-start-column="0" selection-end-line="18" selection-end-column="0" />
-              <folding>
-                <element signature="e#2639#2679#0" expanded="true" />
-              </folding>
+            <state vertical-scroll-proportion="0.0">
+              <caret line="77" column="62" selection-start-line="77" selection-start-column="62" selection-end-line="77" selection-end-column="62" />
+              <folding />
             </state>
-          </provider>
-          <provider editor-type-id="android-designer">
-            <state />
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="FragmentNewsViewPager.java" pinned="false" current-in-tab="true">
-        <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/NewsFlow/FragmentNewsViewPager.java">
+      <file leaf-file-name="RSSFeedCategoryDAO.java" pinned="false" current-in-tab="false">
+        <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/dao/RSSFeedCategoryDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-0.2431843">
-              <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
               <folding />
             </state>
           </provider>
@@ -140,7 +99,7 @@
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/RSSFeedFlow/FragmentRSSFeedViewPager.java">
           <provider selected="true" editor-type-id="text-editor">
             <state vertical-scroll-proportion="0.0">
-              <caret line="104" column="13" selection-start-line="104" selection-start-column="13" selection-end-line="104" selection-end-column="13" />
+              <caret line="121" column="43" selection-start-line="121" selection-start-column="43" selection-end-line="121" selection-end-column="43" />
               <folding />
             </state>
           </provider>
@@ -166,11 +125,11 @@
           </provider>
         </entry>
       </file>
-      <file leaf-file-name="NewsDAO.java" pinned="false" current-in-tab="false">
+      <file leaf-file-name="NewsDAO.java" pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/dao/NewsDAO.java">
           <provider selected="true" editor-type-id="text-editor">
-            <state vertical-scroll-proportion="-21.666666">
-              <caret line="231" column="56" selection-start-line="231" selection-start-column="56" selection-end-line="231" selection-end-column="56" />
+            <state vertical-scroll-proportion="0.0">
+              <caret line="217" column="35" selection-start-line="217" selection-start-column="35" selection-end-line="217" selection-end-column="35" />
               <folding>
                 <element signature="method#updateFavouriteListDB#0;class#NewsDAO#0" expanded="false" />
                 <element signature="method#updateFavourite#0;class#NewsDAO#0" expanded="false" />
@@ -2677,16 +2636,6 @@
     <watches-manager />
   </component>
   <component name="editorHistoryManager">
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/MainActivity.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="0" column="0" selection-start-line="0" selection-start-column="0" selection-end-line="0" selection-end-column="0" />
-          <folding>
-            <element signature="method#populateNavigationDrawerMenu#0;class#MainActivity#0" expanded="false" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/res/layout/fragment_favourites_container.xml">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3043,14 +2992,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/RSSFeedFlow/FragmentRSSFeedViewPager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="104" column="13" selection-start-line="104" selection-start-column="13" selection-end-line="104" selection-end-column="13" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/MainActivity.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="-34.444443">
@@ -3080,14 +3021,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/NewsFlow/FragmentNewsContainer.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="0.0">
-          <caret line="40" column="28" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="28" />
-          <folding />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/NewsFlow/FragmentNewsViewPagerAdapter.java">
       <provider selected="true" editor-type-id="text-editor">
         <state vertical-scroll-proportion="0.0">
@@ -3096,10 +3029,42 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/dao/RSSFeedCategoryDAO.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="12" column="13" selection-start-line="12" selection-start-column="13" selection-end-line="12" selection-end-column="13" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/NewsFlow/FragmentNewsContainer.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="40" column="28" selection-start-line="40" selection-start-column="28" selection-end-line="40" selection-end-column="28" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/NewsFlow/FragmentNewsViewPager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="77" column="62" selection-start-line="77" selection-start-column="62" selection-end-line="77" selection-end-column="62" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/RSSFeedFlow/FragmentRSSFeedViewPager.java">
+      <provider selected="true" editor-type-id="text-editor">
+        <state vertical-scroll-proportion="0.0">
+          <caret line="121" column="43" selection-start-line="121" selection-start-column="43" selection-end-line="121" selection-end-column="43" />
+          <folding />
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/dao/NewsDAO.java">
       <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-21.666666">
-          <caret line="231" column="56" selection-start-line="231" selection-start-column="56" selection-end-line="231" selection-end-column="56" />
+        <state vertical-scroll-proportion="0.0">
+          <caret line="217" column="35" selection-start-line="217" selection-start-column="35" selection-end-line="217" selection-end-column="35" />
           <folding>
             <element signature="method#updateFavouriteListDB#0;class#NewsDAO#0" expanded="false" />
             <element signature="method#updateFavourite#0;class#NewsDAO#0" expanded="false" />
@@ -3107,14 +3072,6 @@
             <element signature="method#checkIfRSSExist#0;class#NewsDAO#0" expanded="false" />
             <element signature="method#getNewsList#0;class#NewsDAO#0" expanded="false" />
           </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/app/src/main/java/ar/com/thomas/mydailynews/view/NewsFlow/FragmentNewsViewPager.java">
-      <provider selected="true" editor-type-id="text-editor">
-        <state vertical-scroll-proportion="-0.2431843">
-          <caret line="41" column="13" selection-start-line="41" selection-start-column="13" selection-end-line="41" selection-end-column="13" />
-          <folding />
         </state>
       </provider>
     </entry>
