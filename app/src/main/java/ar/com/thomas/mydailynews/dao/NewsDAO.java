@@ -80,6 +80,7 @@ public class NewsDAO extends SQLiteOpenHelper {
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + PUB_DATE + " TEXT, "
                 + TITLE + " TEXT, "
+                + RSS_FEED + " TEXT, "
                 + IMAGE_URL + " TEXT, "
                 + DESCRIPTION + " TEXT " + ")";
 
@@ -97,6 +98,7 @@ public class NewsDAO extends SQLiteOpenHelper {
                 + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
                 + PUB_DATE + " TEXT, "
                 + TITLE + " TEXT, "
+                + RSS_FEED + " TEXT, "
                 + IMAGE_URL + " TEXT, "
                 + DESCRIPTION + " TEXT " + ")";
 
@@ -182,7 +184,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         SQLiteDatabase database = getReadableDatabase();
 
         String newsTitle = news.getTitle().replaceAll("'","\'");
-        newsTitle = news.getTitle().replaceAll("''","\''");
+        newsTitle = newsTitle.replaceAll("''","\'\'");
 
         String selectQuery = "SELECT * FROM " + TABLE_NEWS
                 + " WHERE " + TITLE + "==?";
@@ -218,15 +220,19 @@ public class NewsDAO extends SQLiteOpenHelper {
 
     public void addBookmark(News news){
 
+        String newsTitle = news.getTitle().replaceAll("'","\'");
+        newsTitle = newsTitle.replaceAll("''","\'\'");
 
-        if(!checkIfBookmarkExist(news.getTitle())) {
+
+        if(!checkIfBookmarkExist(newsTitle)) {
             SQLiteDatabase database = getWritableDatabase();
             ContentValues row = new ContentValues();
 
-            row.put(TITLE, news.getTitle());
+            row.put(TITLE, newsTitle);
             row.put(DESCRIPTION, news.getDescription());
             row.put(IMAGE_URL, news.getImageUrl());
             row.put(PUB_DATE, news.getPubDate());
+            row.put(RSS_FEED,news.getRssFeed());
 
             database.insert(TABLE_BOOKMARKS, null, row);
             database.close();
@@ -256,6 +262,7 @@ public class NewsDAO extends SQLiteOpenHelper {
             row.put(DESCRIPTION, news.getDescription());
             row.put(IMAGE_URL, news.getImageUrl());
             row.put(PUB_DATE, news.getPubDate());
+            row.put(RSS_FEED, news.getRssFeed());
             database.insert(TABLE_HISTORY, null, row);
             database.close();
         }
@@ -273,9 +280,22 @@ public class NewsDAO extends SQLiteOpenHelper {
         return (count > 0);
     }
 
-    public void removeBookmark(News news){
+    public void removeBookmark(News news) {
         SQLiteDatabase database = getWritableDatabase();
-        database.delete(TABLE_BOOKMARKS,TITLE + "='" + news.getTitle() + "'",null );
+
+        String newsTitle = news.getTitle().replaceAll("'", "\'");
+        newsTitle = newsTitle.replaceAll("''","\'\'");
+
+        database.delete(TABLE_BOOKMARKS, TITLE + "='" + newsTitle + "'", null);
+    }
+
+    public void removeHistory(News news){
+        SQLiteDatabase database = getWritableDatabase();
+
+        String newsTitle = news.getTitle().replaceAll("'","\'");
+        newsTitle = newsTitle.replaceAll("''","\'\'");
+
+        database.delete(TABLE_HISTORY,TITLE + "='" + newsTitle + "'",null );
 
     }
 
@@ -298,6 +318,8 @@ public class NewsDAO extends SQLiteOpenHelper {
             news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
             news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
             news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
+            news.setRssFeed(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
+
             bookmarkNewsList.add(news);
         }
         return bookmarkNewsList;
@@ -322,6 +344,7 @@ public class NewsDAO extends SQLiteOpenHelper {
             news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
             news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
             news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
+            news.setRssFeed(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
             historyNewsList.add(news);
         }
         return historyNewsList;

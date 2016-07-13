@@ -1,18 +1,19 @@
 package ar.com.thomas.mydailynews.view.RSSFeedFlow;
 
-import android.app.Activity;
+
 import android.content.Context;
-import android.support.design.widget.FloatingActionButton;
+
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
+
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
+
+import com.firebase.client.Firebase;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -21,6 +22,7 @@ import java.util.List;
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.model.News;
+import ar.com.thomas.mydailynews.util.Constants;
 import ar.com.thomas.mydailynews.view.MainActivity;
 
 /**
@@ -55,7 +57,6 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
         return newsList.get(position).getTitle();
     }
 
-
     public News getNews(Integer position) {
         return newsList.get(position);
     }
@@ -87,11 +88,17 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
             @Override
             public void onClick(View v){
 
+//                Firebase ref = new Firebase(Constants.FIREBASE_URL);
+//                ref.child("Title").setValue(news.getTitle());
+
+
                 if(bookmarkedNewsList.contains(news)){
                     ((MainActivity)context).setSnackbar(news.getTitle()+context.getResources().getString(R.string.snack_bookmarks_remove));
                     newsViewHolder.bookmarkButton.setSelected(false);
                     newsController.removeBookmark(context,news);
                     bookmarkedNewsList.remove(news);
+//                    ref.removeValue();
+
                     notifyDataSetChanged();
 
 
@@ -100,6 +107,7 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
                     newsViewHolder.bookmarkButton.setSelected(true);
                     newsController.addBookmark(context,news);
                     bookmarkedNewsList.add(news);
+
                     notifyDataSetChanged();
                 }
             }

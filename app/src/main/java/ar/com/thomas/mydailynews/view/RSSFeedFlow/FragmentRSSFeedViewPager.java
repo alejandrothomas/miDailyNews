@@ -54,6 +54,7 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
         return fragmentRSSFeedViewPager;
     }
 
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -85,6 +86,7 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
         newsAdapter.setOnClickListener(newsListener);
 
 
+
         if(newsList.size()<1){
             newsList.addAll(newsController.getNewsListFromDB(rssFeed,context));
         }
@@ -113,7 +115,9 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
             @Override
             public void finish(List<News> result) {
 
-                for (News news: result){
+                List<News> fromDB = newsController.getNewsListFromDB(rssFeed,context);
+
+                for (News news: fromDB){
                     if(!newsList.contains(news)){
                         newsList.add(news);
                     }

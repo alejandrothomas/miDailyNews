@@ -78,4 +78,9 @@ public class NewsController {
         newsDAO = NewsDAO.getNewsDAO(context);
         newsDAO.addHistory(news);
     }
+
+    public void removeHistory(Context context, News news){
+        newsDAO = NewsDAO.getNewsDAO(context);
+        newsDAO.removeHistory(news);
+    }
 }

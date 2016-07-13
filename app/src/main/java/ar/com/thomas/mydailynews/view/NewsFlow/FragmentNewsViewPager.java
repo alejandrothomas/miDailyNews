@@ -30,35 +30,13 @@ public class FragmentNewsViewPager extends Fragment {
     public static final String NEWS_TITLE = "newsTitle";
     public static final String NEWS_DESCRIPTION = "newsDescription";
     public static final String NEWS_IMAGE_URL = "newsImageUrl";
+    public static final String RSS_FEED = "rssFeed";
     private ImageView imageViewImageUrl;
     private TextView textViewNewsTitle;
     private TextView textViewNewsSubtitle;
     private Integer backgroundColor;
     private Context context;
-
-
-    public Integer getBackgroundColor() {
-        return backgroundColor;
-    }
-
-    private void loadPalette() {
-        BitmapDrawable drawable = (BitmapDrawable) imageViewImageUrl.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
-
-        Palette.Builder builder = new Palette.Builder(bitmap);
-        builder.generate(new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
-
-                Palette.Swatch lightMuted = palette.getMutedSwatch();
-
-                if (lightMuted != null) {
-                    backgroundColor = lightMuted.getRgb();
-                }
-            }
-        });
-    }
-
+    private CollapsingToolbarLayout collapsingToolbarLayout;
 
     @Nullable
     @Override
@@ -66,20 +44,18 @@ public class FragmentNewsViewPager extends Fragment {
 
         View view = inflater.inflate(R.layout.fragment_news_viewpager, container, false);
 
-//        ScrollView scrollView = (ScrollView) view.findViewById(R.id.scroll_view);
-//        OverScrollDecoratorHelper.setUpOverScroll(scrollView);
-
         Bundle bundle = getArguments();
 
         String newsTitle = bundle.getString(NEWS_TITLE);
         String newsDescription = bundle.getString(NEWS_DESCRIPTION);
         String newsImageUrl = bundle.getString(NEWS_IMAGE_URL);
+        String rssFeed = bundle.getString(RSS_FEED);
 
-        final Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar_news);
-        ((MainActivity)getContext()).setSupportActionBar(toolbar);
+//        final Toolbar toolbar = (Toolbar)view.findViewById(R.id.toolbar_news);
+//        ((MainActivity)getContext()).setSupportActionBar(toolbar);
 
-        CollapsingToolbarLayout collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
-        collapsingToolbarLayout.setTitle("Test Title");
+        collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
+        collapsingToolbarLayout.setTitle(rssFeed);
 
         textViewNewsTitle = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Title);
         textViewNewsSubtitle = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Subtitle);
@@ -111,8 +87,31 @@ public class FragmentNewsViewPager extends Fragment {
         arguments.putString(NEWS_TITLE, news.getTitle());
         arguments.putString(NEWS_DESCRIPTION, news.getDescription());
         arguments.putString(NEWS_IMAGE_URL, news.getImageUrl());
+        arguments.putString(RSS_FEED,news.getRssFeed());
         fragmentNewsViewPager.setArguments(arguments);
         return fragmentNewsViewPager;
+    }
+
+    public Integer getBackgroundColor() {
+        return backgroundColor;
+    }
+
+    private void loadPalette() {
+        BitmapDrawable drawable = (BitmapDrawable) imageViewImageUrl.getDrawable();
+        Bitmap bitmap = drawable.getBitmap();
+
+        Palette.Builder builder = new Palette.Builder(bitmap);
+        builder.generate(new Palette.PaletteAsyncListener() {
+            @Override
+            public void onGenerated(Palette palette) {
+
+                Palette.Swatch lightMuted = palette.getMutedSwatch();
+
+                if (lightMuted != null) {
+                    backgroundColor = lightMuted.getRgb();
+                }
+            }
+        });
     }
 
 

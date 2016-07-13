@@ -37,15 +37,11 @@ public class FragmentRSSFeedContainer extends Fragment{
     private Integer currentPosition;
     private String rssFeed;
 
+
     public void setFavouriteList(List<String> favouriteList) {
         this.favouriteList = favouriteList;
     }
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        getActivity().setTitle(rssfeedCategoryTitle);
-    }
 
     @Nullable
     @Override
@@ -64,8 +60,6 @@ public class FragmentRSSFeedContainer extends Fragment{
 
         TabLayout tabLayout = (TabLayout)view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
-
-
 
         currentPosition = viewPager.getCurrentItem();
         rssFeed = fragmentRSSFeedViewPagerAdapter.getPageTitle(currentPosition).toString();

@@ -1,5 +1,6 @@
 package ar.com.thomas.mydailynews.view.SavedFlow;
 
+import android.content.ClipData;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -8,6 +9,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.helper.ItemTouchHelper;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -33,11 +35,16 @@ public class FragmentSavedContainer extends Fragment {
     private FragmentManager fragmentManager;
     private String section;
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(section!=null)
+        getActivity().setTitle(section);
+    }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
 
         view = inflater.inflate(R.layout.fragment_bookmark_container, container, false);
         context = getActivity();
@@ -54,12 +61,12 @@ public class FragmentSavedContainer extends Fragment {
         if(section!=null){
             if(section.equals("Bookmarks")){
                 savedNewsList = newsController.getBookmarkNewsList(context);
+
             }
             if(section.equals("History")){
                 savedNewsList = newsController.getHistoryNewsList(context);
             }
         }
-
 
         newsAdapter = new NewsAdapter(savedNewsList, context);
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
@@ -69,6 +76,40 @@ public class FragmentSavedContainer extends Fragment {
 
         newsAdapter.setOnClickListener(bookmarksListener);
         getActivity().setTitle(section);
+
+        final ItemTouchHelper.SimpleCallback simpleCallback = new ItemTouchHelper.SimpleCallback(0, ItemTouchHelper.LEFT | ItemTouchHelper.RIGHT) {
+            @Override
+            public boolean onMove(RecyclerView recyclerView, RecyclerView.ViewHolder viewHolder, RecyclerView.ViewHolder target) {
+                return false;
+            }
+
+            @Override
+            public float getSwipeThreshold(RecyclerView.ViewHolder viewHolder) {
+                return super.getSwipeThreshold(viewHolder);
+            }
+
+            @Override
+            public void onSwiped(RecyclerView.ViewHolder viewHolder, int direction) {
+
+                if(section!=null){
+                    if(section.equals("Bookmarks")){
+                        News news = savedNewsList.remove(viewHolder.getAdapterPosition());
+                        newsController.removeBookmark(context,news);
+                        recyclerView.setAdapter(newsAdapter);
+                        newsAdapter.notifyDataSetChanged();
+                    }
+                    if(section.equals("History")){
+                        News news = savedNewsList.remove(viewHolder.getAdapterPosition());
+                        newsController.removeHistory(context,news);
+                        recyclerView.setAdapter(newsAdapter);
+                        newsAdapter.notifyDataSetChanged();
+                    }
+                }
+            }
+        };
+        ItemTouchHelper itemTouchHelper = new ItemTouchHelper(simpleCallback);
+        itemTouchHelper.attachToRecyclerView(recyclerView);
+
 
         return view;
     }
