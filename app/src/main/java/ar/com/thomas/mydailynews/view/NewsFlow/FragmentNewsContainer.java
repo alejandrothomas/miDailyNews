@@ -54,7 +54,8 @@ public class FragmentNewsContainer extends Fragment {
 
         position = bundle.getInt(POSITION);
 
-        ((MainActivity)getContext()).setToolbarAndFabVisibility(false);
+        ((MainActivity)getContext()).setToolbarVisibility(false);
+        ((MainActivity)getContext()).setFabVisibility(false);
 
         fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getChildFragmentManager(), getContext(), selectedNewsRSSFeedID);
 

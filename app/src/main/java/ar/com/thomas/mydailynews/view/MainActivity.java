@@ -59,8 +59,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private Button favourites = null;
     private NewsController newsController;
 
-
-
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -313,19 +311,30 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     public void onBackPressed() {
         super.onBackPressed();
         resetColors();
-        setToolbarAndFabVisibility(true);
+        setToolbarVisibility(true);
+        setFabVisibility(true);
     }
 
-    public void setToolbarAndFabVisibility(Boolean trueOrFalse){
+    public void setFabVisibility(Boolean trueOrFalse){
 
 
         if(trueOrFalse!=null){
             if(trueOrFalse){
-                toolbar.setVisibility(View.VISIBLE);
                 fab.setVisibility(View.VISIBLE);
             }else{
-                toolbar.setVisibility(View.GONE);
                 fab.setVisibility(View.GONE);
+            }
+        }
+    }
+
+    public void setToolbarVisibility(Boolean trueOrFalse){
+
+        if(trueOrFalse!=null){
+            if(trueOrFalse){
+                toolbar.setVisibility(View.VISIBLE);
+            }else{
+                toolbar.setVisibility(View.GONE);
+
             }
         }
     }

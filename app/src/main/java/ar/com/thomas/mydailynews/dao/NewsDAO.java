@@ -77,7 +77,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         db.execSQL(createTable);
 
         String createTableBookmarks = "CREATE TABLE " + TABLE_BOOKMARKS + "("
-                + ID + " INTEGER PRIMARY KEY AUTOINCREMENT, "
+                + ID + " INTEGER PRIMARY KEY, "
                 + PUB_DATE + " TEXT, "
                 + TITLE + " TEXT, "
                 + RSS_FEED + " TEXT, "
@@ -288,19 +288,19 @@ public class NewsDAO extends SQLiteOpenHelper {
     public void removeBookmark(News news) {
         SQLiteDatabase database = getWritableDatabase();
 
-        String newsTitle = news.getTitle().replaceAll("'", "\\'");
-        newsTitle = newsTitle.replaceAll("\"","&quote;");
+//        String newsTitle = news.getTitle().replaceAll("'", "\\'");
+//        newsTitle = newsTitle.replaceAll("\"","&quote;");
 
-        database.delete(TABLE_BOOKMARKS, TITLE + "='" + newsTitle + "'", null);
+        database.delete(TABLE_BOOKMARKS, IMAGE_URL + "='" + news.getImageUrl() + "'", null);
     }
 
     public void removeHistory(News news){
         SQLiteDatabase database = getWritableDatabase();
+        news.getTitle();
+//
 
-        String newsTitle = news.getTitle().replaceAll("'", "\\'");
-        newsTitle = newsTitle.replaceAll("\"","&quote;");
 
-        database.execSQL("DELETE FROM " + TABLE_HISTORY + " WHERE " + TITLE + " == '" + newsTitle + "'");
+        database.execSQL("DELETE FROM " + TABLE_HISTORY + " WHERE " + IMAGE_URL + " == '" + news.getImageUrl() + "'");
 
     }
 

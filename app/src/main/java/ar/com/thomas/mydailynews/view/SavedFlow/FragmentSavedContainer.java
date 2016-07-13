@@ -19,6 +19,7 @@ import java.util.List;
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.model.News;
+import ar.com.thomas.mydailynews.view.MainActivity;
 import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.NewsAdapter;
 
@@ -53,6 +54,8 @@ public class FragmentSavedContainer extends Fragment {
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerViewBookmark);
         recyclerView.setHasFixedSize(true);
+
+        ((MainActivity)getContext()).setFabVisibility(false);
 
 
         Bundle arguments = getArguments();
