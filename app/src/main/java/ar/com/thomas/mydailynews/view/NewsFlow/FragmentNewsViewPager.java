@@ -63,7 +63,21 @@ public class FragmentNewsViewPager extends Fragment {
         Picasso.with(getActivity()).load(newsImageUrl).placeholder(R.drawable.placeholder_unavailable_image).resize(0,300).into(imageViewImageUrl, new Callback() {
             @Override
             public void onSuccess() {
-                loadPalette();
+                BitmapDrawable drawable = (BitmapDrawable) imageViewImageUrl.getDrawable();
+                Bitmap bitmap = drawable.getBitmap();
+
+                Palette.Builder builder = new Palette.Builder(bitmap);
+                builder.generate(new Palette.PaletteAsyncListener() {
+                    @Override
+                    public void onGenerated(Palette palette) {
+
+                        Palette.Swatch lightMuted = palette.getMutedSwatch();
+
+                        if (lightMuted != null) {
+                            backgroundColor = lightMuted.getRgb();
+                        }
+                    }
+                });
             }
 
             @Override

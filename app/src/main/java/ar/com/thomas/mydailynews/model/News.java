@@ -16,15 +16,15 @@ public class News {
     private String imageUrl;
     private String rssFeed;
     private String rssFeedIdToString;
-    private Integer newsID;
+    private String newsID;
 
 
 
-    public void setNewsID(Integer newsID) {
+    public void setNewsID(String newsID) {
         this.newsID = newsID;
     }
 
-    public Integer getNewsID() {
+    public String getNewsID() {
 
         return newsID;
     }
