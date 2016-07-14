@@ -37,8 +37,6 @@ public class FragmentNewsContainer extends Fragment {
     private FragmentNewsViewPagerAdapter fragmentNewsViewPagerAdapter;
     private Integer position;
 
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,11 +51,48 @@ public class FragmentNewsContainer extends Fragment {
 
         position = bundle.getInt(POSITION);
 
-        ((MainActivity)getContext()).setToolbarVisibility(false);
-        ((MainActivity)getContext()).setFabVisibility(false);
+        ((MainActivity) getContext()).setToolbarVisibility(false);
+        ((MainActivity) getContext()).setFabVisibility(false);
 
         fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getChildFragmentManager(), getContext(), selectedNewsRSSFeedID);
 
+        //_________________________
+
+        viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
+            @Override
+            public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
+
+            }
+
+            @Override
+            public void onPageSelected(int position) {
+
+                NewsController newsController = new NewsController();
+
+                switch (selectedNewsRSSFeedID) {
+                    case "Bookmarks":
+                        newsController.addHistory(getContext(), fragmentNewsViewPagerAdapter.getBookmarkNews(position));
+
+                        break;
+                    case "History":
+                        newsController.addHistory(getContext(), fragmentNewsViewPagerAdapter.getHistoryNews(position));
+                        break;
+                    default:
+                        newsController.addHistory(getContext(), fragmentNewsViewPagerAdapter.getNews(position));
+
+                        break;
+                }
+
+            }
+
+            @Override
+            public void onPageScrollStateChanged(int state) {
+
+            }
+        });
+
+
+        //________________________
         viewPager.setAdapter(fragmentNewsViewPagerAdapter);
         viewPager.setCurrentItem(position);
         viewPager.setPageTransformer(true, new CustomPageTransformer());
