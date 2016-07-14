@@ -7,8 +7,11 @@ import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
+import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
+import android.support.v4.view.ViewPager;
+import android.support.v4.widget.NestedScrollView;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,6 +19,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -52,6 +56,9 @@ public class FragmentNewsViewPager extends Fragment {
     private NewsController newsController;
     private List<News> bookmarkedNewsList;
     private News news;
+    View imageView;
+    View contentView;
+
 
     @Nullable
     @Override
@@ -80,10 +87,10 @@ public class FragmentNewsViewPager extends Fragment {
         textViewNewsTitle = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Title);
         textViewNewsSubtitle = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Subtitle);
         imageViewImageUrl = (ImageView) view.findViewById(R.id.fragmentNewsViewPager_IMAGEVIEW_ImageURL);
+        contentView = (LinearLayout) view.findViewById(R.id.content_area);
+        imageView = (ImageView)view.findViewById(R.id.image_view);
 
         fab = (FloatingActionButton)view.findViewById(R.id.fab_news_viewpager);
-
-
 
         bookmarkedNewsList = new ArrayList<>();
         newsController = new NewsController();
@@ -92,7 +99,6 @@ public class FragmentNewsViewPager extends Fragment {
         if(bookmarkedNewsList.contains(news)){
             fab.setSelected(true);
         }
-
 
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -161,6 +167,8 @@ public class FragmentNewsViewPager extends Fragment {
 
                 if (lightMuted != null) {
                     backgroundColor = lightMuted.getRgb();
+                    imageView.setBackgroundColor(backgroundColor);
+
                 }
             }
         });

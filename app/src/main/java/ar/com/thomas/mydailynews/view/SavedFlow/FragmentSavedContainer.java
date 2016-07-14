@@ -36,12 +36,6 @@ public class FragmentSavedContainer extends Fragment {
     private FragmentManager fragmentManager;
     private String section;
 
-    @Override
-    public void onResume() {
-        super.onResume();
-        if(section!=null)
-        getActivity().setTitle(section);
-    }
 
     @Nullable
     @Override

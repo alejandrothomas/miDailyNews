@@ -3,6 +3,10 @@ package ar.com.thomas.mydailynews.view.RSSFeedFlow;
 
 import android.content.Context;
 
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
+import android.graphics.drawable.ColorDrawable;
+import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -14,6 +18,7 @@ import android.widget.TextView;
 
 
 import com.firebase.client.Firebase;
+import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
 import java.util.ArrayList;
@@ -35,14 +40,9 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
     private NewsController newsController;
     private List <News> bookmarkedNewsList;
 
-
     public NewsAdapter(List<News> newsList, Context context) {
         this.newsList = newsList;
         this.context = context;
-    }
-
-    public NewsAdapter(){
-
     }
 
     public void setContext(Context context) {
@@ -73,7 +73,6 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
 
         return newsViewHolder;
     }
-
 
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
@@ -120,14 +119,11 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
         }
     }
 
-    public void setNewsList(List<News> newsList) {
-        this.newsList = newsList;
-    }
-
     private static class NewsViewHolder extends RecyclerView.ViewHolder{
         private TextView textViewTitle;
         private ImageView imageViewImageUrl;
         private Button bookmarkButton;
+
 
         public NewsViewHolder(View view){
             super(view);
@@ -154,5 +150,6 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
                 Picasso.with(context).load(news.getImageUrl()).resize(0,200).into(imageViewImageUrl);
             }
         }
+
     }
 }

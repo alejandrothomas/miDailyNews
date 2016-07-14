@@ -60,7 +60,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private Button history = null;
     private Button favourites = null;
     private NewsController newsController;
-    private List<News> bookmarkedNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
