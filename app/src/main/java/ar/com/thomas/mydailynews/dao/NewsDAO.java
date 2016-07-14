@@ -54,7 +54,6 @@ public class NewsDAO extends SQLiteOpenHelper {
         this.context = context;
     }
 
-
     public static NewsDAO getNewsDAO (Context context){
         if(newsDAO == null){
             newsDAO = new NewsDAO(context.getApplicationContext());

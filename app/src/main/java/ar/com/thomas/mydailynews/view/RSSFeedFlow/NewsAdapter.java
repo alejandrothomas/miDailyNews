@@ -21,6 +21,8 @@ import com.firebase.client.Firebase;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
+import org.w3c.dom.Text;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -144,12 +146,12 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
             }
 
             textViewTitle.setText(news.getTitle());
-            if (news.getImageUrl()==null){
+
+            if(news.getImageUrl()==null || news.getImageUrl().isEmpty()){
                 imageViewImageUrl.setImageResource(R.drawable.placeholder_unavailable_image);
             }else{
                 Picasso.with(context).load(news.getImageUrl()).resize(0,200).into(imageViewImageUrl);
             }
         }
-
     }
 }

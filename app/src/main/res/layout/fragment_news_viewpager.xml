@@ -74,7 +74,7 @@
                     android:layout_marginBottom="16dp"
                     android:layout_marginLeft="16dp"
                     android:layout_marginRight="16dp"
-                    android:background="#8cffffff"
+                    android:background="#cfffffff"
                     android:elevation="6dp"
                     android:orientation="vertical">
 
@@ -88,7 +88,7 @@
                         android:layout_marginTop="8dp"
                         android:fontFamily="sans-serif-medium"
                         android:textColor="#e4000000"
-                        android:textSize="36sp" />
+                        android:textSize="24sp" />
 
                     <TextView
                         android:id="@+id/fragmentNewsViewPager_TEXTVIEW_Subtitle"

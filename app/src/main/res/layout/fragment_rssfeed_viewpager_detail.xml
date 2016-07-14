@@ -11,6 +11,8 @@
         app:cardBackgroundColor="#FFFFFF"
         app:cardCornerRadius="0dp">
 
+
+
         <ImageView
             android:id="@+id/imageUrl_textview_fragmentRSSHolderDetail"
             android:layout_width="match_parent"
