@@ -80,7 +80,6 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
             onRefresh();
         }
 
-
         OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
         recyclerView.setNestedScrollingEnabled(false);
 
@@ -114,7 +113,6 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
         }, rssFeedLink, getActivity(), rssFeedObjectID);
 
     }
-
 
     public String getRssFeed() {
         return rssFeed;

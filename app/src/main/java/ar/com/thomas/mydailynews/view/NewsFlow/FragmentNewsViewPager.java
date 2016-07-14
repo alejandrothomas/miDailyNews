@@ -80,6 +80,9 @@ public class FragmentNewsViewPager extends Fragment {
 
         news.setNewsID(newsId);
         news.setTitle(newsTitle);
+        news.setDescription(newsDescription);
+        news.setImageUrl(newsImageUrl);
+        news.setRssFeed(rssFeed);
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(rssFeed);
