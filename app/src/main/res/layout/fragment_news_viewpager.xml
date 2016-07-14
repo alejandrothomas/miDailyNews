@@ -89,6 +89,7 @@
         android:layout_height="wrap_content"
         android:layout_width="wrap_content"
         app:layout_anchor="@id/appbar"
+        android:id="@+id/fab_news_viewpager"
         app:layout_anchorGravity="bottom|right|end"
         android:src="@drawable/bookmarked_button"
         android:layout_margin="32dp"

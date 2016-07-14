@@ -98,6 +98,6 @@ public class News {
     @Override
     public boolean equals(Object o) {
         News otherNews = (News) o;
-        return (this.title.equals(otherNews.getTitle()));
+        return (this.newsID.equals(otherNews.getNewsID()));
     }
 }

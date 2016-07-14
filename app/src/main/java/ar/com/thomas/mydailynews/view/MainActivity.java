@@ -20,6 +20,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
 
 import com.firebase.client.Firebase;
 
@@ -28,6 +29,7 @@ import java.util.List;
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
+import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 import ar.com.thomas.mydailynews.view.FavouriteFlow.FragmentFavouriteContainer;
@@ -58,6 +60,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private Button history = null;
     private Button favourites = null;
     private NewsController newsController;
+    private List<News> bookmarkedNews;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,17 +84,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         favouriteListMainActivity = new ArrayList<>();
         newsController = new NewsController();
 
-
         setSnackbar(getString(R.string.welcome));
         resetColors();
         newsController.clearNewsDB(context);
 
-
-
-        List<RSSFeed> rssFeedList = newsController.getFavouritesFromDB(context);
-        for (RSSFeed rssFeed:rssFeedList){
-            favouriteListMainActivity.add(rssFeed.getTitle());
-        }
 
         if (toolbar != null) {
             toolbar.setTitleTextColor(Color.WHITE);
@@ -107,17 +103,12 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
         populateNavigationDrawerMenu();
 
-        newsController.updateFavourites(favouriteListMainActivity,context);
-
-        if(favouriteListMainActivity.size()<1) {
-            ListenerMenu listenerMenu = new ListenerMenu();
-            listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(1));
-            navigationView.getMenu().getItem(1).setChecked(true);
-        }else{
-            if (favourites != null) {
-                favourites.performClick();
-            }
+        List<RSSFeed> rssFeedList = newsController.getFavouritesFromDB(context);
+        for (RSSFeed rssFeed:rssFeedList){
+            favouriteListMainActivity.add(rssFeed.getTitle());
         }
+
+        newsController.updateFavourites(favouriteListMainActivity,context);
 
         if (bookmarks != null) {
             bookmarks.setOnClickListener(new View.OnClickListener() {
@@ -195,6 +186,16 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                     }
                 }
             });
+
+            if(favouriteListMainActivity.size()<1) {
+                ListenerMenu listenerMenu = new ListenerMenu();
+                listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(1));
+                navigationView.getMenu().getItem(1).setChecked(true);
+            }else{
+                if (favourites != null) {
+                    favourites.performClick();
+                }
+            }
         }
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -222,7 +223,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         arguments.putString(FragmentNewsContainer.NEWS_TITLE_ID, newsClickedID);
         arguments.putInt(FragmentNewsContainer.POSITION, itemPosition);
         arguments.putString(FragmentNewsContainer.RSS_SOURCE, rssFeedID);
-
 
         fragmentNewsContainer.setArguments(arguments);
 
@@ -254,8 +254,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             fab.setSelected(false);
         }
     }
-
-
 
     private class ListenerMenu implements NavigationView.OnNavigationItemSelectedListener{
         @Override
@@ -317,7 +315,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
     public void setFabVisibility(Boolean trueOrFalse){
 
-
         if(trueOrFalse!=null){
             if(trueOrFalse){
                 fab.setVisibility(View.VISIBLE);
@@ -334,7 +331,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                 toolbar.setVisibility(View.VISIBLE);
             }else{
                 toolbar.setVisibility(View.GONE);
-
             }
         }
     }

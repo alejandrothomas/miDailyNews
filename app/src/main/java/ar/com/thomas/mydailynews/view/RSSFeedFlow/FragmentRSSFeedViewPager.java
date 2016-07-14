@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
 import android.support.v4.app.Fragment;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
@@ -41,20 +42,6 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
     private String rssFeed;
     private FragmentCalls fragmentCalls;
 
-
-    public static FragmentRSSFeedViewPager generateFragment(RSSFeed rssFeed) {
-
-        FragmentRSSFeedViewPager fragmentRSSFeedViewPager = new FragmentRSSFeedViewPager();
-
-        Bundle arguments = new Bundle();
-        arguments.putString(RSS_FEED, rssFeed.getTitle());
-        arguments.putString(RSS_FEED_LINK, rssFeed.getFeedLink());
-        fragmentRSSFeedViewPager.setArguments(arguments);
-        fragmentRSSFeedViewPager.setRssFeed(rssFeed.getTitle());
-        return fragmentRSSFeedViewPager;
-    }
-
-
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -84,8 +71,6 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
 
         NewsListener newsListener = new NewsListener();
         newsAdapter.setOnClickListener(newsListener);
-
-
 
         if(newsList.size()<1){
             newsList.addAll(newsController.getNewsListFromDB(rssFeed,context));
@@ -130,11 +115,6 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
 
     }
 
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        fragmentCalls = (FragmentCalls) activity;
-    }
 
     public String getRssFeed() {
         return rssFeed;
@@ -142,6 +122,12 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
 
     public void setRssFeed(String rssFeed) {
         this.rssFeed = rssFeed;
+    }
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        fragmentCalls = (FragmentCalls) activity;
     }
 
     public interface FragmentCalls {
@@ -159,6 +145,18 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
 
             fragmentCalls.getNotifications(itemClicked, itemPosition, rssFeedObjectID);
         }
+    }
+
+    public static FragmentRSSFeedViewPager generateFragment(RSSFeed rssFeed) {
+
+        FragmentRSSFeedViewPager fragmentRSSFeedViewPager = new FragmentRSSFeedViewPager();
+
+        Bundle arguments = new Bundle();
+        arguments.putString(RSS_FEED, rssFeed.getTitle());
+        arguments.putString(RSS_FEED_LINK, rssFeed.getFeedLink());
+        fragmentRSSFeedViewPager.setArguments(arguments);
+        fragmentRSSFeedViewPager.setRssFeed(rssFeed.getTitle());
+        return fragmentRSSFeedViewPager;
     }
 
 }

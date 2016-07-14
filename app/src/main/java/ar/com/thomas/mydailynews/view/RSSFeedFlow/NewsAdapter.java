@@ -75,7 +75,6 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
     }
 
 
-
     @Override
     public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
 
@@ -88,16 +87,11 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
             @Override
             public void onClick(View v){
 
-//                Firebase ref = new Firebase(Constants.FIREBASE_URL);
-//                ref.child("Title").setValue(news.getTitle());
-
-
                 if(bookmarkedNewsList.contains(news)){
                     ((MainActivity)context).setSnackbar(news.getTitle()+context.getResources().getString(R.string.snack_bookmarks_remove));
                     newsViewHolder.bookmarkButton.setSelected(false);
                     newsController.removeBookmark(context,news);
                     bookmarkedNewsList.remove(news);
-//                    ref.removeValue();
 
                     notifyDataSetChanged();
 
