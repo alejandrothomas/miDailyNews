@@ -23,7 +23,6 @@ import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.view.MainActivity;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
-
 /**
  * Created by alejandrothomas on 6/25/16.
  */
@@ -56,8 +55,6 @@ public class FragmentNewsContainer extends Fragment {
 
         fragmentNewsViewPagerAdapter = new FragmentNewsViewPagerAdapter(getChildFragmentManager(), getContext(), selectedNewsRSSFeedID);
 
-        //_________________________
-
         viewPager.addOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
             public void onPageScrolled(int position, float positionOffset, int positionOffsetPixels) {
@@ -82,7 +79,6 @@ public class FragmentNewsContainer extends Fragment {
 
                         break;
                 }
-
             }
 
             @Override
@@ -91,8 +87,6 @@ public class FragmentNewsContainer extends Fragment {
             }
         });
 
-
-        //________________________
         viewPager.setAdapter(fragmentNewsViewPagerAdapter);
         viewPager.setCurrentItem(position);
         viewPager.setPageTransformer(true, new CustomPageTransformer());
