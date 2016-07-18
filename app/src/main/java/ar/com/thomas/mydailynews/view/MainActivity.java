@@ -87,7 +87,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         resetColors();
         newsController.clearNewsDB(context);
 
-
         if (toolbar != null) {
             toolbar.setTitleTextColor(Color.WHITE);
         }
@@ -95,6 +94,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         if (getSupportActionBar() != null) {
             getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         }
+
         drawerLayout.setDrawerListener(mDrawerToggle);
         getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle.syncState();
@@ -355,7 +355,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     public void setSnackbar(String snackbarMessage) {
         if (coordinatorLayout != null) {
             snackbar = Snackbar.make(coordinatorLayout, snackbarMessage, Snackbar.LENGTH_LONG);
-            snackbar.getView().setBackgroundColor(0x89000000);
+            snackbar.getView().setBackgroundColor(0xE7000000);
             snackbar.show();
         }    }
 

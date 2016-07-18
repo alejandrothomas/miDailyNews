@@ -61,22 +61,6 @@ public class NewsDAO extends SQLiteOpenHelper {
         return newsDAO;
     }
 
-    public String generateId (String title){
-        MessageDigest digest;
-        String hash="";
-        try{
-            digest = MessageDigest.getInstance("MD5");
-            byte utf8_bytes[] = title.getBytes();
-            digest.update(utf8_bytes,0,utf8_bytes.length);
-            hash = new BigInteger(1,digest.digest()).toString(16);
-
-        }catch (NoSuchAlgorithmException e){
-            e.printStackTrace();
-        }
-        return hash;
-    }
-
-
     //------------------OFFLINE--------------------//
     @Override
     public void onCreate(SQLiteDatabase db) {
@@ -133,11 +117,14 @@ public class NewsDAO extends SQLiteOpenHelper {
     }
 
     public void updateFavourite(String rssFeed){
+        rssFeed = rssFeed.replaceAll("'", "''");
         SQLiteDatabase database = getWritableDatabase();
         String updateQuery = "UPDATE " + TABLE_FAVOURITES + " SET " + IS_FAVOURITE + " = \'YES\' WHERE " + RSS_FEED + " == '" + rssFeed + "'";
+//        database.rawQuery(updateQuery, new String[]{rssFeed});
+//        database.close();
         database.execSQL(updateQuery);
-        Log.v("agregado", rssFeed + "ahora esta marcado como FAVORITO");
 
+        Log.v("agregado", rssFeed + "ahora esta marcado como FAVORITO");
     }
 
     @Override
@@ -146,10 +133,7 @@ public class NewsDAO extends SQLiteOpenHelper {
 
     public void addNewsListToDB(List<News> newsList, String rssFeed) {
 
-
-
         for (News news : newsList) {
-
 
             if(!checkIfNewsExist(news)) {
                 this.addNewsToDB(news,rssFeed);
@@ -179,6 +163,8 @@ public class NewsDAO extends SQLiteOpenHelper {
         List<RSSFeed> rssFeedList = rssFeedController.getRSSFeedList(context);
 
         for(Integer i=0; i<rssFeedList.size();i++){
+
+
             if(rssFeedList.get(i).getTitle().equals(rssFeed)){
                 rssFeedLink = rssFeedList.get(i).getFeedLink();
             }
@@ -216,13 +202,9 @@ public class NewsDAO extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues row = new ContentValues();
 
-        String id = news.getTitle();
-        id = generateId(id);
-        news.setNewsID(id);
+        news.setNewsID(news.getLink());
 
-        Log.v(news.getTitle(),id);
-
-        row.put(ID,id);
+        row.put(ID,news.getLink());
         row.put(RSS_FEED_LINK,news.getLink());
         row.put(TITLE, news.getTitle());
         row.put(DESCRIPTION, news.getDescription());
@@ -232,7 +214,6 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         database.insert(TABLE_NEWS, null, row);
         database.close();
-
     }
 
     public void addBookmark(News news){
@@ -251,8 +232,6 @@ public class NewsDAO extends SQLiteOpenHelper {
             database.insert(TABLE_BOOKMARKS, null, row);
             database.close();
         }
-
-
     }
 
     private Boolean checkIfBookmarkExist(String newsID){
@@ -340,7 +319,6 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         String selectQuery = "SELECT * FROM " + TABLE_HISTORY;
 
-
         Cursor cursor = database.rawQuery(selectQuery, null);
 
         List<News> historyNewsList = new ArrayList<>();
@@ -420,7 +398,6 @@ public class NewsDAO extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         database.execSQL("DELETE FROM " + TABLE_NEWS + " WHERE " + RSS_FEED + " == '" + rssFeed + "'");
     }
-
 
     //---------------------ONLINE------------------//
 
