@@ -18,6 +18,8 @@ import java.security.NoSuchAlgorithmException;
 import java.sql.RowId;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.RSSFeedController;
@@ -40,28 +42,32 @@ public class NewsDAO extends SQLiteOpenHelper {
     private static final String TABLE_HISTORY = "History";
     private static final String ID = "ID";
     private static final String TITLE = "title";
+    private static final String CONTENT = "content";
     private static final String DESCRIPTION = "description";
     private static final String IMAGE_URL = "imageURL";
     private static final String RSS_FEED_LINK = "rssFeedLink";
+    private static final String LINK = "link";
     private static final String PUB_DATE = "pubDate";
     private static final String RSS_FEED = "rssFeed";
     private static final String IS_FAVOURITE = "is_favourite";
     private static NewsDAO newsDAO = null;
     private Context context;
+    private String url;
 
-    private NewsDAO(Context context){
-        super(context,DATABASE_NAME,null,DATABASE_VERSION);
+    private NewsDAO(Context context) {
+        super(context, DATABASE_NAME, null, DATABASE_VERSION);
         this.context = context;
     }
 
-    public static NewsDAO getNewsDAO (Context context){
-        if(newsDAO == null){
+    public static NewsDAO getNewsDAO(Context context) {
+        if (newsDAO == null) {
             newsDAO = new NewsDAO(context.getApplicationContext());
         }
         return newsDAO;
     }
 
     //------------------OFFLINE--------------------//
+
     @Override
     public void onCreate(SQLiteDatabase db) {
 
@@ -69,6 +75,8 @@ public class NewsDAO extends SQLiteOpenHelper {
                 + ID + " TEXT PRIMARY KEY, "
                 + PUB_DATE + " TEXT, "
                 + TITLE + " TEXT, "
+                + LINK + " TEXT, "
+                + CONTENT + " TEXT, "
                 + RSS_FEED + " TEXT, "
                 + RSS_FEED_LINK + " TEXT, "
                 + IMAGE_URL + " TEXT, "
@@ -81,6 +89,8 @@ public class NewsDAO extends SQLiteOpenHelper {
                 + PUB_DATE + " TEXT, "
                 + TITLE + " TEXT, "
                 + RSS_FEED + " TEXT, "
+                + CONTENT + " TEXT, "
+                + LINK + " TEXT, "
                 + IMAGE_URL + " TEXT, "
                 + DESCRIPTION + " TEXT " + ")";
 
@@ -98,30 +108,30 @@ public class NewsDAO extends SQLiteOpenHelper {
                 + ID + " TEXT PRIMARY KEY, "
                 + PUB_DATE + " TEXT, "
                 + TITLE + " TEXT, "
+                + LINK + " TEXT, "
                 + RSS_FEED + " TEXT, "
+                + CONTENT + " TEXT, "
                 + IMAGE_URL + " TEXT, "
                 + DESCRIPTION + " TEXT " + ")";
 
         db.execSQL(createTableHistory);
     }
 
-    public void updateFavouriteListDB (List<String> rssFeedFavouriteList){
+    public void updateFavouriteListDB(List<String> rssFeedFavouriteList) {
         SQLiteDatabase database = getWritableDatabase();
         String updateQuery = "UPDATE " + TABLE_FAVOURITES + " SET " + IS_FAVOURITE + " = \'NO\';";
         database.execSQL(updateQuery);
         Log.v("borrado", "se limpio toda la tabla de favs");
 
-        for (String rssFeed:rssFeedFavouriteList){
+        for (String rssFeed : rssFeedFavouriteList) {
             this.updateFavourite(rssFeed);
         }
     }
 
-    public void updateFavourite(String rssFeed){
+    public void updateFavourite(String rssFeed) {
         rssFeed = rssFeed.replaceAll("'", "''");
         SQLiteDatabase database = getWritableDatabase();
         String updateQuery = "UPDATE " + TABLE_FAVOURITES + " SET " + IS_FAVOURITE + " = \'YES\' WHERE " + RSS_FEED + " == '" + rssFeed + "'";
-//        database.rawQuery(updateQuery, new String[]{rssFeed});
-//        database.close();
         database.execSQL(updateQuery);
 
         Log.v("agregado", rssFeed + "ahora esta marcado como FAVORITO");
@@ -135,16 +145,16 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         for (News news : newsList) {
 
-            if(!checkIfNewsExist(news)) {
-                this.addNewsToDB(news,rssFeed);
+            if (!checkIfNewsExist(news)) {
+                this.addNewsToDB(news, rssFeed);
             }
-            if(!checkIfRSSExist(rssFeed)){
+            if (!checkIfRSSExist(rssFeed)) {
                 this.addRSSToDB(rssFeed);
             }
         }
     }
 
-    private Boolean checkIfRSSExist(String rssFeed){
+    private Boolean checkIfRSSExist(String rssFeed) {
         SQLiteDatabase database = getReadableDatabase();
         String selectQuery = "SELECT * FROM " + TABLE_FAVOURITES
                 + " WHERE " + RSS_FEED + "==?";
@@ -155,17 +165,17 @@ public class NewsDAO extends SQLiteOpenHelper {
         return (count > 0);
     }
 
-    public void addRSSToDB(String rssFeed){
+    public void addRSSToDB(String rssFeed) {
 
         String rssFeedLink = null;
 
         RSSFeedController rssFeedController = new RSSFeedController();
         List<RSSFeed> rssFeedList = rssFeedController.getRSSFeedList(context);
 
-        for(Integer i=0; i<rssFeedList.size();i++){
+        for (Integer i = 0; i < rssFeedList.size(); i++) {
 
 
-            if(rssFeedList.get(i).getTitle().equals(rssFeed)){
+            if (rssFeedList.get(i).getTitle().equals(rssFeed)) {
                 rssFeedLink = rssFeedList.get(i).getFeedLink();
             }
         }
@@ -173,18 +183,18 @@ public class NewsDAO extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         ContentValues row = new ContentValues();
 
-        row.put(RSS_FEED,rssFeed);
-        row.put(RSS_FEED_LINK,rssFeedLink);
-        database.insert(TABLE_FAVOURITES,null,row);
+        row.put(RSS_FEED, rssFeed);
+        row.put(RSS_FEED_LINK, rssFeedLink);
+        database.insert(TABLE_FAVOURITES, null, row);
         database.close();
     }
 
-    private Boolean checkIfNewsExist(News news){
+    private Boolean checkIfNewsExist(News news) {
 
         SQLiteDatabase database = getReadableDatabase();
 
         String newsTitle = news.getTitle().replaceAll("'", "\\'");
-        newsTitle = newsTitle.replaceAll("\"","&quote;");
+        newsTitle = newsTitle.replaceAll("\"", "&quote;");
 
         String selectQuery = "SELECT * FROM " + TABLE_NEWS
                 + " WHERE " + TITLE + "==?";
@@ -197,18 +207,53 @@ public class NewsDAO extends SQLiteOpenHelper {
         return (count > 0);
     }
 
-    public void addNewsToDB(News news, String rssFeed){
+    public void addNewsToDB(News news, String rssFeed) {
 
         SQLiteDatabase database = getWritableDatabase();
         ContentValues row = new ContentValues();
 
         news.setNewsID(news.getLink());
 
-        row.put(ID,news.getLink());
-        row.put(RSS_FEED_LINK,news.getLink());
+        String imgFromDescription = news.getDescription();
+        String imgFromContent = news.getContent();
+
+        if (news.getImageUrl() != null) {
+            row.put(IMAGE_URL, news.getImageUrl());
+        }
+
+        if (news.getImageUrl() == null && imgFromDescription!=null) {
+            Pattern titleFinder = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            Matcher regexMatcher = titleFinder.matcher(imgFromDescription);
+            while (regexMatcher.find()) {
+                imgFromDescription = regexMatcher.group(1);
+                if (imgFromDescription.substring(imgFromDescription.lastIndexOf(".") + 1, imgFromDescription.length()).equals("jpg") || imgFromDescription.substring(imgFromDescription.lastIndexOf(".") + 1, imgFromDescription.length()).equals("png")) {
+
+                    Log.i("Image Src DESCRIPTION", regexMatcher.group(1));
+                    news.setImageUrl(regexMatcher.group(1));
+                    row.put(IMAGE_URL, imgFromDescription);
+                    break;
+                }
+            }
+        }else if (imgFromContent!=null){
+            Pattern titleFinder = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            Matcher regexMatcher = titleFinder.matcher(imgFromContent);
+            while (regexMatcher.find()) {
+                imgFromContent = regexMatcher.group(1);
+                if (imgFromContent.substring(imgFromContent.lastIndexOf(".") + 1, imgFromContent.length()).equals("jpg") || imgFromContent.substring(imgFromContent.lastIndexOf(".") + 1, imgFromContent.length()).equals("png")) {
+
+                    Log.i("==== Image Src CONTENT", regexMatcher.group(1));
+                    news.setImageUrl(imgFromContent);
+                    row.put(IMAGE_URL, imgFromContent);
+                    break;
+                }
+            }
+        }
+
+        row.put(ID, news.getLink());
+        row.put(CONTENT, news.getContent());
+        row.put(LINK, news.getLink());
         row.put(TITLE, news.getTitle());
         row.put(DESCRIPTION, news.getDescription());
-        row.put(IMAGE_URL, news.getImageUrl());
         row.put(RSS_FEED, rssFeed);
         row.put(PUB_DATE, news.getPubDate());
 
@@ -216,25 +261,27 @@ public class NewsDAO extends SQLiteOpenHelper {
         database.close();
     }
 
-    public void addBookmark(News news){
+    public void addBookmark(News news) {
 
-        if(!checkIfBookmarkExist(news.getNewsID())) {
+        if (!checkIfBookmarkExist(news.getNewsID())) {
             SQLiteDatabase database = getWritableDatabase();
             ContentValues row = new ContentValues();
 
-            row.put(ID,news.getNewsID());
+            row.put(ID, news.getNewsID());
             row.put(TITLE, news.getTitle());
             row.put(DESCRIPTION, news.getDescription());
+            row.put(CONTENT, news.getContent());
             row.put(IMAGE_URL, news.getImageUrl());
+            row.put(LINK, news.getLink());
             row.put(PUB_DATE, news.getPubDate());
-            row.put(RSS_FEED,news.getRssFeed());
+            row.put(RSS_FEED, news.getRssFeed());
 
             database.insert(TABLE_BOOKMARKS, null, row);
             database.close();
         }
     }
 
-    private Boolean checkIfBookmarkExist(String newsID){
+    private Boolean checkIfBookmarkExist(String newsID) {
         SQLiteDatabase database = getReadableDatabase();
         String selectQuery = "SELECT * FROM " + TABLE_BOOKMARKS
                 + " WHERE " + ID + "==?";
@@ -245,17 +292,19 @@ public class NewsDAO extends SQLiteOpenHelper {
         return (count > 0);
     }
 
-    public void addHistory(News news){
+    public void addHistory(News news) {
 
-        if(!checkIfHistoryExist(news.getNewsID())) {
+        if (!checkIfHistoryExist(news.getNewsID())) {
             SQLiteDatabase database = getWritableDatabase();
             ContentValues row = new ContentValues();
 
             row.put(TITLE, news.getTitle());
-            row.put(ID,news.getNewsID());
+            row.put(ID, news.getNewsID());
             row.put(DESCRIPTION, news.getDescription());
+            row.put(CONTENT, news.getContent());
             row.put(IMAGE_URL, news.getImageUrl());
             row.put(PUB_DATE, news.getPubDate());
+            row.put(LINK, news.getLink());
             row.put(RSS_FEED, news.getRssFeed());
             database.insert(TABLE_HISTORY, null, row);
             database.close();
@@ -263,7 +312,7 @@ public class NewsDAO extends SQLiteOpenHelper {
 
     }
 
-    private Boolean checkIfHistoryExist(String newsID){
+    private Boolean checkIfHistoryExist(String newsID) {
         SQLiteDatabase database = getReadableDatabase();
         String selectQuery = "SELECT * FROM " + TABLE_HISTORY
                 + " WHERE " + ID + "==?";
@@ -280,14 +329,14 @@ public class NewsDAO extends SQLiteOpenHelper {
         database.delete(TABLE_BOOKMARKS, ID + "='" + news.getNewsID() + "'", null);
     }
 
-    public void removeHistory(News news){
+    public void removeHistory(News news) {
         SQLiteDatabase database = getWritableDatabase();
         news.getTitle();
 
         database.execSQL("DELETE FROM " + TABLE_HISTORY + " WHERE " + ID + " == '" + news.getNewsID() + "'");
     }
 
-    public List<News> getBookmarks(){
+    public List<News> getBookmarks() {
 
         SQLiteDatabase database = getReadableDatabase();
 
@@ -297,14 +346,16 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         List<News> bookmarkNewsList = new ArrayList<>();
 
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
 
             News news = new News();
 
             news.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
             news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
             news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
+            news.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
             news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
+            news.setLink(cursor.getString(cursor.getColumnIndex(LINK)));
             news.setRssFeed(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
             news.setNewsID(cursor.getString(cursor.getColumnIndex(ID)));
 
@@ -313,7 +364,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         return bookmarkNewsList;
     }
 
-    public List<News> getHistory(){
+    public List<News> getHistory() {
 
         SQLiteDatabase database = getReadableDatabase();
 
@@ -323,27 +374,29 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         List<News> historyNewsList = new ArrayList<>();
 
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
 
             News news = new News();
 
             news.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
             news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
             news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
+            news.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
             news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
             news.setRssFeed(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
+            news.setLink(cursor.getString(cursor.getColumnIndex(LINK)));
             news.setNewsID(cursor.getString(cursor.getColumnIndex(ID)));
             historyNewsList.add(news);
         }
         return historyNewsList;
     }
 
-    public List<News> getNewsListFromDatabase(String rssFeed){
+    public List<News> getNewsListFromDatabase(String rssFeed) {
 
         SQLiteDatabase database = getReadableDatabase();
 
         rssFeed = rssFeed.replaceAll("'", "\\'");
-        rssFeed = rssFeed.replaceAll("\"","&quote;");
+        rssFeed = rssFeed.replaceAll("\"", "&quote;");
 
         String selectQuery = "SELECT * FROM " + TABLE_NEWS
                 + " WHERE " + RSS_FEED + "==?";
@@ -352,22 +405,24 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         List<News> newsList = new ArrayList<>();
 
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
 
             News news = new News();
 
             news.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
             news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
             news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
+            news.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
             news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
             news.setRssFeed(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
+            news.setLink(cursor.getString(cursor.getColumnIndex(LINK)));
             news.setNewsID(cursor.getString(cursor.getColumnIndex(ID)));
             newsList.add(news);
         }
         return newsList;
     }
 
-    public List<RSSFeed> getFavouritesFromDatabase(){
+    public List<RSSFeed> getFavouritesFromDatabase() {
 
         SQLiteDatabase database = getReadableDatabase();
 
@@ -379,7 +434,7 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         List<RSSFeed> favouriteList = new ArrayList<>();
 
-        while(cursor.moveToNext()){
+        while (cursor.moveToNext()) {
             RSSFeed rssFeed = new RSSFeed();
             rssFeed.setTitle(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
             rssFeed.setFeedLink(cursor.getString(cursor.getColumnIndex(RSS_FEED_LINK)));
@@ -389,13 +444,17 @@ public class NewsDAO extends SQLiteOpenHelper {
         return favouriteList;
     }
 
-    public void clearNewsDB(){
+    public void clearNewsDB() {
         SQLiteDatabase database = getWritableDatabase();
         database.execSQL("DELETE FROM " + TABLE_NEWS);
     }
 
-    public void clearSelectedRSSNewsFromDB(String rssFeed){
+    public void clearSelectedRSSNewsFromDB(String rssFeed) {
         SQLiteDatabase database = getWritableDatabase();
+
+        rssFeed = rssFeed.replaceAll("'", "''");
+
+
         database.execSQL("DELETE FROM " + TABLE_NEWS + " WHERE " + RSS_FEED + " == '" + rssFeed + "'");
     }
 
@@ -452,13 +511,14 @@ public class NewsDAO extends SQLiteOpenHelper {
                                     aNews.setLink(parser.nextText());
                                 } else if (parser.getName().equals("description")) {
                                     aNews.setDescription(parser.nextText());
+                                } else if (parser.getName().equals("encoded")) {
+                                    aNews.setContent(parser.nextText());
                                 } else if (parser.getName().equals("pubDate")) {
                                     aNews.setPubDate(parser.nextText());
                                 } else if (parser.getName().equals("author")) {
 
                                     aNews.setAuthor(parser.nextText());
                                 } else if (parser.getName().equals("enclosure")) {
-
                                     aNews.setImageUrl(parser.getAttributeValue(null, "url"));
                                 }
                             }
@@ -485,7 +545,7 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         @Override
         protected void onPostExecute(List<News> input) {
-            addNewsListToDB(input,rssFeed);
+            addNewsListToDB(input, rssFeed);
             this.listener.finish(input);
         }
     }

@@ -100,6 +100,17 @@
                         android:paddingBottom="24dp"
                         android:textColor="#c9000000"
                         android:textSize="18sp" />
+
+                    <TextView
+                        android:id="@+id/fragmentNewsViewPager_TEXTVIEW_Description"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="24dp"
+                        android:layout_marginRight="24dp"
+                        android:fontFamily="sans-serif-light"
+                        android:paddingBottom="24dp"
+                        android:textColor="#c9000000"
+                        android:textSize="18sp" />
                 </LinearLayout>
 
             </android.support.v4.widget.NestedScrollView>

@@ -12,6 +12,7 @@ import ar.com.thomas.mydailynews.model.RSSFeedCategoryContainer;
  */
 public class RSSFeedCategoryDAO extends GenericDAO {
     public List<RSSFeedCategory> getRSSFeedCategoryList(Context context){
+
         RSSFeedCategoryContainer rssFeedCategoryContainer = (RSSFeedCategoryContainer) getObjectJSON(context,RSSFeedCategoryContainer.class,"RSSFeedCategory.json");
 
         return rssFeedCategoryContainer.getRssFeedCategoryList();

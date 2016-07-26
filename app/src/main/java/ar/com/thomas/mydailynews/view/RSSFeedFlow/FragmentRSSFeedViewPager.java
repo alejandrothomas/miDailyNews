@@ -156,5 +156,4 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
         fragmentRSSFeedViewPager.setRssFeed(rssFeed.getTitle());
         return fragmentRSSFeedViewPager;
     }
-
 }

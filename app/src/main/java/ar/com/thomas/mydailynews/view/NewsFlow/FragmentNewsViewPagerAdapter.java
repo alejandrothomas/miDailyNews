@@ -74,6 +74,5 @@ public class FragmentNewsViewPagerAdapter extends FragmentStatePagerAdapter {
     public int getCount() {
         return fragmentNewsList.size();
     }
-
-
 }
+

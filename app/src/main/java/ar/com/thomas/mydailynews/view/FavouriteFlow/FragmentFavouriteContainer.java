@@ -19,7 +19,7 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
 public class FragmentFavouriteContainer extends Fragment {
 
-    private List<RSSFeed>rssFeedList = new ArrayList<>();
+    private List<RSSFeed> rssFeedList = new ArrayList<>();
 
     public void setRssFeedList(List<RSSFeed> rssFeedList) {
         this.rssFeedList = rssFeedList;

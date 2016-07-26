@@ -51,7 +51,6 @@ public class FragmentSavedContainer extends Fragment {
 
         ((MainActivity)getContext()).setFabVisibility(false);
 
-
         Bundle arguments = getArguments();
         section = arguments.getString(SECTION);
 
@@ -92,13 +91,11 @@ public class FragmentSavedContainer extends Fragment {
                     if(section.equals("Bookmarks")){
                         News news = savedNewsList.remove(viewHolder.getAdapterPosition());
                         newsController.removeBookmark(context,news);
-                        recyclerView.setAdapter(newsAdapter);
                         newsAdapter.notifyDataSetChanged();
                     }
                     if(section.equals("History")){
                         News news = savedNewsList.remove(viewHolder.getAdapterPosition());
                         newsController.removeHistory(context,news);
-                        recyclerView.setAdapter(newsAdapter);
                         newsAdapter.notifyDataSetChanged();
                     }
                 }

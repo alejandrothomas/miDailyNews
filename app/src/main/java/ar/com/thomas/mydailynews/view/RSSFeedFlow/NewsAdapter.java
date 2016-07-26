@@ -3,10 +3,6 @@ package ar.com.thomas.mydailynews.view.RSSFeedFlow;
 
 import android.content.Context;
 
-import android.graphics.Bitmap;
-import android.graphics.drawable.BitmapDrawable;
-import android.graphics.drawable.ColorDrawable;
-import android.support.v7.graphics.Palette;
 import android.support.v7.widget.RecyclerView;
 
 import android.view.LayoutInflater;
@@ -17,19 +13,13 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 
-import com.firebase.client.Firebase;
-import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
-import org.w3c.dom.Text;
-
-import java.util.ArrayList;
 import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.model.News;
-import ar.com.thomas.mydailynews.util.Constants;
 import ar.com.thomas.mydailynews.view.MainActivity;
 
 /**

@@ -1,5 +1,7 @@
 package ar.com.thomas.mydailynews.model;
 
+import com.google.gson.annotations.SerializedName;
+
 import java.util.List;
 
 import javax.xml.transform.Source;
@@ -17,8 +19,17 @@ public class News {
     private String rssFeed;
     private String rssFeedIdToString;
     private String newsID;
+    @SerializedName("encoded")
+    private String content;
 
+    public void setContent(String content) {
+        this.content = content;
+    }
 
+    public String getContent() {
+
+        return content;
+    }
 
     public void setNewsID(String newsID) {
         this.newsID = newsID;
@@ -28,11 +39,9 @@ public class News {
 
         return newsID;
     }
-
     public void setRssFeedIdToString(String rssFeedIdToString) {
         this.rssFeedIdToString = rssFeedIdToString;
     }
-
     public String getRssFeedIdToString() {
 
         return rssFeedIdToString;
@@ -98,6 +107,10 @@ public class News {
     @Override
     public boolean equals(Object o) {
         News otherNews = (News) o;
-        return (this.newsID.equals(otherNews.getNewsID()));
+        if(otherNews!=null && this.newsID!=null){
+            return (this.newsID.equals(otherNews.getNewsID()));
+        }else
+            return false;
+
     }
 }

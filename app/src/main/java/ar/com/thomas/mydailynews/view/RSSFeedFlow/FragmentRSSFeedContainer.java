@@ -26,7 +26,7 @@ import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 /**
  * Created by alejandrothomas on 6/25/16.
  */
-public class FragmentRSSFeedContainer extends Fragment{
+public class FragmentRSSFeedContainer extends Fragment {
 
     public static final String RSSFEED_CATEGORYID = "rssFeedCategory";
     public static final String RSSFEED_TITLE = "rssFeedTitle";
@@ -90,14 +90,9 @@ public class FragmentRSSFeedContainer extends Fragment{
         return view;
     }
 
-
     @Override
     public void onAttach(Activity activity) {
         super.onAttach(activity);
     }
-
-
-
-
 
 }

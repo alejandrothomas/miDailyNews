@@ -14,6 +14,7 @@ import android.support.v4.view.ViewPager;
 import android.support.v4.widget.NestedScrollView;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
+import android.text.Html;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -43,12 +44,15 @@ public class FragmentNewsViewPager extends Fragment {
 
     public static final String NEWS_TITLE = "newsTitle";
     public static final String NEWS_DESCRIPTION = "newsDescription";
+    public static final String NEWS_CONTENT = "newsContent";
     public static final String NEWS_IMAGE_URL = "newsImageUrl";
     public static final String RSS_FEED = "rssFeed";
     public static final String ID = "id";
+    public static final String LINK = "link";
     private ImageView imageViewImageUrl;
     private TextView textViewNewsTitle;
     private TextView textViewNewsSubtitle;
+    private TextView textViewNewsContent;
     private Integer backgroundColor;
     private Context context;
     private CollapsingToolbarLayout collapsingToolbarLayout;
@@ -56,8 +60,8 @@ public class FragmentNewsViewPager extends Fragment {
     private NewsController newsController;
     private List<News> bookmarkedNewsList;
     private News news;
-    View imageView;
-    View contentView;
+    private View imageView;
+    private View contentView;
 
 
     @Nullable
@@ -72,26 +76,32 @@ public class FragmentNewsViewPager extends Fragment {
 
         final String newsTitle = bundle.getString(NEWS_TITLE);
         String newsDescription = bundle.getString(NEWS_DESCRIPTION);
+        String newsContent = bundle.getString(NEWS_CONTENT);
         String newsImageUrl = bundle.getString(NEWS_IMAGE_URL);
         String rssFeed = bundle.getString(RSS_FEED);
         String newsId = bundle.getString(ID);
+        String newsLink = bundle.getString(LINK);
 
         news = new News();
 
         news.setNewsID(newsId);
         news.setTitle(newsTitle);
         news.setDescription(newsDescription);
+        news.setContent(newsContent);
         news.setImageUrl(newsImageUrl);
         news.setRssFeed(rssFeed);
+        news.setLink(newsLink);
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(rssFeed);
 
         textViewNewsTitle = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Title);
         textViewNewsSubtitle = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Subtitle);
+        textViewNewsContent = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Description);
         imageViewImageUrl = (ImageView) view.findViewById(R.id.fragmentNewsViewPager_IMAGEVIEW_ImageURL);
         contentView = (LinearLayout) view.findViewById(R.id.content_area);
         imageView = (ImageView)view.findViewById(R.id.image_view);
+
 
         fab = (FloatingActionButton)view.findViewById(R.id.fab_news_viewpager);
 
@@ -122,11 +132,16 @@ public class FragmentNewsViewPager extends Fragment {
         });
 
         textViewNewsTitle.setText(newsTitle);
-        textViewNewsSubtitle.setText(newsDescription);
+        if(newsDescription!=null){
+            textViewNewsSubtitle.setText(Html.fromHtml(newsDescription.replaceAll("(<(/)img>)|(<img.+?>)", "")));
+        }
+        if(newsContent!=null){
+            textViewNewsContent.setText(Html.fromHtml(newsContent.replaceAll("(<(/)img>)|(<img.+?>)", "")));
+        }
         Picasso.with(getActivity()).load(newsImageUrl).placeholder(R.drawable.placeholder_unavailable_image).resize(0,300).into(imageViewImageUrl, new Callback() {
             @Override
             public void onSuccess() {
-               loadPalette();
+                loadPalette();
             }
 
             @Override
@@ -146,9 +161,11 @@ public class FragmentNewsViewPager extends Fragment {
 
         arguments.putString(NEWS_TITLE, news.getTitle());
         arguments.putString(NEWS_DESCRIPTION, news.getDescription());
+        arguments.putString(NEWS_CONTENT, news.getContent());
         arguments.putString(NEWS_IMAGE_URL, news.getImageUrl());
         arguments.putString(RSS_FEED,news.getRssFeed());
         arguments.putString(ID,news.getNewsID());
+        arguments.putString(LINK,news.getLink());
         fragmentNewsViewPager.setArguments(arguments);
         return fragmentNewsViewPager;
     }
