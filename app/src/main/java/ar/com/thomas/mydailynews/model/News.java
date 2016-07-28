@@ -19,16 +19,28 @@ public class News {
     private String rssFeed;
     private String rssFeedIdToString;
     private String newsID;
-    @SerializedName("encoded")
     private String content;
+    private String encoded;
+
+    public void setEncoded(String encoded) {
+        this.encoded = encoded;
+    }
+
+    public String getEncoded() {
+
+        return encoded;
+    }
+
+
+
 
     public void setContent(String content) {
-        this.content = content;
+        this.encoded = content;
     }
 
     public String getContent() {
 
-        return content;
+        return encoded;
     }
 
     public void setNewsID(String newsID) {

@@ -63,8 +63,8 @@ public class FragmentRSSFeedContainer extends Fragment {
 
         currentPosition = viewPager.getCurrentItem();
         rssFeed = fragmentRSSFeedViewPagerAdapter.getPageTitle(currentPosition).toString();
-        ((MainActivity)getContext()).setCurrentRSSFeed(rssFeed);
 
+        ((MainActivity)getContext()).setCurrentRSSFeed(rssFeed);
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override

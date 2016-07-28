@@ -10,6 +10,7 @@ import android.util.Log;
 import android.util.Xml;
 
 import org.xmlpull.v1.XmlPullParser;
+import org.xmlpull.v1.XmlPullParserFactory;
 
 import java.io.InputStream;
 import java.math.BigInteger;
@@ -42,8 +43,9 @@ public class NewsDAO extends SQLiteOpenHelper {
     private static final String TABLE_HISTORY = "History";
     private static final String ID = "ID";
     private static final String TITLE = "title";
-    private static final String CONTENT = "content";
+    private static final String ENCODED = "encoded";
     private static final String DESCRIPTION = "description";
+    private static final String CONTENT = "content";
     private static final String IMAGE_URL = "imageURL";
     private static final String RSS_FEED_LINK = "rssFeedLink";
     private static final String LINK = "link";
@@ -76,6 +78,7 @@ public class NewsDAO extends SQLiteOpenHelper {
                 + PUB_DATE + " TEXT, "
                 + TITLE + " TEXT, "
                 + LINK + " TEXT, "
+                + ENCODED + " TEXT, "
                 + CONTENT + " TEXT, "
                 + RSS_FEED + " TEXT, "
                 + RSS_FEED_LINK + " TEXT, "
@@ -90,6 +93,7 @@ public class NewsDAO extends SQLiteOpenHelper {
                 + TITLE + " TEXT, "
                 + RSS_FEED + " TEXT, "
                 + CONTENT + " TEXT, "
+                + ENCODED + " TEXT, "
                 + LINK + " TEXT, "
                 + IMAGE_URL + " TEXT, "
                 + DESCRIPTION + " TEXT " + ")";
@@ -109,8 +113,9 @@ public class NewsDAO extends SQLiteOpenHelper {
                 + PUB_DATE + " TEXT, "
                 + TITLE + " TEXT, "
                 + LINK + " TEXT, "
-                + RSS_FEED + " TEXT, "
                 + CONTENT + " TEXT, "
+                + RSS_FEED + " TEXT, "
+                + ENCODED + " TEXT, "
                 + IMAGE_URL + " TEXT, "
                 + DESCRIPTION + " TEXT " + ")";
 
@@ -215,6 +220,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         news.setNewsID(news.getLink());
 
         String imgFromDescription = news.getDescription();
+        String imgFromEncoded = news.getEncoded();
         String imgFromContent = news.getContent();
 
         if (news.getImageUrl() != null) {
@@ -234,6 +240,20 @@ public class NewsDAO extends SQLiteOpenHelper {
                     break;
                 }
             }
+        }else if (imgFromEncoded!=null){
+
+            Pattern titleFinder = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
+            Matcher regexMatcher = titleFinder.matcher(imgFromEncoded);
+            while (regexMatcher.find()) {
+                imgFromEncoded = regexMatcher.group(1);
+                if (imgFromEncoded.substring(imgFromEncoded.lastIndexOf(".") + 1, imgFromEncoded.length()).equals("jpg") || imgFromEncoded.substring(imgFromEncoded.lastIndexOf(".") + 1, imgFromEncoded.length()).equals("png")) {
+
+                    Log.i("==== Image Src ENCODED", regexMatcher.group(1));
+                    news.setImageUrl(imgFromEncoded);
+                    row.put(IMAGE_URL, imgFromEncoded);
+                    break;
+                }
+            }
         }else if (imgFromContent!=null){
             Pattern titleFinder = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
             Matcher regexMatcher = titleFinder.matcher(imgFromContent);
@@ -250,10 +270,11 @@ public class NewsDAO extends SQLiteOpenHelper {
         }
 
         row.put(ID, news.getLink());
-        row.put(CONTENT, news.getContent());
+        row.put(ENCODED, news.getEncoded());
         row.put(LINK, news.getLink());
         row.put(TITLE, news.getTitle());
         row.put(DESCRIPTION, news.getDescription());
+        row.put(CONTENT, news.getContent());
         row.put(RSS_FEED, rssFeed);
         row.put(PUB_DATE, news.getPubDate());
 
@@ -271,6 +292,7 @@ public class NewsDAO extends SQLiteOpenHelper {
             row.put(TITLE, news.getTitle());
             row.put(DESCRIPTION, news.getDescription());
             row.put(CONTENT, news.getContent());
+            row.put(ENCODED, news.getEncoded());
             row.put(IMAGE_URL, news.getImageUrl());
             row.put(LINK, news.getLink());
             row.put(PUB_DATE, news.getPubDate());
@@ -302,6 +324,7 @@ public class NewsDAO extends SQLiteOpenHelper {
             row.put(ID, news.getNewsID());
             row.put(DESCRIPTION, news.getDescription());
             row.put(CONTENT, news.getContent());
+            row.put(ENCODED, news.getEncoded());
             row.put(IMAGE_URL, news.getImageUrl());
             row.put(PUB_DATE, news.getPubDate());
             row.put(LINK, news.getLink());
@@ -348,17 +371,7 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         while (cursor.moveToNext()) {
 
-            News news = new News();
-
-            news.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
-            news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
-            news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
-            news.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
-            news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
-            news.setLink(cursor.getString(cursor.getColumnIndex(LINK)));
-            news.setRssFeed(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
-            news.setNewsID(cursor.getString(cursor.getColumnIndex(ID)));
-
+            News news = setNews(cursor);
             bookmarkNewsList.add(news);
         }
         return bookmarkNewsList;
@@ -376,16 +389,8 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         while (cursor.moveToNext()) {
 
-            News news = new News();
 
-            news.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
-            news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
-            news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
-            news.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
-            news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
-            news.setRssFeed(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
-            news.setLink(cursor.getString(cursor.getColumnIndex(LINK)));
-            news.setNewsID(cursor.getString(cursor.getColumnIndex(ID)));
+            News news = setNews(cursor);
             historyNewsList.add(news);
         }
         return historyNewsList;
@@ -407,16 +412,9 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         while (cursor.moveToNext()) {
 
-            News news = new News();
 
-            news.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
-            news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
-            news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
-            news.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
-            news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
-            news.setRssFeed(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
-            news.setLink(cursor.getString(cursor.getColumnIndex(LINK)));
-            news.setNewsID(cursor.getString(cursor.getColumnIndex(ID)));
+            News news = setNews(cursor);
+
             newsList.add(news);
         }
         return newsList;
@@ -458,6 +456,24 @@ public class NewsDAO extends SQLiteOpenHelper {
         database.execSQL("DELETE FROM " + TABLE_NEWS + " WHERE " + RSS_FEED + " == '" + rssFeed + "'");
     }
 
+    public News setNews(Cursor cursor){
+        News news = new News();
+
+        news.setTitle(cursor.getString(cursor.getColumnIndex(TITLE)));
+        news.setImageUrl(cursor.getString(cursor.getColumnIndex(IMAGE_URL)));
+        news.setDescription(cursor.getString(cursor.getColumnIndex(DESCRIPTION)));
+        news.setEncoded(cursor.getString(cursor.getColumnIndex(ENCODED)));
+        news.setContent(cursor.getString(cursor.getColumnIndex(CONTENT)));
+        news.setPubDate(cursor.getString(cursor.getColumnIndex(PUB_DATE)));
+        news.setRssFeed(cursor.getString(cursor.getColumnIndex(RSS_FEED)));
+        news.setLink(cursor.getString(cursor.getColumnIndex(LINK)));
+        news.setNewsID(cursor.getString(cursor.getColumnIndex(ID)));
+
+        return news;
+
+
+    }
+
     //---------------------ONLINE------------------//
 
     public void getNewsList(ResultListener<List<News>> listener, String feedLink, String rssFeed) {
@@ -493,6 +509,8 @@ public class NewsDAO extends SQLiteOpenHelper {
             News aNews = null;
             XmlPullParser parser = Xml.newPullParser();
             try {
+                XmlPullParserFactory factory = XmlPullParserFactory.newInstance();
+                factory.setNamespaceAware(false);
                 parser.setInput(input, null);
                 Integer status = parser.getEventType();
                 while (status != XmlPullParser.END_DOCUMENT) {
@@ -505,20 +523,26 @@ public class NewsDAO extends SQLiteOpenHelper {
                                 aNews = new News();
                             }
                             if (aNews != null) {
-                                if (parser.getName().equals("title")) {
+                                if (parser.getName().equalsIgnoreCase("title")) {
                                     aNews.setTitle(parser.nextText());
-                                } else if (parser.getName().equals("link")) {
+                                } else if (parser.getName().equalsIgnoreCase("link")) {
                                     aNews.setLink(parser.nextText());
-                                } else if (parser.getName().equals("description")) {
+                                } else if (parser.getName().equalsIgnoreCase("description")) {
                                     aNews.setDescription(parser.nextText());
-                                } else if (parser.getName().equals("encoded")) {
-                                    aNews.setContent(parser.nextText());
-                                } else if (parser.getName().equals("pubDate")) {
+                                } else if (parser.getName().equalsIgnoreCase("encoded")) {
+                                    aNews.setEncoded(parser.nextText());
+                                } else if (parser.getName().equalsIgnoreCase("pubDate")) {
                                     aNews.setPubDate(parser.nextText());
-                                } else if (parser.getName().equals("author")) {
-
+                                } else if (parser.getName().equalsIgnoreCase("content")) {
+                                    if(aNews.getImageUrl()==null)
+                                    aNews.setImageUrl(parser.getAttributeValue(null,"url"));
+                                } else if (parser.getName().equalsIgnoreCase("author")) {
                                     aNews.setAuthor(parser.nextText());
-                                } else if (parser.getName().equals("enclosure")) {
+                                } else if (parser.getName().equalsIgnoreCase("thumbnail")) {
+                                    if(aNews.getImageUrl()==null)
+                                    aNews.setImageUrl(parser.getAttributeValue(null,"url"));
+                                } else if (parser.getName().equalsIgnoreCase("enclosure")) {
+                                    if(aNews.getImageUrl()==null)
                                     aNews.setImageUrl(parser.getAttributeValue(null, "url"));
                                 }
                             }
