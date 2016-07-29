@@ -33,6 +33,10 @@ import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
 
+/**
+ * Created by alejandrothomas on 6/25/16.
+ */
+
 public class MainActivity extends AppCompatActivity implements FragmentRSSFeedViewPager.FragmentCalls {
 
     protected Context context;

@@ -90,10 +90,10 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
 
-        if(newsList.size()>0){
-            newsList.clear();
-            newsController.clearSelectedRSSNewsFromDB(context,rssFeed);
-        }
+//        if(newsList.size()>0){
+//            newsList.clear();
+//            newsController.clearSelectedRSSNewsFromDB(context,rssFeed);
+//        }
 
         newsController.getNews(new ResultListener<List<News>>() {
             @Override
@@ -106,8 +106,9 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
                         newsList.add(news);
                     }
                 }
-                newsAdapter.notifyDataSetChanged();
+
                 swipeRefreshLayout.setRefreshing(false);
+                newsAdapter.notifyDataSetChanged();
 
             }
         }, rssFeedLink, getActivity(), rssFeedObjectID);

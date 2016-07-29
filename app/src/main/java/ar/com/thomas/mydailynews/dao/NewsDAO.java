@@ -232,6 +232,7 @@ public class NewsDAO extends SQLiteOpenHelper {
             Matcher regexMatcher = titleFinder.matcher(imgFromDescription);
             while (regexMatcher.find()) {
                 imgFromDescription = regexMatcher.group(1);
+                Log.i("imgfromdescription",regexMatcher.group(1));
                 if (imgFromDescription.substring(imgFromDescription.lastIndexOf(".") + 1, imgFromDescription.length()).equals("jpg") || imgFromDescription.substring(imgFromDescription.lastIndexOf(".") + 1, imgFromDescription.length()).equals("png")) {
 
                     Log.i("Image Src DESCRIPTION", regexMatcher.group(1));
