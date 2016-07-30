@@ -232,7 +232,6 @@ public class NewsDAO extends SQLiteOpenHelper {
             Matcher regexMatcher = titleFinder.matcher(imgFromDescription);
             while (regexMatcher.find()) {
                 imgFromDescription = regexMatcher.group(1);
-                Log.i("imgfromdescription",regexMatcher.group(1));
                 if (imgFromDescription.substring(imgFromDescription.lastIndexOf(".") + 1, imgFromDescription.length()).equals("jpg") || imgFromDescription.substring(imgFromDescription.lastIndexOf(".") + 1, imgFromDescription.length()).equals("png")) {
 
                     Log.i("Image Src DESCRIPTION", regexMatcher.group(1));
@@ -241,7 +240,7 @@ public class NewsDAO extends SQLiteOpenHelper {
                     break;
                 }
             }
-        }else if (imgFromEncoded!=null){
+        }else if (news.getImageUrl() == null && imgFromEncoded!=null){
 
             Pattern titleFinder = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
             Matcher regexMatcher = titleFinder.matcher(imgFromEncoded);
@@ -255,7 +254,7 @@ public class NewsDAO extends SQLiteOpenHelper {
                     break;
                 }
             }
-        }else if (imgFromContent!=null){
+        }else if (news.getImageUrl() == null && imgFromContent!=null){
             Pattern titleFinder = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
             Matcher regexMatcher = titleFinder.matcher(imgFromContent);
             while (regexMatcher.find()) {
