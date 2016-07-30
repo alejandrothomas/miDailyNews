@@ -49,7 +49,7 @@ public class FragmentRSSFeedContainer extends Fragment {
         View view = inflater.inflate(R.layout.fragment_rrsfeed_container, container, false);
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPagerMainActivity);
 
-//        OverScrollDecoratorHelper.setUpOverScroll(viewPager);
+        OverScrollDecoratorHelper.setUpOverScroll(viewPager);
 
         Bundle bundle = getArguments();
         rssFeedCategoryID = bundle.getString(RSSFEED_CATEGORYID);

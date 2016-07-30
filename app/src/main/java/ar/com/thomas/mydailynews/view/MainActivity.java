@@ -24,7 +24,7 @@ import java.util.ArrayList;
 import java.util.List;
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
-import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
+import ar.com.thomas.mydailynews.controller.RSSFeedCategoryController;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 import ar.com.thomas.mydailynews.view.FavouriteFlow.FragmentFavouriteContainer;
@@ -232,8 +232,9 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
     public void populateNavigationDrawerMenu() {
         Menu menu = navigationView.getMenu();
-        RSSFeedCategoryDAO rssFeedCategoryDAO = new RSSFeedCategoryDAO();
-        rssFeedCategoryList = rssFeedCategoryDAO.getRSSFeedCategoryList(context);
+
+        RSSFeedCategoryController rssFeedCategoryController = new RSSFeedCategoryController();
+        rssFeedCategoryList = rssFeedCategoryController.getRSSFeedCategoryList(context);
 
         for (Integer i = 0; i < rssFeedCategoryList.size(); i++) {
             menu.add(R.id.navigation_drawer_menu_RSSFeedCategories, i, i, rssFeedCategoryList.get(i).getCategoryName());

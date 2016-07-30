@@ -25,6 +25,10 @@ import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.util.ResultListener;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
+/**
+ * Created by alejandrothomas on 6/25/16.
+ */
+
 public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLayout.OnRefreshListener {
 
     public static final String RSS_FEED = "RSSFeed";

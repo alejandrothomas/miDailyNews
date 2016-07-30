@@ -44,6 +44,7 @@ public class FragmentNewsViewPager extends Fragment {
 
     public static final String NEWS_TITLE = "newsTitle";
     public static final String NEWS_DESCRIPTION = "newsDescription";
+    public static final String NEWS_ENCODED = "newsEncoded";
     public static final String NEWS_CONTENT = "newsContent";
     public static final String NEWS_IMAGE_URL = "newsImageUrl";
     public static final String RSS_FEED = "rssFeed";
@@ -61,7 +62,6 @@ public class FragmentNewsViewPager extends Fragment {
     private List<News> bookmarkedNewsList;
     private News news;
     private View imageView;
-    private View contentView;
 
 
     @Nullable
@@ -81,12 +81,14 @@ public class FragmentNewsViewPager extends Fragment {
         String rssFeed = bundle.getString(RSS_FEED);
         String newsId = bundle.getString(ID);
         String newsLink = bundle.getString(LINK);
+        String newsEncoded = bundle.getString(NEWS_ENCODED);
 
         news = new News();
 
         news.setNewsID(newsId);
         news.setTitle(newsTitle);
         news.setDescription(newsDescription);
+        news.setEncoded(newsEncoded);
         news.setContent(newsContent);
         news.setImageUrl(newsImageUrl);
         news.setRssFeed(rssFeed);
@@ -94,12 +96,12 @@ public class FragmentNewsViewPager extends Fragment {
 
         collapsingToolbarLayout = (CollapsingToolbarLayout) view.findViewById(R.id.collapsing_toolbar);
         collapsingToolbarLayout.setTitle(rssFeed);
+        collapsingToolbarLayout.setExpandedTitleColor(0x000000);
 
         textViewNewsTitle = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Title);
         textViewNewsSubtitle = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Subtitle);
         textViewNewsContent = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Description);
         imageViewImageUrl = (ImageView) view.findViewById(R.id.fragmentNewsViewPager_IMAGEVIEW_ImageURL);
-        contentView = (LinearLayout) view.findViewById(R.id.content_area);
         imageView = (ImageView)view.findViewById(R.id.image_view);
 
 
@@ -138,17 +140,22 @@ public class FragmentNewsViewPager extends Fragment {
         if(newsContent!=null){
             textViewNewsContent.setText(Html.fromHtml(newsContent.replaceAll("(<(/)img>)|(<img.+?>)", "")));
         }
-        Picasso.with(getActivity()).load(newsImageUrl).placeholder(R.drawable.placeholder_unavailable_image).resize(0,300).into(imageViewImageUrl, new Callback() {
-            @Override
-            public void onSuccess() {
-                loadPalette();
-            }
 
-            @Override
-            public void onError() {
+        if(newsImageUrl==null || newsImageUrl.isEmpty()){
+            imageViewImageUrl.setImageResource(R.drawable.placeholder_unavailable_image);
+        }else{
+            Picasso.with(getActivity()).load(newsImageUrl).resize(0,300).into(imageViewImageUrl, new Callback() {
+                @Override
+                public void onSuccess() {
+                    loadPalette();
+                }
 
-            }
-        });
+                @Override
+                public void onError() {
+
+                }
+            });
+        }
 
         return view;
     }
@@ -168,10 +175,6 @@ public class FragmentNewsViewPager extends Fragment {
         arguments.putString(LINK,news.getLink());
         fragmentNewsViewPager.setArguments(arguments);
         return fragmentNewsViewPager;
-    }
-
-    public Integer getBackgroundColor() {
-        return backgroundColor;
     }
 
     private void loadPalette() {
