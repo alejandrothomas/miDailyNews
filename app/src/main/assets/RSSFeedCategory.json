@@ -27,17 +27,6 @@
                 "read": true
             }
         },
-        "categoryName": "Music",
-        "createdAt": "2015-02-03T08:55:31.560Z",
-        "objectId": "73nctHMpkY",
-        "updatedAt": "2015-02-03T08:55:31.560Z"
-    },
-	{
-        "ACL": {
-            "*": {
-                "read": true
-            }
-        },
         "categoryName": "Business",
         "createdAt": "2015-02-03T08:55:30.465Z",
         "objectId": "C4iDiuriB8",

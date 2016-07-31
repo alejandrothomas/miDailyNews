@@ -54,7 +54,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private String currentRSSFeed;
     private Toolbar toolbar;
     private Window window;
-    private int currentapiVersion = android.os.Build.VERSION.SDK_INT;
     private Button bookmarks = null;
     private Button history = null;
     private Button favourites = null;
@@ -274,7 +273,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             fragmentRSSFeedContainer.setFavouriteList(favouriteListMainActivity);
 
             if (drawerLayout != null) {
-                drawerLayout.closeDrawer(Gravity.LEFT);
+                drawerLayout.closeDrawer(Gravity.START);
             }
 
             if (bookmarks != null && favourites != null) {
@@ -298,7 +297,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     }
 
     public void setWindowStatusBarColor(Integer color) {
-        if (currentapiVersion >= Build.VERSION_CODES.LOLLIPOP) {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             window.setStatusBarColor(color);
         }
     }
