@@ -200,7 +200,7 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         String newsTitle = "";
 
-        if (news.getTitle()!=null){
+        if (news.getTitle() != null) {
             newsTitle = news.getTitle();
             newsTitle = newsTitle.replaceAll("'", "\\'");
             newsTitle = newsTitle.replaceAll("\"", "&quote;");
@@ -232,7 +232,7 @@ public class NewsDAO extends SQLiteOpenHelper {
             row.put(IMAGE_URL, news.getImageUrl());
         }
 
-        if (news.getImageUrl() == null && imgFromDescription!=null) {
+        if (news.getImageUrl() == null && imgFromDescription != null) {
             Pattern titleFinder = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
             Matcher regexMatcher = titleFinder.matcher(imgFromDescription);
             while (regexMatcher.find()) {
@@ -247,7 +247,7 @@ public class NewsDAO extends SQLiteOpenHelper {
             }
         }
 
-        if (news.getImageUrl() == null && imgFromEncoded!=null){
+        if (news.getImageUrl() == null && imgFromEncoded != null) {
 
             Pattern titleFinder = Pattern.compile("<img[^>]+src\\s*=\\s*['\"]([^'\"]+)['\"][^>]*>", Pattern.DOTALL | Pattern.CASE_INSENSITIVE);
             Matcher regexMatcher = titleFinder.matcher(imgFromEncoded);
@@ -282,7 +282,7 @@ public class NewsDAO extends SQLiteOpenHelper {
             SQLiteDatabase database = getWritableDatabase();
             ContentValues row = new ContentValues();
 
-            putNews(row,news);
+            putNews(row, news);
 
             database.insert(TABLE_BOOKMARKS, null, row);
             database.close();
@@ -306,7 +306,7 @@ public class NewsDAO extends SQLiteOpenHelper {
             SQLiteDatabase database = getWritableDatabase();
             ContentValues row = new ContentValues();
 
-            putNews(row,news);
+            putNews(row, news);
 
             database.insert(TABLE_HISTORY, null, row);
             database.close();
@@ -435,7 +435,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         database.execSQL("DELETE FROM " + TABLE_NEWS + " WHERE " + RSS_FEED + " == '" + rssFeed + "'");
     }
 
-    public News setNews(Cursor cursor){
+    public News setNews(Cursor cursor) {
 
         News news = new News();
 
@@ -453,7 +453,7 @@ public class NewsDAO extends SQLiteOpenHelper {
     }
 
 
-    public void putNews(ContentValues row, News news){
+    public void putNews(ContentValues row, News news) {
         row.put(TITLE, news.getTitle());
         row.put(ID, news.getNewsID());
         row.put(DESCRIPTION, news.getDescription());
@@ -505,7 +505,9 @@ public class NewsDAO extends SQLiteOpenHelper {
                 factory.setNamespaceAware(false);
                 parser.setInput(input, null);
                 Integer status = parser.getEventType();
-                while (status != XmlPullParser.END_DOCUMENT) {
+
+                while (status != XmlPullParser.END_DOCUMENT && result.size()<=15) {
+
                     switch (status) {
                         case XmlPullParser.START_DOCUMENT:
                             break;
@@ -526,16 +528,16 @@ public class NewsDAO extends SQLiteOpenHelper {
                                 } else if (parser.getName().equalsIgnoreCase("pubDate")) {
                                     aNews.setPubDate(parser.nextText());
                                 } else if (parser.getName().equalsIgnoreCase("content")) {
-                                    if(aNews.getImageUrl()==null)
-                                    aNews.setImageUrl(parser.getAttributeValue(null,"url"));
+                                    if (aNews.getImageUrl() == null)
+                                        aNews.setImageUrl(parser.getAttributeValue(null, "url"));
                                 } else if (parser.getName().equalsIgnoreCase("author")) {
                                     aNews.setAuthor(parser.nextText());
                                 } else if (parser.getName().equalsIgnoreCase("thumbnail")) {
-                                    if(aNews.getImageUrl()==null)
-                                    aNews.setImageUrl(parser.getAttributeValue(null,"url"));
+                                    if (aNews.getImageUrl() == null)
+                                        aNews.setImageUrl(parser.getAttributeValue(null, "url"));
                                 } else if (parser.getName().equalsIgnoreCase("enclosure")) {
-                                    if(aNews.getImageUrl()==null)
-                                    aNews.setImageUrl(parser.getAttributeValue(null, "url"));
+                                    if (aNews.getImageUrl() == null)
+                                        aNews.setImageUrl(parser.getAttributeValue(null, "url"));
                                 }
                             }
 
@@ -549,15 +551,15 @@ public class NewsDAO extends SQLiteOpenHelper {
                             break;
                     }
 
-
                     status = parser.next();
-
                 }
+
             } catch (Exception e) {
                 e.printStackTrace();
             }
             return result;
         }
+
 
         @Override
         protected void onPostExecute(List<News> input) {
