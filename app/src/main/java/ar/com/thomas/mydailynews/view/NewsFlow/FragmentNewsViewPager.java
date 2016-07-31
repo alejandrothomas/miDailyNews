@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.CollapsingToolbarLayout;
@@ -25,6 +26,8 @@ import android.widget.ScrollView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.facebook.share.model.ShareLinkContent;
+import com.facebook.share.widget.ShareButton;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
 
@@ -62,6 +65,7 @@ public class FragmentNewsViewPager extends Fragment {
     private List<News> bookmarkedNewsList;
     private News news;
     private View imageView;
+    private ShareButton shareButtonFacebook;
 
 
     @Nullable
@@ -103,6 +107,13 @@ public class FragmentNewsViewPager extends Fragment {
         textViewNewsContent = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Description);
         imageViewImageUrl = (ImageView) view.findViewById(R.id.fragmentNewsViewPager_IMAGEVIEW_ImageURL);
         imageView = (ImageView)view.findViewById(R.id.image_view);
+        shareButtonFacebook = (ShareButton)view.findViewById(R.id.facebook_share_button);
+
+        Uri mUri = Uri.parse(news.getLink());
+
+        ShareLinkContent content = new ShareLinkContent.Builder().setContentUrl(mUri).build();
+
+        shareButtonFacebook.setShareContent(content);
 
 
         fab = (FloatingActionButton)view.findViewById(R.id.fab_news_viewpager);

@@ -4,4 +4,6 @@
     <color name="colorPrimaryDark">#212121</color>
     <color name="colorAccent">#F50057</color>
     <color name="colorTAB1">#FFFFFF</color>
+    <color name="colorBlack">#da000000</color>
+    <color name="colorFacebookBlue">#3b5998</color>
 </resources>

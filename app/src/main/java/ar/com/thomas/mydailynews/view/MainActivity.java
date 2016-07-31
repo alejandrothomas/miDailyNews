@@ -2,6 +2,9 @@ package ar.com.thomas.mydailynews.view;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.graphics.PorterDuff;
+import android.graphics.PorterDuffColorFilter;
+import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -20,6 +23,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.ImageButton;
+
 import java.util.ArrayList;
 import java.util.List;
 import ar.com.thomas.mydailynews.R;
@@ -28,10 +33,12 @@ import ar.com.thomas.mydailynews.controller.RSSFeedCategoryController;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
 import ar.com.thomas.mydailynews.view.FavouriteFlow.FragmentFavouriteContainer;
+import ar.com.thomas.mydailynews.view.LoginFlow.FragmentLogin;
 import ar.com.thomas.mydailynews.view.SavedFlow.FragmentSavedContainer;
 import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
+import com.facebook.FacebookSdk;
 
 /**
  * Created by alejandrothomas on 6/25/16.
@@ -57,11 +64,13 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private Button bookmarks = null;
     private Button history = null;
     private Button favourites = null;
+    private Button login = null;
     private NewsController newsController;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         context = this;
 
@@ -75,6 +84,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         history = (Button) findViewById(R.id.history_button);
         favourites = (Button) findViewById(R.id.favourites_button);
         bookmarks = (Button) findViewById(R.id.bookmarked_button);
+        login = (Button)findViewById(R.id.login_button);
 
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         favouriteListMainActivity = new ArrayList<>();
@@ -105,6 +115,19 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }
 
         newsController.updateFavourites(favouriteListMainActivity, context);
+
+        if (login != null) {
+            login.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View view) {
+
+                        FragmentLogin fragmentLogin  = new FragmentLogin();
+
+                        fragmentTransaction = fragmentManager.beginTransaction();
+                        fragmentTransaction.add(R.id.fragment_container, fragmentLogin).addToBackStack(null).commit();
+                }
+            });
+        }
 
         if (bookmarks != null) {
             bookmarks.setOnClickListener(new View.OnClickListener() {
@@ -348,5 +371,9 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }
     }
 
+    public void setLoginButtonColor(Integer socialMedia){
 
+        login.setBackgroundDrawable(getDrawable(socialMedia));
+
+    }
 }

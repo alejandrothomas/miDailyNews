@@ -78,6 +78,11 @@
                     android:elevation="6dp"
                     android:orientation="vertical">
 
+                    <com.facebook.share.widget.ShareButton
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:id="@+id/facebook_share_button"/>
+
                     <TextView
                         android:id="@+id/fragmentNewsViewPager_TEXTVIEW_Title"
                         android:layout_width="match_parent"

@@ -6,23 +6,14 @@ import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
-import android.util.Log;
 import android.util.Xml;
-
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
-
 import java.io.InputStream;
-import java.math.BigInteger;
-import java.security.MessageDigest;
-import java.security.NoSuchAlgorithmException;
-import java.sql.RowId;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
-import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.RSSFeedController;
 import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeed;
@@ -54,7 +45,6 @@ public class NewsDAO extends SQLiteOpenHelper {
     private static final String IS_FAVOURITE = "is_favourite";
     private static NewsDAO newsDAO = null;
     private Context context;
-    private String url;
 
     private NewsDAO(Context context) {
         super(context, DATABASE_NAME, null, DATABASE_VERSION);
@@ -126,7 +116,6 @@ public class NewsDAO extends SQLiteOpenHelper {
         SQLiteDatabase database = getWritableDatabase();
         String updateQuery = "UPDATE " + TABLE_FAVOURITES + " SET " + IS_FAVOURITE + " = \'NO\';";
         database.execSQL(updateQuery);
-        Log.v("borrado", "se limpio toda la tabla de favs");
 
         for (String rssFeed : rssFeedFavouriteList) {
             this.updateFavourite(rssFeed);
@@ -139,7 +128,6 @@ public class NewsDAO extends SQLiteOpenHelper {
         String updateQuery = "UPDATE " + TABLE_FAVOURITES + " SET " + IS_FAVOURITE + " = \'YES\' WHERE " + RSS_FEED + " == '" + rssFeed + "'";
         database.execSQL(updateQuery);
 
-        Log.v("agregado", rssFeed + "ahora esta marcado como FAVORITO");
     }
 
     @Override
@@ -239,7 +227,6 @@ public class NewsDAO extends SQLiteOpenHelper {
                 imgFromDescription = regexMatcher.group(1);
                 if (imgFromDescription.substring(imgFromDescription.lastIndexOf(".") + 1, imgFromDescription.length()).equals("jpg") || imgFromDescription.substring(imgFromDescription.lastIndexOf(".") + 1, imgFromDescription.length()).equals("png")) {
 
-                    Log.i("Image Src DESCRIPTION", regexMatcher.group(1));
                     news.setImageUrl(imgFromDescription);
                     row.put(IMAGE_URL, imgFromDescription);
                     break;
@@ -255,7 +242,6 @@ public class NewsDAO extends SQLiteOpenHelper {
                 imgFromEncoded = regexMatcher.group(1);
                 if (imgFromEncoded.substring(imgFromEncoded.lastIndexOf(".") + 1, imgFromEncoded.length()).equals("jpg") || imgFromEncoded.substring(imgFromEncoded.lastIndexOf(".") + 1, imgFromEncoded.length()).equals("png")) {
 
-                    Log.i("==== Image Src ENCODED", regexMatcher.group(1));
                     news.setImageUrl(imgFromEncoded);
                     row.put(IMAGE_URL, imgFromEncoded);
                     break;
