@@ -4,7 +4,6 @@ import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -26,11 +25,8 @@ import android.view.Window;
 import android.widget.Button;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-
 import ar.com.thomas.mydailynews.controller.RSSFeedController;
 import io.fabric.sdk.android.Fabric;
-
-import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import ar.com.thomas.mydailynews.R;
@@ -56,11 +52,8 @@ import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 public class MainActivity extends AppCompatActivity implements FragmentRSSFeedViewPager.FragmentCalls {
 
-    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
     private static final String TWITTER_KEY = "n17S5rk1q3FkyeAQGX3xXtchD";
     private static final String TWITTER_SECRET = "n5snTcbuv3DHDLVCmbe5NXXgTsFW2tr91qiNGa1uEKSXYXa9dn";
-
-
     protected Context context;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
@@ -104,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         history = (Button) findViewById(R.id.history_button);
         favourites = (Button) findViewById(R.id.favourites_button);
         bookmarks = (Button) findViewById(R.id.bookmarked_button);
-        login = (Button)findViewById(R.id.login_button);
+        login = (Button) findViewById(R.id.login_button);
 
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         favouriteListMainActivity = new ArrayList<>();
@@ -163,7 +156,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                         if (favouriteListMainActivity.size() < 1) {
                             newsController.updateFavourites(favouriteListMainActivity, context);
 
-                            if(navigationView.getMenu().getItem(0)!=null){
+                            if (navigationView.getMenu().getItem(0) != null) {
                                 listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(1));
                                 navigationView.getMenu().getItem(1).setChecked(true);
                             }
@@ -183,10 +176,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                 @Override
                 public void onClick(View view) {
 
-                        FragmentLogin fragmentLogin  = new FragmentLogin();
+                    FragmentLogin fragmentLogin = new FragmentLogin();
 
-                        fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.add(R.id.fragment_container, fragmentLogin, "login").addToBackStack(null).commit();
+                    fragmentTransaction = fragmentManager.beginTransaction();
+                    fragmentTransaction.add(R.id.fragment_container, fragmentLogin, "login").addToBackStack(null).commit();
                 }
             });
         }
@@ -309,7 +302,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     public void populateNavigationDrawerMenu(List<RSSFeedCategory> rssFeedCategoryList) {
 
 
-        if(rssFeedCategoryList!=null){
+        if (rssFeedCategoryList != null) {
             for (Integer i = 0; i < rssFeedCategoryList.size(); i++) {
                 menu.add(R.id.navigation_drawer_menu_RSSFeedCategories, i, i, rssFeedCategoryList.get(i).getCategoryName());
                 menu.setGroupCheckable(R.id.navigation_drawer_menu_RSSFeedCategories, true, true);
@@ -427,7 +420,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     }
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
-    public void setLoginButtonColor(Integer socialMedia){
+    public void setLoginButtonColor(Integer socialMedia) {
         login.setBackgroundDrawable(getDrawable(socialMedia));
 
     }
@@ -438,9 +431,9 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         FragmentManager fragment = getSupportFragmentManager();
         if (fragment != null) {
             fragment.findFragmentByTag("login").onActivityResult(requestCode, resultCode, data);
-        }
-        else Log.d("Twitter", "fragment is null");
+        } else Log.d("Twitter", "fragment is null");
     }
+
     public List<RSSFeed> getRssFeedList() {
         return rssFeedList;
     }
