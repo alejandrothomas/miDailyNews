@@ -10,6 +10,7 @@ import java.util.List;
 
 import ar.com.thomas.mydailynews.controller.RSSFeedController;
 import ar.com.thomas.mydailynews.model.RSSFeed;
+import ar.com.thomas.mydailynews.util.ResultListener;
 
 /**
  * Created by alejandrothomas on 6/25/16.
@@ -19,29 +20,28 @@ public class FragmentRSSFeedViewPagerAdapter extends FragmentStatePagerAdapter {
     private List<RSSFeed> rssFeedList;
 
 
-    public FragmentRSSFeedViewPagerAdapter(FragmentManager fm, Context context, String rssFeedCategoryID) {
+    public FragmentRSSFeedViewPagerAdapter(FragmentManager fm, Context context, final String rssFeedCategoryID, List<RSSFeed> feedList) {
         super(fm);
 
-        this.rssFeedList = new ArrayList<>();
+        rssFeedList = new ArrayList<>();
+        this.rssFeedList = feedList;
         this.fragmentRSSFeedList = new ArrayList<>();
 
-        RSSFeedController rssFeedController = new RSSFeedController();
-        rssFeedList = rssFeedController.getRSSFeedList(context);
 
-        for (Integer i = 0; i<rssFeedList.size();i++){
-            if (rssFeedList.get(i).getCategory().getObjectId().equals(rssFeedCategoryID)){
-                this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment(rssFeedList.get(i)));
+        for (Integer i = 0; i < feedList.size(); i++) {
+            if (feedList.get(i).getCategory().getObjectId().equals(rssFeedCategoryID)) {
+                this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment(feedList.get(i)));
             }
         }
     }
 
 
-    public FragmentRSSFeedViewPagerAdapter(FragmentManager fm, Context context, List<RSSFeed> favouriteList){
+    public FragmentRSSFeedViewPagerAdapter(FragmentManager fm, Context context, List<RSSFeed> favouriteList) {
         super(fm);
 
         this.fragmentRSSFeedList = new ArrayList<>();
 
-        for(RSSFeed favourite : favouriteList){
+        for (RSSFeed favourite : favouriteList) {
             this.fragmentRSSFeedList.add(FragmentRSSFeedViewPager.generateFragment(favourite));
         }
     }

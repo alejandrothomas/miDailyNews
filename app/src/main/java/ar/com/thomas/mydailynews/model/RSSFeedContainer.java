@@ -9,14 +9,23 @@ import java.util.List;
  */
 public class RSSFeedContainer {
 
-    @SerializedName("resultsRss")
-    private List<RSSFeed> rssFeedList;
 
-    public List<RSSFeed> getRssFeedList() {
-        return rssFeedList;
+    private List<RSSFeed> resultsRss;
+
+    public void setResultsRss(List<RSSFeed> resultsRss) {
+        this.resultsRss = resultsRss;
     }
 
-    public void setRssFeedList(List<RSSFeed> rssFeedList) {
-        this.rssFeedList = rssFeedList;
+    public List<RSSFeed> getResultsRss() {
+
+        return resultsRss;
+    }
+
+    public RSSFeedContainer() {
+    }
+
+    public RSSFeedContainer(List<RSSFeed> resultsRss) {
+
+        this.resultsRss = resultsRss;
     }
 }

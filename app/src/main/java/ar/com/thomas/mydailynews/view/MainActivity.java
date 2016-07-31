@@ -1,7 +1,10 @@
 package ar.com.thomas.mydailynews.view;
 
+import android.annotation.TargetApi;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Color;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -15,11 +18,19 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import com.twitter.sdk.android.Twitter;
+import com.twitter.sdk.android.core.TwitterAuthConfig;
+
+import ar.com.thomas.mydailynews.controller.RSSFeedController;
+import io.fabric.sdk.android.Fabric;
+
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 import ar.com.thomas.mydailynews.R;
@@ -37,6 +48,7 @@ import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
 import com.facebook.FacebookSdk;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 /**
  * Created by alejandrothomas on 6/25/16.
@@ -44,11 +56,17 @@ import com.google.firebase.database.FirebaseDatabase;
 
 public class MainActivity extends AppCompatActivity implements FragmentRSSFeedViewPager.FragmentCalls {
 
+    // Note: Your consumer key and secret should be obfuscated in your source code before shipping.
+    private static final String TWITTER_KEY = "n17S5rk1q3FkyeAQGX3xXtchD";
+    private static final String TWITTER_SECRET = "n5snTcbuv3DHDLVCmbe5NXXgTsFW2tr91qiNGa1uEKSXYXa9dn";
+
+
     protected Context context;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private DrawerLayout drawerLayout;
     private List<RSSFeedCategory> rssFeedCategoryList;
+    private List<RSSFeed> rssFeedList;
     private NavigationView navigationView;
     private List<String> favouriteListMainActivity;
     private FragmentRSSFeedContainer fragmentRSSFeedContainer;
@@ -70,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        TwitterAuthConfig authConfig = new TwitterAuthConfig(TWITTER_KEY, TWITTER_SECRET);
+        Fabric.with(this, new Twitter(authConfig), new TweetComposer());
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
         context = this;
@@ -90,11 +110,11 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         favouriteListMainActivity = new ArrayList<>();
         newsController = new NewsController();
         final ListenerMenu listenerMenu = new ListenerMenu();
+        rssFeedCategoryList = new ArrayList<>();
+        rssFeedList = new ArrayList<>();
 
         database = FirebaseDatabase.getInstance();
         DatabaseReference mRef = database.getReference("message");
-
-
 
         setSnackbar(getString(R.string.welcome));
         resetColors();
@@ -117,34 +137,45 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
         menu = navigationView.getMenu();
 
+        List<RSSFeed> rssFavouriteList = newsController.getFavouritesFromDB(context);
+        for (RSSFeed rssFeed : rssFavouriteList) {
+            favouriteListMainActivity.add(rssFeed.getTitle());
+        }
+
+
         RSSFeedCategoryController rssFeedCategoryController = new RSSFeedCategoryController();
         rssFeedCategoryController.getRSSFeedCategoryList(new ResultListener<List<RSSFeedCategory>>() {
             @Override
             public void finish(List<RSSFeedCategory> result) {
-                rssFeedCategoryList = new ArrayList<>();
+
+
                 rssFeedCategoryList.addAll(result);
 
-                populateNavigationDrawerMenu(result);
+                RSSFeedController rssFeedController = new RSSFeedController();
+                rssFeedController.getRSSFeedList(new ResultListener<List<RSSFeed>>() {
+                    @Override
+                    public void finish(List<RSSFeed> result) {
 
-                if (favouriteListMainActivity.size() < 1) {
-                    newsController.updateFavourites(favouriteListMainActivity, context);
+                        rssFeedList.addAll(result);
 
-                    if(navigationView.getMenu().getItem(0)!=null){
-                        listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(1));
-                        navigationView.getMenu().getItem(1).setChecked(true);
+                        populateNavigationDrawerMenu(rssFeedCategoryList);
+
+                        if (favouriteListMainActivity.size() < 1) {
+                            newsController.updateFavourites(favouriteListMainActivity, context);
+
+                            if(navigationView.getMenu().getItem(0)!=null){
+                                listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(1));
+                                navigationView.getMenu().getItem(1).setChecked(true);
+                            }
+                        } else {
+                            if (favourites != null) {
+                                favourites.performClick();
+                            }
+                        }
                     }
-                } else {
-                    if (favourites != null) {
-                        favourites.performClick();
-                    }
-                }
+                });
             }
         });
-
-        List<RSSFeed> rssFeedList = newsController.getFavouritesFromDB(context);
-        for (RSSFeed rssFeed : rssFeedList) {
-            favouriteListMainActivity.add(rssFeed.getTitle());
-        }
 
 
         if (login != null) {
@@ -155,7 +186,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                         FragmentLogin fragmentLogin  = new FragmentLogin();
 
                         fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.add(R.id.fragment_container, fragmentLogin).addToBackStack(null).commit();
+                        fragmentTransaction.add(R.id.fragment_container, fragmentLogin, "login").addToBackStack(null).commit();
                 }
             });
         }
@@ -395,9 +426,22 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }
     }
 
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void setLoginButtonColor(Integer socialMedia){
-
         login.setBackgroundDrawable(getDrawable(socialMedia));
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        FragmentManager fragment = getSupportFragmentManager();
+        if (fragment != null) {
+            fragment.findFragmentByTag("login").onActivityResult(requestCode, resultCode, data);
+        }
+        else Log.d("Twitter", "fragment is null");
+    }
+    public List<RSSFeed> getRssFeedList() {
+        return rssFeedList;
     }
 }

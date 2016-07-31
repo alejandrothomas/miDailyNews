@@ -20,6 +20,12 @@
             </intent-filter>
         </activity>
         <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="33ce945996e731fcb8a5dda8a12b28267ba1def9" />
+        <meta-data
+            android:name="io.fabric.ApiKey"
+            android:value="33ce945996e731fcb8a5dda8a12b28267ba1def9" />
     </application>
 
 </manifest>

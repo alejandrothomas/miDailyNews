@@ -7,13 +7,16 @@ import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.os.AsyncTask;
 import android.util.Xml;
+
 import org.xmlpull.v1.XmlPullParser;
 import org.xmlpull.v1.XmlPullParserFactory;
+
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
+
 import ar.com.thomas.mydailynews.controller.RSSFeedController;
 import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.model.RSSFeed;
@@ -134,7 +137,7 @@ public class NewsDAO extends SQLiteOpenHelper {
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
     }
 
-    public void addNewsListToDB(List<News> newsList, String rssFeed) {
+    public void addNewsListToDB(List<News> newsList, String rssFeed, String rssFeedLink) {
 
         for (News news : newsList) {
 
@@ -142,7 +145,7 @@ public class NewsDAO extends SQLiteOpenHelper {
                 this.addNewsToDB(news, rssFeed);
             }
             if (!checkIfRSSExist(rssFeed)) {
-                this.addRSSToDB(rssFeed);
+                this.addRSSToDB(rssFeed, rssFeedLink);
             }
         }
     }
@@ -158,20 +161,7 @@ public class NewsDAO extends SQLiteOpenHelper {
         return (count > 0);
     }
 
-    public void addRSSToDB(String rssFeed) {
-
-        String rssFeedLink = null;
-
-        RSSFeedController rssFeedController = new RSSFeedController();
-        List<RSSFeed> rssFeedList = rssFeedController.getRSSFeedList(context);
-
-        for (Integer i = 0; i < rssFeedList.size(); i++) {
-
-
-            if (rssFeedList.get(i).getTitle().equals(rssFeed)) {
-                rssFeedLink = rssFeedList.get(i).getFeedLink();
-            }
-        }
+    public void addRSSToDB(String rssFeed, String rssFeedLink) {
 
         SQLiteDatabase database = getWritableDatabase();
         ContentValues row = new ContentValues();
@@ -180,6 +170,8 @@ public class NewsDAO extends SQLiteOpenHelper {
         row.put(RSS_FEED_LINK, rssFeedLink);
         database.insert(TABLE_FAVOURITES, null, row);
         database.close();
+
+
     }
 
     private Boolean checkIfNewsExist(News news) {
@@ -492,7 +484,7 @@ public class NewsDAO extends SQLiteOpenHelper {
                 parser.setInput(input, null);
                 Integer status = parser.getEventType();
 
-                while (status != XmlPullParser.END_DOCUMENT && result.size()<=15) {
+                while (status != XmlPullParser.END_DOCUMENT && result.size() <= 15) {
 
                     switch (status) {
                         case XmlPullParser.START_DOCUMENT:
@@ -549,7 +541,7 @@ public class NewsDAO extends SQLiteOpenHelper {
 
         @Override
         protected void onPostExecute(List<News> input) {
-            addNewsListToDB(input, rssFeed);
+            addNewsListToDB(input, rssFeed,feedLink);
             this.listener.finish(input);
         }
     }

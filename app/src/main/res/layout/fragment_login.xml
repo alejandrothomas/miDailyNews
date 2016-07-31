@@ -14,12 +14,20 @@
         android:layout_height="wrap_content"
         android:background="@android:color/white"
         android:padding="16dp"
+        android:orientation="vertical"
         android:layout_gravity="center_horizontal">
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/fb_login_button"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+        <com.twitter.sdk.android.core.identity.TwitterLoginButton
+            android:id="@+id/twitter_login_button"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"/>
+
+
     </LinearLayout>
 
 </FrameLayout>

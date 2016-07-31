@@ -43,11 +43,4 @@ public class RSSFeedCategoryDAO extends GenericDAO {
         });
 
     }
-
-
-
-
-//        RSSFeedCategoryContainer rssFeedCategoryContainer = (RSSFeedCategoryContainer) getObjectJSON(context,RSSFeedCategoryContainer.class,"RSSFeedCategory.json");
-
-
 }

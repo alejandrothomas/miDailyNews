@@ -18,7 +18,10 @@ import java.util.List;
 
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
+import ar.com.thomas.mydailynews.controller.RSSFeedController;
 import ar.com.thomas.mydailynews.dao.NewsDAO;
+import ar.com.thomas.mydailynews.model.RSSFeed;
+import ar.com.thomas.mydailynews.util.ResultListener;
 import ar.com.thomas.mydailynews.view.MainActivity;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 
@@ -36,7 +39,11 @@ public class FragmentRSSFeedContainer extends Fragment {
     private List<String> favouriteList;
     private Integer currentPosition;
     private String rssFeed;
+    private List<RSSFeed> rssFeedList;
 
+    public void setRssFeedList(List<RSSFeed> rssFeedList) {
+        this.rssFeedList = rssFeedList;
+    }
 
     public void setFavouriteList(List<String> favouriteList) {
         this.favouriteList = favouriteList;
@@ -46,7 +53,7 @@ public class FragmentRSSFeedContainer extends Fragment {
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_rrsfeed_container, container, false);
+        final View view = inflater.inflate(R.layout.fragment_rrsfeed_container, container, false);
         final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewPagerMainActivity);
 
         OverScrollDecoratorHelper.setUpOverScroll(viewPager);
@@ -55,16 +62,20 @@ public class FragmentRSSFeedContainer extends Fragment {
         rssFeedCategoryID = bundle.getString(RSSFEED_CATEGORYID);
         rssfeedCategoryTitle = bundle.getString(RSSFEED_TITLE);
 
-        final FragmentRSSFeedViewPagerAdapter fragmentRSSFeedViewPagerAdapter = new FragmentRSSFeedViewPagerAdapter(getChildFragmentManager(),getContext(),rssFeedCategoryID);
+        rssFeedList = new ArrayList<>();
+        rssFeedList=((MainActivity)getContext()).getRssFeedList();
+
+
+        final FragmentRSSFeedViewPagerAdapter fragmentRSSFeedViewPagerAdapter = new FragmentRSSFeedViewPagerAdapter(getChildFragmentManager(), getContext(), rssFeedCategoryID, rssFeedList);
         viewPager.setAdapter(fragmentRSSFeedViewPagerAdapter);
 
-        TabLayout tabLayout = (TabLayout)view.findViewById(R.id.tabs);
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs);
         tabLayout.setupWithViewPager(viewPager);
 
         currentPosition = viewPager.getCurrentItem();
         rssFeed = fragmentRSSFeedViewPagerAdapter.getPageTitle(currentPosition).toString();
 
-        ((MainActivity)getContext()).setCurrentRSSFeed(rssFeed);
+        ((MainActivity) getContext()).setCurrentRSSFeed(rssFeed);
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -76,8 +87,7 @@ public class FragmentRSSFeedContainer extends Fragment {
             public void onPageSelected(int position) {
                 currentPosition = viewPager.getCurrentItem();
                 rssFeed = fragmentRSSFeedViewPagerAdapter.getPageTitle(currentPosition).toString();
-                ((MainActivity)getContext()).setCurrentRSSFeed(rssFeed);
-
+                ((MainActivity) getContext()).setCurrentRSSFeed(rssFeed);
             }
 
             @Override
@@ -85,8 +95,6 @@ public class FragmentRSSFeedContainer extends Fragment {
 
             }
         });
-
-
         return view;
     }
 
