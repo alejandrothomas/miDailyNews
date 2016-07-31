@@ -11,6 +11,9 @@ public class RSSFeedCategory {
         this.categoryName = categoryName;
     }
 
+    public RSSFeedCategory() {
+    }
+
     public String getCategoryName() {
         return categoryName;
     }

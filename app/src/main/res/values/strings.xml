@@ -15,4 +15,5 @@
     <string name="snack_bookmarks_remove">: ha sido removida de los bookmarks</string>
     <string name="snack_historial_empty">No has leído noticias en esta sesión.</string>
     <string name="facebook_app_id">315951808749311</string>
+    <string name="loginFail">Authentication failed.</string>
 </resources>

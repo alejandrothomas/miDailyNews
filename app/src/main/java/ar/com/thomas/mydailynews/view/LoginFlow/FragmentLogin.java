@@ -12,12 +12,17 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.Toast;
 
+import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
 import com.facebook.FacebookException;
-import com.facebook.login.LoginManager;
 import com.facebook.login.LoginResult;
 import com.facebook.login.widget.LoginButton;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.Task;
+import com.google.firebase.auth.AuthCredential;
+import com.google.firebase.auth.AuthResult;
+import com.google.firebase.auth.FacebookAuthProvider;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
@@ -31,6 +36,7 @@ public class FragmentLogin extends Fragment {
     private CallbackManager callbackManager;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
+    private FirebaseUser user;
 
     @Nullable
     @Override
@@ -43,9 +49,9 @@ public class FragmentLogin extends Fragment {
         mAuthStateListener = new FirebaseAuth.AuthStateListener(){
             @Override
             public void onAuthStateChanged(@NonNull FirebaseAuth firebaseAuth) {
-                FirebaseUser user = firebaseAuth.getCurrentUser();
+                user = firebaseAuth.getCurrentUser();
                 if(user!=null){
-                    Log.d("status","SIGNED IN");
+                    Log.d("status","SIGNED IN" + user.getEmail() + " " + user.getUid() + " " + user.getDisplayName() + " " + user.getPhotoUrl());
                 }else {
                     Log.d("status", "NOT LOGGED");
                 }
@@ -55,16 +61,15 @@ public class FragmentLogin extends Fragment {
         frameLayout = (FrameLayout)view.findViewById(R.id.bgFrameLayoutLogin);
         loginButton = (LoginButton) view.findViewById(R.id.fb_login_button);
 
-
-
         loginButton.setReadPermissions("email", "public_profile");
         loginButton.setFragment(this);
 
         loginButton.registerCallback(callbackManager, new FacebookCallback<LoginResult>() {
             @Override
             public void onSuccess(LoginResult loginResult) {
-                getFragmentManager().popBackStack();
+
                 ((MainActivity)getContext()).setLoginButtonColor(R.drawable.com_facebook_button_icon_blue);
+                handleFacebookAccessToken(loginResult.getAccessToken());
             }
 
             @Override
@@ -90,5 +95,32 @@ public class FragmentLogin extends Fragment {
     public void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         callbackManager.onActivityResult(requestCode,resultCode,data);
+    }
+
+    @Override
+    public void onStart() {
+        super.onStart();
+        mAuth.addAuthStateListener(mAuthStateListener);
+    }
+
+    @Override
+    public void onStop() {
+        super.onStop();
+        mAuth.removeAuthStateListener(mAuthStateListener);
+    }
+
+    private void handleFacebookAccessToken(AccessToken token){
+        AuthCredential credential = FacebookAuthProvider.getCredential(token.getToken());
+        mAuth.signInWithCredential(credential).addOnCompleteListener(getActivity(), new OnCompleteListener<AuthResult>() {
+            @Override
+            public void onComplete(@NonNull Task<AuthResult> task) {
+                if (!task.isSuccessful()){
+                    ((MainActivity)getActivity()).setSnackbar(getString(R.string.loginFail));
+                }else{
+                    ((MainActivity)getActivity()).setSnackbar("Welcome " + user.getDisplayName() + " :)");
+                    getFragmentManager().popBackStack();
+                }
+            }
+        });
     }
 }

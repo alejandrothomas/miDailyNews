@@ -9,7 +9,7 @@ import java.util.List;
  */
 public class RSSFeedContainer {
 
-    @SerializedName("results")
+    @SerializedName("resultsRss")
     private List<RSSFeed> rssFeedList;
 
     public List<RSSFeed> getRssFeedList() {

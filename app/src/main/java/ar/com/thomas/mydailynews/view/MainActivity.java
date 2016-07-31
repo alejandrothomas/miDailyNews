@@ -2,9 +2,6 @@ package ar.com.thomas.mydailynews.view;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.PorterDuff;
-import android.graphics.PorterDuffColorFilter;
-import android.graphics.drawable.Drawable;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.CoordinatorLayout;
@@ -13,18 +10,16 @@ import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
+import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-import android.widget.ImageButton;
-
 import java.util.ArrayList;
 import java.util.List;
 import ar.com.thomas.mydailynews.R;
@@ -32,6 +27,7 @@ import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.controller.RSSFeedCategoryController;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
+import ar.com.thomas.mydailynews.util.ResultListener;
 import ar.com.thomas.mydailynews.view.FavouriteFlow.FragmentFavouriteContainer;
 import ar.com.thomas.mydailynews.view.LoginFlow.FragmentLogin;
 import ar.com.thomas.mydailynews.view.SavedFlow.FragmentSavedContainer;
@@ -39,6 +35,8 @@ import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
 import com.facebook.FacebookSdk;
+import com.google.firebase.database.DatabaseReference;
+import com.google.firebase.database.FirebaseDatabase;
 
 /**
  * Created by alejandrothomas on 6/25/16.
@@ -66,6 +64,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private Button favourites = null;
     private Button login = null;
     private NewsController newsController;
+    private FirebaseDatabase database;
+    private Menu menu;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -89,6 +89,12 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         favouriteListMainActivity = new ArrayList<>();
         newsController = new NewsController();
+        final ListenerMenu listenerMenu = new ListenerMenu();
+
+        database = FirebaseDatabase.getInstance();
+        DatabaseReference mRef = database.getReference("message");
+
+
 
         setSnackbar(getString(R.string.welcome));
         resetColors();
@@ -107,14 +113,39 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         mDrawerToggle.syncState();
 
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
-        populateNavigationDrawerMenu();
+
+
+        menu = navigationView.getMenu();
+
+        RSSFeedCategoryController rssFeedCategoryController = new RSSFeedCategoryController();
+        rssFeedCategoryController.getRSSFeedCategoryList(new ResultListener<List<RSSFeedCategory>>() {
+            @Override
+            public void finish(List<RSSFeedCategory> result) {
+                rssFeedCategoryList = new ArrayList<>();
+                rssFeedCategoryList.addAll(result);
+
+                populateNavigationDrawerMenu(result);
+
+                if (favouriteListMainActivity.size() < 1) {
+                    newsController.updateFavourites(favouriteListMainActivity, context);
+
+                    if(navigationView.getMenu().getItem(0)!=null){
+                        listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(1));
+                        navigationView.getMenu().getItem(1).setChecked(true);
+                    }
+                } else {
+                    if (favourites != null) {
+                        favourites.performClick();
+                    }
+                }
+            }
+        });
 
         List<RSSFeed> rssFeedList = newsController.getFavouritesFromDB(context);
         for (RSSFeed rssFeed : rssFeedList) {
             favouriteListMainActivity.add(rssFeed.getTitle());
         }
 
-        newsController.updateFavourites(favouriteListMainActivity, context);
 
         if (login != null) {
             login.setOnClickListener(new View.OnClickListener() {
@@ -206,15 +237,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                 }
             });
 
-            if (favouriteListMainActivity.size() < 1) {
-                ListenerMenu listenerMenu = new ListenerMenu();
-                listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(1));
-                navigationView.getMenu().getItem(1).setChecked(true);
-            } else {
-                if (favourites != null) {
-                    favourites.performClick();
-                }
-            }
+
         }
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -252,17 +275,17 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         resetColors();
     }
 
-    public void populateNavigationDrawerMenu() {
-        Menu menu = navigationView.getMenu();
+    public void populateNavigationDrawerMenu(List<RSSFeedCategory> rssFeedCategoryList) {
 
-        RSSFeedCategoryController rssFeedCategoryController = new RSSFeedCategoryController();
-        rssFeedCategoryList = rssFeedCategoryController.getRSSFeedCategoryList(context);
 
-        for (Integer i = 0; i < rssFeedCategoryList.size(); i++) {
-            menu.add(R.id.navigation_drawer_menu_RSSFeedCategories, i, i, rssFeedCategoryList.get(i).getCategoryName());
-            menu.setGroupCheckable(R.id.navigation_drawer_menu_RSSFeedCategories, true, true);
-            menu.setGroupVisible(R.id.navigation_drawer_menu_RSSFeedCategories, true);
+        if(rssFeedCategoryList!=null){
+            for (Integer i = 0; i < rssFeedCategoryList.size(); i++) {
+                menu.add(R.id.navigation_drawer_menu_RSSFeedCategories, i, i, rssFeedCategoryList.get(i).getCategoryName());
+                menu.setGroupCheckable(R.id.navigation_drawer_menu_RSSFeedCategories, true, true);
+                menu.setGroupVisible(R.id.navigation_drawer_menu_RSSFeedCategories, true);
+            }
         }
+
     }
 
     public void setCurrentRSSFeed(String rssFeed) {
@@ -278,6 +301,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private class ListenerMenu implements NavigationView.OnNavigationItemSelectedListener {
         @Override
         public boolean onNavigationItemSelected(MenuItem item) {
+
             RSSFeedCategory rssFeedCategory = rssFeedCategoryList.get(item.getItemId());
 
             fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
@@ -296,7 +320,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             fragmentRSSFeedContainer.setFavouriteList(favouriteListMainActivity);
 
             if (drawerLayout != null) {
-                drawerLayout.closeDrawer(Gravity.START);
+                drawerLayout.closeDrawer(GravityCompat.START);
             }
 
             if (bookmarks != null && favourites != null) {

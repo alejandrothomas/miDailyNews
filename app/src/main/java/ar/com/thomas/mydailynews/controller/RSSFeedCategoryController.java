@@ -6,14 +6,21 @@ import java.util.List;
 
 import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;
+import ar.com.thomas.mydailynews.util.ResultListener;
 
 /**
  * Created by alejandrothomas on 6/27/16.
  */
 public class RSSFeedCategoryController {
 
-    public List<RSSFeedCategory> getRSSFeedCategoryList(Context context){
+    public void getRSSFeedCategoryList(final ResultListener<List<RSSFeedCategory>>listener) {
+
         RSSFeedCategoryDAO rssFeedCategoryDAO = new RSSFeedCategoryDAO();
-        return rssFeedCategoryDAO.getRSSFeedCategoryList(context);
+        rssFeedCategoryDAO.getRSSFeedCategoryList(new ResultListener<List<RSSFeedCategory>>() {
+            @Override
+            public void finish(List<RSSFeedCategory> result) {
+                listener.finish(result);
+            }
+        });
     }
 }
