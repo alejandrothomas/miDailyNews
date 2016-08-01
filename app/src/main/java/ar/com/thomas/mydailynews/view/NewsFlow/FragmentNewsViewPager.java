@@ -36,7 +36,12 @@ import com.twitter.sdk.android.core.TwitterCore;
 import com.twitter.sdk.android.core.TwitterSession;
 import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
 import com.twitter.sdk.android.tweetcomposer.ComposerView;
+import com.twitter.sdk.android.tweetcomposer.TweetComposer;
+import com.twitter.sdk.android.tweetui.TweetTimelineListAdapter;
 
+import java.io.IOError;
+import java.io.IOException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -114,7 +119,7 @@ public class FragmentNewsViewPager extends Fragment {
         textViewNewsSubtitle = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Subtitle);
         textViewNewsContent = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Description);
         imageViewImageUrl = (ImageView) view.findViewById(R.id.fragmentNewsViewPager_IMAGEVIEW_ImageURL);
-        imageView = (ImageView)view.findViewById(R.id.image_view);
+        imageView = (ImageView) view.findViewById(R.id.image_view);
         shareButtonFacebook = (ShareButton) view.findViewById(R.id.facebook_share_button);
         shareButtonTwitter = (LinearLayout) view.findViewById(R.id.twitter_share_button);
         fab = (LinearLayout) view.findViewById(R.id.fab_news_viewpager);
@@ -134,14 +139,11 @@ public class FragmentNewsViewPager extends Fragment {
         shareButtonFacebook.setShareContent(content);
 
 
-
-
-
         bookmarkedNewsList = new ArrayList<>();
         newsController = new NewsController();
         bookmarkedNewsList = newsController.getBookmarkNewsList(context);
 
-        if(bookmarkedNewsList.contains(news)){
+        if (bookmarkedNewsList.contains(news)) {
             fab.setSelected(true);
         }
 
@@ -149,32 +151,32 @@ public class FragmentNewsViewPager extends Fragment {
             @Override
             public void onClick(View v) {
 
-                if(bookmarkedNewsList.contains(news)){
-                    ((MainActivity)context).setSnackbar(news.getTitle()+context.getResources().getString(R.string.snack_bookmarks_remove));
+                if (bookmarkedNewsList.contains(news)) {
+                    ((MainActivity) context).setSnackbar(news.getTitle() + context.getResources().getString(R.string.snack_bookmarks_remove));
                     fab.setSelected(false);
-                    newsController.removeBookmark(context,news);
+                    newsController.removeBookmark(context, news);
                     bookmarkedNewsList.remove(news);
-                }else{
-                    ((MainActivity)context).setSnackbar(news.getTitle()+context.getResources().getString(R.string.snack_bookmarks_add));
+                } else {
+                    ((MainActivity) context).setSnackbar(news.getTitle() + context.getResources().getString(R.string.snack_bookmarks_add));
                     fab.setSelected(true);
-                    newsController.addBookmark(context,news);
+                    newsController.addBookmark(context, news);
                     bookmarkedNewsList.add(news);
                 }
             }
         });
 
         textViewNewsTitle.setText(newsTitle);
-        if(newsDescription!=null){
+        if (newsDescription != null) {
             textViewNewsSubtitle.setText(Html.fromHtml(newsDescription.replaceAll("(<(/)img>)|(<img.+?>)", "")));
         }
-        if(newsContent!=null){
+        if (newsContent != null) {
             textViewNewsContent.setText(Html.fromHtml(newsContent.replaceAll("(<(/)img>)|(<img.+?>)", "")));
         }
 
-        if(newsImageUrl==null || newsImageUrl.isEmpty()){
+        if (newsImageUrl == null || newsImageUrl.isEmpty()) {
             imageViewImageUrl.setImageResource(R.drawable.placeholder_unavailable_image);
-        }else{
-            Picasso.with(getActivity()).load(newsImageUrl).resize(0,300).into(imageViewImageUrl, new Callback() {
+        } else {
+            Picasso.with(getActivity()).load(newsImageUrl).resize(0, 300).into(imageViewImageUrl, new Callback() {
                 @Override
                 public void onSuccess() {
                     loadPalette();
@@ -200,9 +202,9 @@ public class FragmentNewsViewPager extends Fragment {
         arguments.putString(NEWS_DESCRIPTION, news.getDescription());
         arguments.putString(NEWS_CONTENT, news.getContent());
         arguments.putString(NEWS_IMAGE_URL, news.getImageUrl());
-        arguments.putString(RSS_FEED,news.getRssFeed());
-        arguments.putString(ID,news.getNewsID());
-        arguments.putString(LINK,news.getLink());
+        arguments.putString(RSS_FEED, news.getRssFeed());
+        arguments.putString(ID, news.getNewsID());
+        arguments.putString(LINK, news.getLink());
         fragmentNewsViewPager.setArguments(arguments);
         return fragmentNewsViewPager;
     }
@@ -227,18 +229,9 @@ public class FragmentNewsViewPager extends Fragment {
         });
     }
 
-    public void tweet(View view){
+    public void tweet(View view) {
 
-        final TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
-
-        if(session != null){
-
-            ComposerActivity.Builder composerActivityBuilder = new ComposerActivity.Builder(getActivity());
-            composerActivityBuilder.session(session);
-            final Intent intent = composerActivityBuilder.hashtags("#DailyNEWS").createIntent().putExtra(Intent.EXTRA_TEXT,news.getTitle()).putExtra(Intent.EXTRA_STREAM,mUri);
-
-            startActivity(intent);
-
-        }
+        TweetComposer.Builder composerActivityBuilder = new TweetComposer.Builder(getActivity()).text(news.getTitle() + " - " + news.getLink() + " #DailyNEWS");
+        composerActivityBuilder.show();
     }
 }
