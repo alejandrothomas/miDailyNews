@@ -22,10 +22,12 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
+import android.view.WindowManager;
 import android.widget.Button;
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import ar.com.thomas.mydailynews.controller.RSSFeedController;
+import ar.com.thomas.mydailynews.view.IntroFlow.Intro;
 import io.fabric.sdk.android.Fabric;
 import java.util.ArrayList;
 import java.util.List;
@@ -87,6 +89,11 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         setContentView(R.layout.activity_main);
         context = this;
 
+        Intro intro = new Intro();
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.coordinatorLayout, intro, "intro").commit();
+
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         window = getWindow();
         toolbar = (Toolbar) findViewById(R.id.my_toolbar);
@@ -99,6 +106,9 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         bookmarks = (Button) findViewById(R.id.bookmarked_button);
         login = (Button) findViewById(R.id.login_button);
 
+        fab.setVisibility(View.GONE);
+
+
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         favouriteListMainActivity = new ArrayList<>();
         newsController = new NewsController();
@@ -109,7 +119,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         database = FirebaseDatabase.getInstance();
         DatabaseReference mRef = database.getReference("message");
 
-        setSnackbar(getString(R.string.welcome));
         resetColors();
         newsController.clearNewsDB(context);
 
@@ -135,12 +144,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             favouriteListMainActivity.add(rssFeed.getTitle());
         }
 
-
         RSSFeedCategoryController rssFeedCategoryController = new RSSFeedCategoryController();
         rssFeedCategoryController.getRSSFeedCategoryList(new ResultListener<List<RSSFeedCategory>>() {
             @Override
             public void finish(List<RSSFeedCategory> result) {
-
 
                 rssFeedCategoryList.addAll(result);
 
@@ -165,6 +172,13 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                                 favourites.performClick();
                             }
                         }
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("intro")).setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out).commit();
+                        setWindowStatusBarColor(0xFF212121);
+                        setSnackbar(getString(R.string.welcome));
+                        fab.setVisibility(View.VISIBLE);
+
+
+
                     }
                 });
             }
@@ -260,8 +274,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                     }
                 }
             });
-
-
         }
 
         fab.setOnClickListener(new View.OnClickListener() {
