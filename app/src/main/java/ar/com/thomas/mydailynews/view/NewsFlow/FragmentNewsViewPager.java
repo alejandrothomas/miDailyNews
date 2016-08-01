@@ -2,6 +2,7 @@ package ar.com.thomas.mydailynews.view.NewsFlow;
 
 import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.net.Uri;
@@ -20,6 +21,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ScrollView;
@@ -30,6 +32,10 @@ import com.facebook.share.model.ShareLinkContent;
 import com.facebook.share.widget.ShareButton;
 import com.squareup.picasso.Callback;
 import com.squareup.picasso.Picasso;
+import com.twitter.sdk.android.core.TwitterCore;
+import com.twitter.sdk.android.core.TwitterSession;
+import com.twitter.sdk.android.tweetcomposer.ComposerActivity;
+import com.twitter.sdk.android.tweetcomposer.ComposerView;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -60,12 +66,14 @@ public class FragmentNewsViewPager extends Fragment {
     private Integer backgroundColor;
     private Context context;
     private CollapsingToolbarLayout collapsingToolbarLayout;
-    private FloatingActionButton fab;
+    private LinearLayout fab;
     private NewsController newsController;
     private List<News> bookmarkedNewsList;
     private News news;
     private View imageView;
     private ShareButton shareButtonFacebook;
+    private LinearLayout shareButtonTwitter;
+    private Uri mUri;
 
 
     @Nullable
@@ -107,16 +115,27 @@ public class FragmentNewsViewPager extends Fragment {
         textViewNewsContent = (TextView) view.findViewById(R.id.fragmentNewsViewPager_TEXTVIEW_Description);
         imageViewImageUrl = (ImageView) view.findViewById(R.id.fragmentNewsViewPager_IMAGEVIEW_ImageURL);
         imageView = (ImageView)view.findViewById(R.id.image_view);
-        shareButtonFacebook = (ShareButton)view.findViewById(R.id.facebook_share_button);
+        shareButtonFacebook = (ShareButton) view.findViewById(R.id.facebook_share_button);
+        shareButtonTwitter = (LinearLayout) view.findViewById(R.id.twitter_share_button);
+        fab = (LinearLayout) view.findViewById(R.id.fab_news_viewpager);
 
-        Uri mUri = Uri.parse(news.getLink());
+
+        shareButtonTwitter.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                tweet(view);
+            }
+        });
+
+        mUri = Uri.parse(news.getLink());
 
         ShareLinkContent content = new ShareLinkContent.Builder().setContentUrl(mUri).build();
 
         shareButtonFacebook.setShareContent(content);
 
 
-        fab = (FloatingActionButton)view.findViewById(R.id.fab_news_viewpager);
+
+
 
         bookmarkedNewsList = new ArrayList<>();
         newsController = new NewsController();
@@ -206,5 +225,20 @@ public class FragmentNewsViewPager extends Fragment {
                 }
             }
         });
+    }
+
+    public void tweet(View view){
+
+        final TwitterSession session = TwitterCore.getInstance().getSessionManager().getActiveSession();
+
+        if(session != null){
+
+            ComposerActivity.Builder composerActivityBuilder = new ComposerActivity.Builder(getActivity());
+            composerActivityBuilder.session(session);
+            final Intent intent = composerActivityBuilder.hashtags("#DailyNEWS").createIntent().putExtra(Intent.EXTRA_TEXT,news.getTitle()).putExtra(Intent.EXTRA_STREAM,mUri);
+
+            startActivity(intent);
+
+        }
     }
 }

@@ -441,7 +441,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
         FragmentManager fragment = getSupportFragmentManager();
-        if (fragment != null) {
+        if (fragment.findFragmentByTag("login") != null) {
             fragment.findFragmentByTag("login").onActivityResult(requestCode, resultCode, data);
         } else Log.d("Twitter", "fragment is null");
     }

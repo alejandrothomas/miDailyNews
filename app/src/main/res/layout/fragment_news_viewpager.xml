@@ -8,7 +8,7 @@
         android:id="@+id/image_view"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:scaleType="center"/>
+        android:scaleType="center" />
 
     <LinearLayout
         android:id="@+id/content_area"
@@ -78,12 +78,68 @@
                     android:elevation="6dp"
                     android:orientation="vertical">
 
-                    <com.facebook.share.widget.ShareButton
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:id="@+id/facebook_share_button"
-                        android:layout_marginLeft="24dp"
-                        android:layout_marginStart="24dp"/>
+                        android:orientation="horizontal"
+                        android:layout_gravity="center_horizontal"
+                        android:gravity="center_horizontal">
+
+                        <com.facebook.share.widget.ShareButton
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:id="@+id/facebook_share_button"
+                            android:background="#3b5998"
+                            android:padding="8dp"/>
+
+
+                        <LinearLayout
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
+                            android:orientation="horizontal"
+                            android:id="@+id/twitter_share_button"
+                            android:background="#1dcaff"
+                            android:padding="6dp">
+                            <ImageView
+                                android:layout_width="16dp"
+                                android:layout_height="16dp"
+                                android:src="@drawable/twitter_logo"
+                                android:layout_marginRight="8dp"
+                                android:layout_marginEnd="8dp"
+                                android:layout_marginTop="1dp"/>
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Share"
+                                android:textColor="#FFFFFF"
+                                android:layout_marginTop="1dp"
+                                android:fontFamily="sans-serif-medium"
+                                />
+                        </LinearLayout>
+
+                        <LinearLayout
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:orientation="horizontal"
+                            android:id="@+id/fab_news_viewpager"
+                            android:background="@color/colorAccent"
+                            android:padding="6dp">
+                            <ImageView
+                                android:layout_width="18dp"
+                                android:layout_height="18dp"
+                                android:src="@drawable/bookmarked_button" />
+                            <TextView
+                                android:layout_width="wrap_content"
+                                android:layout_height="wrap_content"
+                                android:text="Save"
+                                android:layout_marginTop="1dp"
+                                android:textColor="#FFFFFF"
+                                android:fontFamily="sans-serif-medium"/>
+                        </LinearLayout>
+
+
+                    </LinearLayout>
 
                     <TextView
                         android:id="@+id/fragmentNewsViewPager_TEXTVIEW_Title"
@@ -122,15 +178,6 @@
 
             </android.support.v4.widget.NestedScrollView>
 
-            <android.support.design.widget.FloatingActionButton
-                android:id="@+id/fab_news_viewpager"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_margin="32dp"
-                android:clickable="true"
-                android:src="@drawable/bookmarked_button"
-                app:layout_anchor="@id/appbar"
-                app:layout_anchorGravity="bottom|right|end" />
 
         </android.support.design.widget.CoordinatorLayout>
 
