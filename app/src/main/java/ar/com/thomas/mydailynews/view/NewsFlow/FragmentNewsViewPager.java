@@ -176,7 +176,7 @@ public class FragmentNewsViewPager extends Fragment {
         if (newsImageUrl == null || newsImageUrl.isEmpty()) {
             imageViewImageUrl.setImageResource(R.drawable.placeholder_unavailable_image);
         } else {
-            Picasso.with(getActivity()).load(newsImageUrl).resize(0, 300).into(imageViewImageUrl, new Callback() {
+            Picasso.with(getActivity()).load(newsImageUrl).resize(0, 200).into(imageViewImageUrl, new Callback() {
                 @Override
                 public void onSuccess() {
                     loadPalette();

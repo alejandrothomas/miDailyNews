@@ -17,13 +17,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.DisplayMetrics;
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.Button;
+import android.widget.RelativeLayout;
+
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import ar.com.thomas.mydailynews.controller.RSSFeedController;
@@ -106,8 +110,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         bookmarks = (Button) findViewById(R.id.bookmarked_button);
         login = (Button) findViewById(R.id.login_button);
 
-        fab.setVisibility(View.GONE);
 
+        fab.setVisibility(View.GONE);
 
         ActionBarDrawerToggle mDrawerToggle = new ActionBarDrawerToggle(this, drawerLayout, toolbar, R.string.app_name, R.string.app_name);
         favouriteListMainActivity = new ArrayList<>();
@@ -164,8 +168,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                             newsController.updateFavourites(favouriteListMainActivity, context);
 
                             if (navigationView.getMenu().getItem(0) != null) {
-                                listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(1));
-                                navigationView.getMenu().getItem(1).setChecked(true);
+                                listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(0));
+                                navigationView.getMenu().getItem(0).setChecked(true);
                             }
                         } else {
                             if (favourites != null) {
@@ -417,7 +421,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
     public void resetColors() {
         if (drawerLayout != null && toolbar != null && window != null) {
-            drawerLayout.setBackgroundColor(0xFF212121);
+            drawerLayout.setBackgroundColor(0xFFF5F5F5);
             toolbar.setBackgroundColor(0xFF212121);
             setWindowStatusBarColor(0xFF212121);
         }
