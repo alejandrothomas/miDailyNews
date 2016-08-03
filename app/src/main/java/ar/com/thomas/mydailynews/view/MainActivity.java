@@ -3,6 +3,7 @@ package ar.com.thomas.mydailynews.view;
 import android.annotation.TargetApi;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
@@ -17,17 +18,12 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
-import android.util.DisplayMetrics;
 import android.util.Log;
-import android.util.TypedValue;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
-import android.view.WindowManager;
 import android.widget.Button;
-import android.widget.RelativeLayout;
-
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import ar.com.thomas.mydailynews.controller.RSSFeedController;
@@ -138,10 +134,31 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle.syncState();
 
+        int[][] state = new int[][] {
+                new int[] {-android.R.attr.state_enabled},
+                new int[] {android.R.attr.state_enabled},
+                new int[] {-android.R.attr.state_checked},
+                new int[] { android.R.attr.state_pressed}
+
+        };
+
+        int[] color = new int[] {
+                0xFFE5E5E5,
+                0xFFE5E5E5,
+                0xFFE5E5E5,
+                0xFFE5E5E5
+        };
+
+        ColorStateList csl = new ColorStateList(state, color);
+
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
 
 
+
         menu = navigationView.getMenu();
+        navigationView.setBackgroundColor(0xE1000000);
+        navigationView.setItemTextColor(csl);
+
 
         List<RSSFeed> rssFavouriteList = newsController.getFavouritesFromDB(context);
         for (RSSFeed rssFeed : rssFavouriteList) {
@@ -421,7 +438,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
     public void resetColors() {
         if (drawerLayout != null && toolbar != null && window != null) {
-            drawerLayout.setBackgroundColor(0xFFF5F5F5);
+            drawerLayout.setBackgroundColor(0xFF212121);
             toolbar.setBackgroundColor(0xFF212121);
             setWindowStatusBarColor(0xFF212121);
         }

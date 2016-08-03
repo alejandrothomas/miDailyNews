@@ -69,7 +69,6 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
 
         recyclerView = (RecyclerView) view.findViewById(R.id.recyclerView);
         recyclerView.setHasFixedSize(true);
-        recyclerView.setNestedScrollingEnabled(false);
 
         recyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL, false));
         recyclerView.setAdapter(newsAdapter);
@@ -85,20 +84,12 @@ public class FragmentRSSFeedViewPager extends Fragment implements SwipeRefreshLa
             onRefresh();
         }
 
-        OverScrollDecoratorHelper.setUpOverScroll(recyclerView, OverScrollDecoratorHelper.ORIENTATION_VERTICAL);
-        recyclerView.setNestedScrollingEnabled(false);
-
         return view;
     }
 
     @Override
     public void onRefresh() {
         swipeRefreshLayout.setRefreshing(true);
-
-//        if(newsList.size()>0){
-//            newsList.clear();
-//            newsController.clearSelectedRSSNewsFromDB(context,rssFeed);
-//        }
 
         newsController.getNews(new ResultListener<List<News>>() {
             @Override

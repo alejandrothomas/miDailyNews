@@ -7,52 +7,10 @@
 
     <android.support.design.widget.AppBarLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        app:elevation="0dp">
 
-        <android.support.v7.widget.Toolbar
-            android:id="@+id/my_toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="?attr/actionBarSize"
-            android:elevation="16dp"
-            android:theme="@style/ThemeOverlay.AppCompat.Dark.ActionBar"
-            app:layout_scrollFlags="scroll|enterAlways">
-
-            <Button
-                android:id="@+id/login_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/ic_account_circle_white_24dp" />
-
-            <Button
-                android:id="@+id/favourites_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/favourite_button" />
-
-            <Button
-                android:id="@+id/bookmarked_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/bookmarked_button" />
-
-            <Button
-                android:id="@+id/history_button"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:layout_marginRight="16dp"
-                android:background="@drawable/ic_history_white_24dp" />
-        </android.support.v7.widget.Toolbar>
+        <include layout="@layout/toolbar"/>
 
     </android.support.design.widget.AppBarLayout>
 
@@ -83,10 +41,9 @@
         android:layout_height="wrap_content"
         android:layout_margin="16dp"
         android:src="@drawable/favourite_button"
-        app:fabSize="mini"
+        app:fabSize="normal"
         app:layout_anchor="@id/fragment_container"
         app:layout_anchorGravity="bottom|right|end" />
-
 
 </android.support.design.widget.CoordinatorLayout>
 

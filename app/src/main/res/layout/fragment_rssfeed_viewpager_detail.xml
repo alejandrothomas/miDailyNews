@@ -16,7 +16,7 @@
         android:layout_marginBottom="4dp"
         android:padding="10dp"
         app:cardCornerRadius="0dp"
-        app:cardBackgroundColor="#FFFFFF">
+        app:cardBackgroundColor="#424242">
 
 
         <LinearLayout
@@ -42,7 +42,7 @@
                     android:layout_gravity="start|top"
                     android:layout_margin="8dp"
                     android:background="@drawable/bookmarked_button"
-                    android:backgroundTint="#9E9E9E" />
+                    android:backgroundTint="#FFFFFF" />
 
                 <TextView
                     android:id="@+id/title_textview_fragmentRSSHolderDetail"
@@ -52,7 +52,7 @@
                     android:singleLine="true"
                     android:fontFamily="sans-serif-medium"
                     android:padding="4dp"
-                    android:textColor="#424242"
+                    android:textColor="#FFFFFF"
                     android:textSize="14sp" />
 
 

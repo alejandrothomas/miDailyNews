@@ -8,6 +8,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import com.squareup.picasso.Picasso;
 
 import java.util.List;
+import java.util.Random;
 
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
@@ -26,11 +30,14 @@ import ar.com.thomas.mydailynews.view.MainActivity;
  * Created by alejandrothomas on 6/25/16.
  */
 public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickListener{
+
+    private final static int FADE_DURATION = 250;
     private Context context;
     private List<News> newsList;
     private View.OnClickListener listener;
     private NewsController newsController;
     private List <News> bookmarkedNewsList;
+    private Integer lastPosition = -1;
 
     public NewsAdapter(List<News> newsList, Context context) {
         this.newsList = newsList;
@@ -74,6 +81,8 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
         final NewsViewHolder newsViewHolder = (NewsViewHolder) holder;
         newsViewHolder.bindNews(news, context);
 
+        setAnimation(holder.itemView,position);
+
         newsViewHolder.bookmarkButton.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
@@ -97,6 +106,17 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
                 }
             }
         });
+    }
+
+    private void setAnimation(View viewToAnimate, int position) {
+        if (position > lastPosition) {
+            AlphaAnimation alphaAnimation = new AlphaAnimation(0.0f,1.0f);
+            alphaAnimation.setDuration(FADE_DURATION);
+            ScaleAnimation anim = new ScaleAnimation(0.35f, 1.0f, 0.35f, 1.0f, Animation.RELATIVE_TO_SELF, 0.5f, Animation.RELATIVE_TO_SELF, 0.5f);
+            anim.setDuration(FADE_DURATION);
+            viewToAnimate.startAnimation(anim);
+            lastPosition = position;
+        }
     }
 
     @Override

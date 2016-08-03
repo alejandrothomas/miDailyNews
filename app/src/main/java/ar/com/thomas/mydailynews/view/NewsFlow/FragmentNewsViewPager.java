@@ -152,12 +152,12 @@ public class FragmentNewsViewPager extends Fragment {
             public void onClick(View v) {
 
                 if (bookmarkedNewsList.contains(news)) {
-                    ((MainActivity) context).setSnackbar(news.getTitle() + context.getResources().getString(R.string.snack_bookmarks_remove));
+//                    ((MainActivity) context).setSnackbar(news.getTitle() + context.getResources().getString(R.string.snack_bookmarks_remove));
                     fab.setSelected(false);
                     newsController.removeBookmark(context, news);
                     bookmarkedNewsList.remove(news);
                 } else {
-                    ((MainActivity) context).setSnackbar(news.getTitle() + context.getResources().getString(R.string.snack_bookmarks_add));
+//                    ((MainActivity) context).setSnackbar(news.getTitle() + context.getResources().getString(R.string.snack_bookmarks_add));
                     fab.setSelected(true);
                     newsController.addBookmark(context, news);
                     bookmarkedNewsList.add(news);
@@ -211,22 +211,26 @@ public class FragmentNewsViewPager extends Fragment {
 
     private void loadPalette() {
         BitmapDrawable drawable = (BitmapDrawable) imageViewImageUrl.getDrawable();
-        Bitmap bitmap = drawable.getBitmap();
+        if(drawable!=null){
+            Bitmap bitmap = drawable.getBitmap();
+            Palette.Builder builder = new Palette.Builder(bitmap);
+            builder.generate(new Palette.PaletteAsyncListener() {
+                @Override
+                public void onGenerated(Palette palette) {
 
-        Palette.Builder builder = new Palette.Builder(bitmap);
-        builder.generate(new Palette.PaletteAsyncListener() {
-            @Override
-            public void onGenerated(Palette palette) {
+                    Palette.Swatch lightMuted = palette.getMutedSwatch();
 
-                Palette.Swatch lightMuted = palette.getMutedSwatch();
+                    if (lightMuted != null) {
+                        backgroundColor = lightMuted.getRgb();
+                        imageView.setBackgroundColor(backgroundColor);
 
-                if (lightMuted != null) {
-                    backgroundColor = lightMuted.getRgb();
-                    imageView.setBackgroundColor(backgroundColor);
-
+                    }
                 }
-            }
-        });
+            });
+        }
+
+
+
     }
 
     public void tweet(View view) {

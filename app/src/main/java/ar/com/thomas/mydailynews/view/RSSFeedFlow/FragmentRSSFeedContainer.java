@@ -41,10 +41,6 @@ public class FragmentRSSFeedContainer extends Fragment {
     private String rssFeed;
     private List<RSSFeed> rssFeedList;
 
-    public void setRssFeedList(List<RSSFeed> rssFeedList) {
-        this.rssFeedList = rssFeedList;
-    }
-
     public void setFavouriteList(List<String> favouriteList) {
         this.favouriteList = favouriteList;
     }
