@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.res.ColorStateList;
 import android.graphics.Color;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.design.widget.AppBarLayout;
@@ -25,6 +27,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+import android.widget.Toast;
+
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
 import ar.com.thomas.mydailynews.controller.RSSFeedController;
@@ -86,11 +90,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         setContentView(R.layout.activity_main);
 
         context = this;
-
-        Intro intro = new Intro();
         fragmentManager = getSupportFragmentManager();
-        fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.add(R.id.coordinatorLayout, intro, "intro").commit();
 
         coordinatorLayout = (CoordinatorLayout) findViewById(R.id.coordinatorLayout);
         window = getWindow();
@@ -157,43 +157,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             favouriteListMainActivity.add(rssFeed.getTitle());
         }
 
-        RSSFeedCategoryController rssFeedCategoryController = new RSSFeedCategoryController();
-        rssFeedCategoryController.getRSSFeedCategoryList(new ResultListener<List<RSSFeedCategory>>() {
-            @Override
-            public void finish(List<RSSFeedCategory> result) {
-
-                rssFeedCategoryList.addAll(result);
-
-                RSSFeedController rssFeedController = new RSSFeedController();
-                rssFeedController.getRSSFeedList(new ResultListener<List<RSSFeed>>() {
-                    @Override
-                    public void finish(List<RSSFeed> result) {
-
-                        rssFeedList.addAll(result);
-
-                        populateNavigationDrawerMenu(rssFeedCategoryList);
-
-                        if (favouriteListMainActivity.size() < 1) {
-                            newsController.updateFavourites(favouriteListMainActivity, context);
-
-                            if (navigationView.getMenu().getItem(0) != null) {
-                                listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(0));
-                                navigationView.getMenu().getItem(0).setChecked(true);
-                            }
-                        } else {
-                            if (favouritesButton != null) {
-                                favouritesButton.performClick();
-                            }
-                        }
-                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("intro")).setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out).commit();
-                        setWindowStatusBarColor(0xFF212121);
-                        setSnackbar(getString(R.string.welcome));
-                        fab.setVisibility(View.VISIBLE);
-
-                    }
-                });
-            }
-        });
 
         if (loginButton != null) {
             loginButton.setOnClickListener(new View.OnClickListener() {
@@ -203,7 +166,11 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                     FragmentLogin fragmentLogin = new FragmentLogin();
 
                     fragmentTransaction = fragmentManager.beginTransaction();
-                    fragmentTransaction.add(R.id.fragment_container, fragmentLogin, "login").addToBackStack(null).commit();
+                    fragmentTransaction.setCustomAnimations(R.anim.slide_in,R.anim.slide_out,R.anim.slide_in,R.anim.slide_out)
+                            .add(R.id.coordinatorLayout, fragmentLogin, "login")
+                            .addToBackStack(null)
+                            .commit();
+
                     appBar.setExpanded(true);
                 }
             });
@@ -320,6 +287,57 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                     setSnackbar(currentRSSFeed + getString(R.string.snack_favourites_add));
                     fab.setSelected(true);
                 }
+            }
+        });
+
+        if(isNetworkAvailable()){
+            Intro intro = new Intro();
+            fragmentTransaction = fragmentManager.beginTransaction();
+            fragmentTransaction.add(R.id.coordinatorLayout, intro, "intro").commit();
+        }else{
+            bookmarksButton.performClick();
+            loginButton.setVisibility(View.GONE);
+            favouritesButton.setVisibility(View.GONE);
+            historyButton.setVisibility(View.GONE);
+            navigationView.setVisibility(View.GONE);
+            Toast.makeText(this, "No Internet Connection", Toast.LENGTH_SHORT).show();
+        }
+
+        RSSFeedCategoryController rssFeedCategoryController = new RSSFeedCategoryController();
+        rssFeedCategoryController.getRSSFeedCategoryList(new ResultListener<List<RSSFeedCategory>>() {
+            @Override
+            public void finish(List<RSSFeedCategory> result) {
+
+                rssFeedCategoryList.addAll(result);
+
+                RSSFeedController rssFeedController = new RSSFeedController();
+                rssFeedController.getRSSFeedList(new ResultListener<List<RSSFeed>>() {
+                    @Override
+                    public void finish(List<RSSFeed> result) {
+
+                        rssFeedList.addAll(result);
+
+                        populateNavigationDrawerMenu(rssFeedCategoryList);
+
+                        if (favouriteListMainActivity.size() < 1) {
+                            newsController.updateFavourites(favouriteListMainActivity, context);
+
+                            if (navigationView.getMenu().getItem(0) != null) {
+                                listenerMenu.onNavigationItemSelected(navigationView.getMenu().getItem(0));
+                                navigationView.getMenu().getItem(0).setChecked(true);
+                            }
+                        } else {
+                            if (favouritesButton != null) {
+                                favouritesButton.performClick();
+                            }
+                        }
+                        getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("intro")).setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out).commit();
+                        setWindowStatusBarColor(0xFF212121);
+                        setSnackbar(getString(R.string.welcome));
+                        fab.setVisibility(View.VISIBLE);
+
+                    }
+                });
             }
         });
     }
@@ -543,5 +561,11 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                 bookmarksButton.setSelected(!state);
             }
         }
+    }
+
+    private boolean isNetworkAvailable() {
+        ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+        NetworkInfo activeNetworkInfo = connectivityManager.getActiveNetworkInfo();
+        return activeNetworkInfo != null && activeNetworkInfo.isConnected();
     }
 }

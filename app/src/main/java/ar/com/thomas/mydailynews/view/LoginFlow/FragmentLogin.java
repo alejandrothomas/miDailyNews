@@ -10,6 +10,8 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.FrameLayout;
+import android.widget.RelativeLayout;
+
 import com.facebook.AccessToken;
 import com.facebook.CallbackManager;
 import com.facebook.FacebookCallback;
@@ -39,7 +41,7 @@ public class FragmentLogin extends Fragment {
 
     private LoginButton fbLoginButton;
     private TwitterLoginButton twLoginButton;
-    private FrameLayout frameLayout;
+    private RelativeLayout frameLayout;
     private CallbackManager callbackManager;
     private FirebaseAuth mAuth;
     private FirebaseAuth.AuthStateListener mAuthStateListener;
@@ -72,7 +74,7 @@ public class FragmentLogin extends Fragment {
             }
         };
 
-        frameLayout = (FrameLayout)view.findViewById(R.id.bgFrameLayoutLogin);
+        frameLayout = (RelativeLayout)view.findViewById(R.id.bgFrameLayoutLogin);
         fbLoginButton = (LoginButton) view.findViewById(R.id.fb_login_button);
         twLoginButton = (TwitterLoginButton) view.findViewById(R.id.twitter_login_button);
 

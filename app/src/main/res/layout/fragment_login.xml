@@ -1,33 +1,30 @@
 <?xml version="1.0" encoding="utf-8"?>
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/bgFrameLayoutLogin"
+    android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    android:clickable="true"
     android:background="@color/colorBlack"
-    android:paddingTop="36dp"
-    android:fitsSystemWindows="true">
+    android:clickable="true"
+    android:gravity="center">
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@android:color/white"
-        android:padding="16dp"
         android:orientation="vertical"
-        android:layout_gravity="center_horizontal">
+        android:padding="16dp">
 
         <com.facebook.login.widget.LoginButton
             android:id="@+id/fb_login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
+            android:layout_width="match_parent"
+            android:layout_height="24dp"
+            android:layout_marginBottom="8dp" />
 
         <com.twitter.sdk.android.core.identity.TwitterLoginButton
             android:id="@+id/twitter_login_button"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"/>
-
+            android:layout_width="match_parent"
+            android:layout_height="24dp" />
 
     </LinearLayout>
 
-</FrameLayout>
+</RelativeLayout>
