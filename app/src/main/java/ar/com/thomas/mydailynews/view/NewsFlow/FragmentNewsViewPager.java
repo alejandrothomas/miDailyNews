@@ -17,6 +17,7 @@ import android.support.v4.widget.NestedScrollView;
 import android.support.v7.graphics.Palette;
 import android.support.v7.widget.Toolbar;
 import android.text.Html;
+import android.text.method.LinkMovementMethod;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -167,9 +168,12 @@ public class FragmentNewsViewPager extends Fragment {
         textViewNewsTitle.setText(newsTitle);
         if (newsDescription != null) {
             textViewNewsSubtitle.setText(Html.fromHtml(newsDescription.replaceAll("(<(/)img>)|(<img.+?>)", "")));
+            textViewNewsSubtitle.setMovementMethod(LinkMovementMethod.getInstance());
+
         }
         if (newsContent != null) {
             textViewNewsContent.setText(Html.fromHtml(newsContent.replaceAll("(<(/)img>)|(<img.+?>)", "")));
+            textViewNewsContent.setMovementMethod(LinkMovementMethod.getInstance());
         }
 
         if (newsImageUrl == null || newsImageUrl.isEmpty()) {
