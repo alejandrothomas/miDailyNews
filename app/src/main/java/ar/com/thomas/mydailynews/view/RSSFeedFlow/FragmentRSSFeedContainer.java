@@ -1,27 +1,19 @@
 package ar.com.thomas.mydailynews.view.RSSFeedFlow;
 
 import android.app.Activity;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.TabLayout;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.FloatingActionButton;
+import android.support.design.widget.TabLayout;
 import android.support.v4.app.Fragment;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Toast;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import ar.com.thomas.mydailynews.R;
-import ar.com.thomas.mydailynews.controller.NewsController;
-import ar.com.thomas.mydailynews.controller.RSSFeedController;
-import ar.com.thomas.mydailynews.dao.NewsDAO;
 import ar.com.thomas.mydailynews.model.RSSFeed;
-import ar.com.thomas.mydailynews.util.ResultListener;
 import ar.com.thomas.mydailynews.view.MainActivity;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 

@@ -1,10 +1,6 @@
 package ar.com.thomas.mydailynews.controller;
 
-import android.content.Context;
-
 import java.util.List;
-
-import ar.com.thomas.mydailynews.dao.RSSFeedCategoryDAO;
 import ar.com.thomas.mydailynews.dao.RSSFeedDAO;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.model.RSSFeedCategory;

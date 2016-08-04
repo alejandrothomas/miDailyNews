@@ -1,25 +1,14 @@
 package ar.com.thomas.mydailynews.view.NewsFlow;
 
-import android.animation.ArgbEvaluator;
-import android.app.Activity;
-import android.content.Context;
-import android.graphics.Color;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.support.v4.view.ViewPager;
-import android.support.v7.graphics.Palette;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-
-import java.util.ArrayList;
-import java.util.List;
-
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
-import ar.com.thomas.mydailynews.model.News;
 import ar.com.thomas.mydailynews.view.MainActivity;
 import me.everything.android.ui.overscroll.OverScrollDecoratorHelper;
 

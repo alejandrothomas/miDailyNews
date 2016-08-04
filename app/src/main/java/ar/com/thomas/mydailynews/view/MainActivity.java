@@ -25,17 +25,13 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
-
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
-
 import ar.com.thomas.mydailynews.controller.RSSFeedController;
 import ar.com.thomas.mydailynews.view.IntroFlow.Intro;
 import io.fabric.sdk.android.Fabric;
-
 import java.util.ArrayList;
 import java.util.List;
-
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.controller.RSSFeedCategoryController;
@@ -48,10 +44,7 @@ import ar.com.thomas.mydailynews.view.SavedFlow.FragmentSavedContainer;
 import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
-
 import com.facebook.FacebookSdk;
-import com.google.firebase.database.DatabaseReference;
-import com.google.firebase.database.FirebaseDatabase;
 import com.twitter.sdk.android.tweetcomposer.TweetComposer;
 
 /**

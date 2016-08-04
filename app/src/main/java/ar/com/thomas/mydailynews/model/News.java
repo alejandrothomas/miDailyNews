@@ -1,11 +1,5 @@
 package ar.com.thomas.mydailynews.model;
 
-import com.google.gson.annotations.SerializedName;
-
-import java.util.List;
-
-import javax.xml.transform.Source;
-
 /**
  * Created by alejandrothomas on 6/25/16.
  */
