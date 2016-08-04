@@ -62,10 +62,8 @@
                 android:id="@+id/scroll_view"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:fitsSystemWindows="true"
-                android:layout_marginBottom="76dp"
-                app:layout_behavior="@string/appbar_scrolling_view_behavior"
->
+                android:layout_marginBottom="90dp"
+                app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -78,11 +76,12 @@
                     android:orientation="vertical">
 
                     <LinearLayout
-                        android:layout_width="wrap_content"
+                        android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:orientation="horizontal"
                         android:layout_gravity="center_horizontal"
-                        android:gravity="center_horizontal">
+                        android:gravity="center_horizontal"
+                        android:weightSum="3">
 
                         <com.facebook.share.widget.ShareButton
                             android:layout_width="match_parent"
@@ -90,7 +89,10 @@
                             android:orientation="horizontal"
                             android:id="@+id/facebook_share_button"
                             android:background="#3b5998"
-                            android:padding="8dp"/>
+                            android:padding="8dp"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            />
 
                         <LinearLayout
                             android:layout_width="match_parent"
@@ -98,42 +100,32 @@
                             android:orientation="horizontal"
                             android:id="@+id/twitter_share_button"
                             android:background="#1dcaff"
-                            android:padding="6dp">
+                            android:padding="6dp"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal">
                             <ImageView
                                 android:layout_width="16dp"
                                 android:layout_height="16dp"
                                 android:src="@drawable/twitter_logo"
                                 android:layout_marginRight="8dp"
                                 android:layout_marginEnd="8dp"
-                                android:layout_marginTop="1dp"/>
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Share"
-                                android:textColor="#FFFFFF"
                                 android:layout_marginTop="1dp"
-                                android:fontFamily="sans-serif-medium"
                                 />
                         </LinearLayout>
 
                         <LinearLayout
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent"
                             android:orientation="horizontal"
                             android:id="@+id/fab_news_viewpager"
                             android:background="@color/colorAccent"
-                            android:padding="6dp">
+                            android:padding="6dp"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal">
                             <ImageView
                                 android:layout_width="18dp"
                                 android:layout_height="18dp"
                                 android:src="@drawable/bookmarked_button" />
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:text="Save"
-                                android:layout_marginTop="1dp"
-                                android:textColor="#FFFFFF"
-                                android:fontFamily="sans-serif-medium"/>
                         </LinearLayout>
 
 

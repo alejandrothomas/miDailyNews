@@ -138,7 +138,6 @@ public class FragmentNewsViewPager extends Fragment {
 
         shareButtonFacebook.setShareContent(content);
 
-
         bookmarkedNewsList = new ArrayList<>();
         newsController = new NewsController();
         bookmarkedNewsList = newsController.getBookmarkNewsList(context);
@@ -152,12 +151,12 @@ public class FragmentNewsViewPager extends Fragment {
             public void onClick(View v) {
 
                 if (bookmarkedNewsList.contains(news)) {
-//                    ((MainActivity) context).setSnackbar(news.getTitle() + context.getResources().getString(R.string.snack_bookmarks_remove));
+                    ((MainActivity) context).setSnackbar(news.getTitle() + context.getResources().getString(R.string.snack_bookmarks_remove));
                     fab.setSelected(false);
                     newsController.removeBookmark(context, news);
                     bookmarkedNewsList.remove(news);
                 } else {
-//                    ((MainActivity) context).setSnackbar(news.getTitle() + context.getResources().getString(R.string.snack_bookmarks_add));
+                    ((MainActivity) context).setSnackbar(news.getTitle() + context.getResources().getString(R.string.snack_bookmarks_add));
                     fab.setSelected(true);
                     newsController.addBookmark(context, news);
                     bookmarkedNewsList.add(news);
