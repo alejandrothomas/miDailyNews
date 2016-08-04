@@ -122,11 +122,14 @@ public class FragmentSavedContainer extends Fragment {
 
             fragmentNewsContainer.setArguments(arguments);
 
-
             fragmentManager = getActivity().getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragmentNewsContainer);
-            fragmentTransaction.addToBackStack(null).commit();
+            fragmentTransaction.replace(R.id.fragment_container, fragmentNewsContainer)
+                    .setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out)
+                    .addToBackStack(null)
+                    .commit();
+
+            ((MainActivity)getContext()).setAppBarStatus(true);
 
         }
     }

@@ -8,8 +8,10 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.model.RSSFeed;
 import ar.com.thomas.mydailynews.view.MainActivity;
@@ -29,24 +31,26 @@ public class FragmentFavouriteContainer extends Fragment {
     public void onResume() {
         super.onResume();
         getActivity().setTitle(getString(R.string.favourites));
+        ((MainActivity) getContext()).setAppBarButtonsStatus(true,"fromFavs");
+        ((MainActivity) getContext()).setFabVisibility(true);
+
     }
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_favourites_container, container, false);
-        final ViewPager viewPager = (ViewPager)view.findViewById(R.id.viewpager_favourites);
+        final ViewPager viewPager = (ViewPager) view.findViewById(R.id.viewpager_favourites);
         OverScrollDecoratorHelper.setUpOverScroll(viewPager);
 
 
-
-        final FragmentRSSFeedViewPagerAdapter fragmentRSSFeedViewPagerAdapter = new FragmentRSSFeedViewPagerAdapter(getChildFragmentManager(),getContext(),rssFeedList);
+        final FragmentRSSFeedViewPagerAdapter fragmentRSSFeedViewPagerAdapter = new FragmentRSSFeedViewPagerAdapter(getChildFragmentManager(), getContext(), rssFeedList);
         viewPager.setAdapter(fragmentRSSFeedViewPagerAdapter);
         viewPager.setOffscreenPageLimit(1);
 
-        TabLayout tabLayout = (TabLayout)view.findViewById(R.id.tabs_favourite);
+        TabLayout tabLayout = (TabLayout) view.findViewById(R.id.tabs_favourite);
         tabLayout.setupWithViewPager(viewPager);
-        ((MainActivity)getContext()).setCurrentRSSFeed(fragmentRSSFeedViewPagerAdapter.getPageTitle(0).toString());
+        ((MainActivity) getContext()).setCurrentRSSFeed(fragmentRSSFeedViewPagerAdapter.getPageTitle(0).toString());
 
         viewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener() {
             @Override
@@ -56,7 +60,7 @@ public class FragmentFavouriteContainer extends Fragment {
             @Override
             public void onPageSelected(int position) {
 
-                ((MainActivity)getContext()).setCurrentRSSFeed(fragmentRSSFeedViewPagerAdapter.getPageTitle(position).toString());
+                ((MainActivity) getContext()).setCurrentRSSFeed(fragmentRSSFeedViewPagerAdapter.getPageTitle(position).toString());
             }
 
             @Override

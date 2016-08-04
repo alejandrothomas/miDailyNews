@@ -7,6 +7,7 @@ import android.content.res.ColorStateList;
 import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
+import android.support.design.widget.AppBarLayout;
 import android.support.design.widget.CoordinatorLayout;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.NavigationView;
@@ -24,13 +25,17 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.Window;
 import android.widget.Button;
+
 import com.twitter.sdk.android.Twitter;
 import com.twitter.sdk.android.core.TwitterAuthConfig;
+
 import ar.com.thomas.mydailynews.controller.RSSFeedController;
 import ar.com.thomas.mydailynews.view.IntroFlow.Intro;
 import io.fabric.sdk.android.Fabric;
+
 import java.util.ArrayList;
 import java.util.List;
+
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.controller.RSSFeedCategoryController;
@@ -43,6 +48,7 @@ import ar.com.thomas.mydailynews.view.SavedFlow.FragmentSavedContainer;
 import ar.com.thomas.mydailynews.view.NewsFlow.FragmentNewsContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedContainer;
 import ar.com.thomas.mydailynews.view.RSSFeedFlow.FragmentRSSFeedViewPager;
+
 import com.facebook.FacebookSdk;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
@@ -64,21 +70,19 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     private List<RSSFeed> rssFeedList;
     private NavigationView navigationView;
     private List<String> favouriteListMainActivity;
-    private FragmentRSSFeedContainer fragmentRSSFeedContainer;
     private FragmentFavouriteContainer fragmentFavouriteContainer;
-    private Snackbar snackbar;
     private CoordinatorLayout coordinatorLayout;
     private FloatingActionButton fab;
     private String currentRSSFeed;
     private Toolbar toolbar;
     private Window window;
-    private Button bookmarks = null;
-    private Button history = null;
-    private Button favourites = null;
-    private Button login = null;
+    private Button bookmarksButton = null;
+    private Button historyButton = null;
+    private Button favouritesButton = null;
+    private Button loginButton = null;
     private NewsController newsController;
-    private FirebaseDatabase database;
     private Menu menu;
+    private AppBarLayout appBar;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +91,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         Fabric.with(this, new Twitter(authConfig), new TweetComposer());
         FacebookSdk.sdkInitialize(getApplicationContext());
         setContentView(R.layout.activity_main);
+
         context = this;
 
         Intro intro = new Intro();
@@ -101,10 +106,11 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         drawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
         navigationView = (NavigationView) findViewById(R.id.navigationView);
         fab = (FloatingActionButton) findViewById(R.id.fab_pressed);
-        history = (Button) findViewById(R.id.history_button);
-        favourites = (Button) findViewById(R.id.favourites_button);
-        bookmarks = (Button) findViewById(R.id.bookmarked_button);
-        login = (Button) findViewById(R.id.login_button);
+        historyButton = (Button) findViewById(R.id.history_button);
+        favouritesButton = (Button) findViewById(R.id.favourites_button);
+        bookmarksButton = (Button) findViewById(R.id.bookmarked_button);
+        loginButton = (Button) findViewById(R.id.login_button);
+        appBar = (AppBarLayout) findViewById(R.id.appbar);
 
 
         fab.setVisibility(View.GONE);
@@ -115,9 +121,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         final ListenerMenu listenerMenu = new ListenerMenu();
         rssFeedCategoryList = new ArrayList<>();
         rssFeedList = new ArrayList<>();
-
-        database = FirebaseDatabase.getInstance();
-        DatabaseReference mRef = database.getReference("message");
 
         resetColors();
         newsController.clearNewsDB(context);
@@ -134,15 +137,14 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         getSupportActionBar().setHomeButtonEnabled(true);
         mDrawerToggle.syncState();
 
-        int[][] state = new int[][] {
-                new int[] {-android.R.attr.state_enabled},
-                new int[] {android.R.attr.state_enabled},
-                new int[] {-android.R.attr.state_checked},
-                new int[] { android.R.attr.state_pressed}
-
+        int[][] state = new int[][]{
+                new int[]{-android.R.attr.state_enabled},
+                new int[]{android.R.attr.state_enabled},
+                new int[]{-android.R.attr.state_checked},
+                new int[]{android.R.attr.state_pressed}
         };
 
-        int[] color = new int[] {
+        int[] color = new int[]{
                 0xFFE5E5E5,
                 0xFFE5E5E5,
                 0xFFE5E5E5,
@@ -153,12 +155,9 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
         navigationView.setNavigationItemSelectedListener(new ListenerMenu());
 
-
-
         menu = navigationView.getMenu();
         navigationView.setBackgroundColor(0xE1000000);
         navigationView.setItemTextColor(csl);
-
 
         List<RSSFeed> rssFavouriteList = newsController.getFavouritesFromDB(context);
         for (RSSFeed rssFeed : rssFavouriteList) {
@@ -189,8 +188,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                                 navigationView.getMenu().getItem(0).setChecked(true);
                             }
                         } else {
-                            if (favourites != null) {
-                                favourites.performClick();
+                            if (favouritesButton != null) {
+                                favouritesButton.performClick();
                             }
                         }
                         getSupportFragmentManager().beginTransaction().remove(getSupportFragmentManager().findFragmentByTag("intro")).setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out).commit();
@@ -198,16 +197,13 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                         setSnackbar(getString(R.string.welcome));
                         fab.setVisibility(View.VISIBLE);
 
-
-
                     }
                 });
             }
         });
 
-
-        if (login != null) {
-            login.setOnClickListener(new View.OnClickListener() {
+        if (loginButton != null) {
+            loginButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
@@ -215,62 +211,76 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
                     fragmentTransaction = fragmentManager.beginTransaction();
                     fragmentTransaction.add(R.id.fragment_container, fragmentLogin, "login").addToBackStack(null).commit();
+                    appBar.setExpanded(true);
                 }
             });
         }
 
-        if (bookmarks != null) {
-            bookmarks.setOnClickListener(new View.OnClickListener() {
+        if (bookmarksButton != null) {
+            bookmarksButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     if (newsController.getBookmarkNewsList(context).size() < 1) {
                         setSnackbar(getString(R.string.snack_bookmarks_empty));
                     } else {
-                        bookmarks.setSelected(true);
-                        if (favourites != null) {
-                            favourites.setSelected(false);
+                        bookmarksButton.setSelected(true);
+                        if (favouritesButton != null) {
+                            favouritesButton.setSelected(false);
                         }
                         FragmentSavedContainer fragmentSavedContainer = new FragmentSavedContainer();
                         Bundle arguments = new Bundle();
+
                         arguments.putString(FragmentSavedContainer.SECTION, getString(R.string.bookmarks));
                         fragmentSavedContainer.setArguments(arguments);
 
                         fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out);
-                        fragmentTransaction.replace(R.id.fragment_container, fragmentSavedContainer).addToBackStack(null).commit();
+                        fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out)
+                                .replace(R.id.fragment_container, fragmentSavedContainer, "bookmarks")
+                                .addToBackStack(null)
+                                .commit();
+
+                        appBar.setExpanded(true);
+                        bookmarksButton.setEnabled(false);
                     }
                 }
             });
         }
 
-        if (history != null) {
-            history.setOnClickListener(new View.OnClickListener() {
+        if (historyButton != null) {
+            historyButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
 
                     if (newsController.getHistoryNewsList(context).size() < 1) {
                         setSnackbar(getString(R.string.snack_historial_empty));
                     } else {
-                        if (bookmarks != null && favourites != null) {
-                            bookmarks.setSelected(false);
-                            favourites.setSelected(false);
+                        if (bookmarksButton != null && favouritesButton != null) {
+                            bookmarksButton.setSelected(false);
+                            favouritesButton.setSelected(false);
                         }
+
                         FragmentSavedContainer fragmentSavedContainer = new FragmentSavedContainer();
                         Bundle arguments = new Bundle();
+
                         arguments.putString(FragmentSavedContainer.SECTION, getString(R.string.history));
                         fragmentSavedContainer.setArguments(arguments);
 
                         fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out);
-                        fragmentTransaction.replace(R.id.fragment_container, fragmentSavedContainer).addToBackStack(null).commit();
+                        fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out)
+                                .replace(R.id.fragment_container, fragmentSavedContainer, "history")
+                                .addToBackStack(null)
+                                .commit();
+
+                        appBar.setExpanded(true);
+                        historyButton.setEnabled(false);
                     }
                 }
             });
         }
 
-        if (favourites != null) {
-            favourites.setOnClickListener(new View.OnClickListener() {
+        if (favouritesButton != null) {
+            favouritesButton.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
                     NewsController newsController = new NewsController();
@@ -278,23 +288,31 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                     List<RSSFeed> newFavouriteList = newsController.getFavouritesFromDB(context);
 
                     if (newFavouriteList.size() > 0) {
-                        favourites.setSelected(true);
-                        if (bookmarks != null) {
-                            bookmarks.setSelected(false);
+                        favouritesButton.setSelected(true);
+                        favouritesButton.setEnabled(false);
+                        if (bookmarksButton != null) {
+                            bookmarksButton.setSelected(false);
                         }
                         fragmentFavouriteContainer = new FragmentFavouriteContainer();
                         fragmentManager = getSupportFragmentManager();
 
                         fragmentTransaction = fragmentManager.beginTransaction();
-                        fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out);
-                        fragmentTransaction.replace(R.id.fragment_container, fragmentFavouriteContainer, "favourites");
-                        fragmentTransaction.addToBackStack(null).commit();
+                        fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out)
+                                .replace(R.id.fragment_container, fragmentFavouriteContainer, "favourites")
+                                .addToBackStack(null)
+                                .commit();
+
                         fragmentFavouriteContainer.setRssFeedList(newFavouriteList);
+
                     } else {
+
                         setSnackbar(getString(R.string.snack_favourites_empty));
+
                     }
                 }
             });
+
+            appBar.setExpanded(true);
         }
 
         fab.setOnClickListener(new View.OnClickListener() {
@@ -319,6 +337,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         FragmentNewsContainer fragmentNewsContainer = new FragmentNewsContainer();
 
         Bundle arguments = new Bundle();
+
         arguments.putString(FragmentNewsContainer.NEWS_TITLE_ID, newsClickedID);
         arguments.putInt(FragmentNewsContainer.POSITION, itemPosition);
         arguments.putString(FragmentNewsContainer.RSS_SOURCE, rssFeedID);
@@ -326,9 +345,13 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         fragmentNewsContainer.setArguments(arguments);
 
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out);
-        fragmentTransaction.replace(R.id.fragment_container, fragmentNewsContainer);
-        fragmentTransaction.addToBackStack(null).commit();
+        fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out)
+                .replace(R.id.fragment_container, fragmentNewsContainer)
+                .addToBackStack(null)
+                .commit();
+
+        appBar.setExpanded(true);
+
         resetColors();
     }
 
@@ -342,7 +365,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
                 menu.setGroupVisible(R.id.navigation_drawer_menu_RSSFeedCategories, true);
             }
         }
-
     }
 
     public void setCurrentRSSFeed(String rssFeed) {
@@ -361,33 +383,37 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
             RSSFeedCategory rssFeedCategory = rssFeedCategoryList.get(item.getItemId());
 
-            fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
+            FragmentRSSFeedContainer fragmentRSSFeedContainer = new FragmentRSSFeedContainer();
             Bundle arguments = new Bundle();
 
             arguments.putString(FragmentRSSFeedContainer.RSSFEED_CATEGORYID, rssFeedCategory.getObjectId());
             arguments.putString(FragmentRSSFeedContainer.RSSFEED_TITLE, rssFeedCategory.getCategoryName());
 
             fragmentRSSFeedContainer.setArguments(arguments);
-            fragmentManager = getSupportFragmentManager();
 
+
+            fragmentManager = getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out);
-            fragmentTransaction.replace(R.id.fragment_container, fragmentRSSFeedContainer, "rss_feed");
-            fragmentTransaction.addToBackStack("rss_feed").commit();
+
+            fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out)
+                    .replace(R.id.fragment_container, fragmentRSSFeedContainer, "rss_feed")
+                    .commit();
+
             fragmentRSSFeedContainer.setFavouriteList(favouriteListMainActivity);
 
             if (drawerLayout != null) {
                 drawerLayout.closeDrawer(GravityCompat.START);
             }
 
-            if (bookmarks != null && favourites != null) {
-                bookmarks.setSelected(false);
-                favourites.setSelected(false);
+            if (bookmarksButton != null && favouritesButton != null) {
+                bookmarksButton.setSelected(false);
+                favouritesButton.setSelected(false);
             }
 
             resetColors();
 
             setTitle(rssFeedCategory.getCategoryName());
+            appBar.setExpanded(true);
 
             return true;
         }
@@ -411,7 +437,6 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         super.onBackPressed();
         resetColors();
         setToolbarVisibility(true);
-        setFabVisibility(true);
     }
 
     public void setFabVisibility(Boolean trueOrFalse) {
@@ -425,10 +450,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
         }
     }
 
-    public void setToolbarVisibility(Boolean trueOrFalse) {
+    public void setToolbarVisibility(Boolean state) {
 
-        if (trueOrFalse != null) {
-            if (trueOrFalse) {
+        if (state != null) {
+            if (state) {
                 toolbar.setVisibility(View.VISIBLE);
             } else {
                 toolbar.setVisibility(View.GONE);
@@ -437,7 +462,9 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     }
 
     public void resetColors() {
+
         if (drawerLayout != null && toolbar != null && window != null) {
+
             drawerLayout.setBackgroundColor(0xFF212121);
             toolbar.setBackgroundColor(0xFF212121);
             setWindowStatusBarColor(0xFF212121);
@@ -445,8 +472,10 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
     }
 
     public void setSnackbar(String snackbarMessage) {
+
         if (coordinatorLayout != null) {
-            snackbar = Snackbar.make(coordinatorLayout, snackbarMessage, Snackbar.LENGTH_LONG);
+
+            Snackbar snackbar = Snackbar.make(coordinatorLayout, snackbarMessage, Snackbar.LENGTH_LONG);
             snackbar.getView().setBackgroundColor(0xE7000000);
             snackbar.show();
         }
@@ -454,20 +483,53 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
     @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     public void setLoginButtonColor(Integer socialMedia) {
-        login.setBackgroundDrawable(getDrawable(socialMedia));
+
+        loginButton.setBackgroundDrawable(getDrawable(socialMedia));
 
     }
 
     @Override
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
+
         FragmentManager fragment = getSupportFragmentManager();
+
         if (fragment.findFragmentByTag("login") != null) {
+
             fragment.findFragmentByTag("login").onActivityResult(requestCode, resultCode, data);
+
         } else Log.d("Twitter", "fragment is null");
     }
 
     public List<RSSFeed> getRssFeedList() {
+
         return rssFeedList;
+    }
+
+    public void setAppBarStatus(Boolean state) {
+
+        if (appBar != null) {
+
+            appBar.setExpanded(true);
+        }
+    }
+
+    public void setAppBarButtonsStatus(Boolean state, String fromFavs) {
+
+        if (bookmarksButton != null && favouritesButton != null && historyButton != null) {
+
+            bookmarksButton.setEnabled(state);
+            bookmarksButton.setSelected(!state);
+            historyButton.setEnabled(state);
+            historyButton.setSelected(!state);
+
+            if(fromFavs.equals("fromFavs")){
+                favouritesButton.setEnabled(!state);
+                favouritesButton.setSelected(state);
+            }else{
+                favouritesButton.setEnabled(state);
+                favouritesButton.setSelected(!state);
+            }
+        }
     }
 }

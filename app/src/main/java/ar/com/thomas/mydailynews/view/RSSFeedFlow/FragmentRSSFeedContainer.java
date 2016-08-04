@@ -41,6 +41,14 @@ public class FragmentRSSFeedContainer extends Fragment {
     private String rssFeed;
     private List<RSSFeed> rssFeedList;
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        ((MainActivity)getContext()).setAppBarButtonsStatus(true,"");
+        ((MainActivity)getContext()).setFabVisibility(true);
+
+    }
+
     public void setFavouriteList(List<String> favouriteList) {
         this.favouriteList = favouriteList;
     }
