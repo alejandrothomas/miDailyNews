@@ -11,8 +11,11 @@ import android.view.animation.ScaleAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+
 import com.squareup.picasso.Picasso;
+
 import java.util.List;
+
 import ar.com.thomas.mydailynews.R;
 import ar.com.thomas.mydailynews.controller.NewsController;
 import ar.com.thomas.mydailynews.model.News;
@@ -129,11 +132,14 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
         private Button bookmarkButton;
 
 
+
+
         public NewsViewHolder(View view){
             super(view);
             textViewTitle=(TextView) view.findViewById(R.id.title_textview_fragmentRSSHolderDetail);
             imageViewImageUrl=(ImageView) view.findViewById(R.id.imageUrl_textview_fragmentRSSHolderDetail);
             bookmarkButton=(Button)view.findViewById(R.id.bookmark_button);
+
         }
 
         public void bindNews(News news, Context context){
@@ -155,5 +161,8 @@ public class NewsAdapter extends RecyclerView.Adapter implements View.OnClickLis
                 Picasso.with(context).load(news.getImageUrl()).resize(0,200).into(imageViewImageUrl);
             }
         }
+
+
     }
+
 }

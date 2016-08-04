@@ -39,10 +39,8 @@ public class FragmentSavedContainer extends Fragment {
         super.onResume();
         if(section!=null){
             ((MainActivity) getContext()).setAppBarButtonsStatus(true,"from"+section);
-
         }
-        ((MainActivity) getContext()).setFabVisibility(true);
-
+        ((MainActivity) getContext()).setFabVisibility(false);
     }
 
     @Nullable

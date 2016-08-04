@@ -29,12 +29,12 @@ public class News {
 
 
     public void setContent(String content) {
-        this.encoded = content;
+        this.content = content;
     }
 
     public String getContent() {
 
-        return encoded;
+        return content;
     }
 
     public void setNewsID(String newsID) {
@@ -44,13 +44,6 @@ public class News {
     public String getNewsID() {
 
         return newsID;
-    }
-    public void setRssFeedIdToString(String rssFeedIdToString) {
-        this.rssFeedIdToString = rssFeedIdToString;
-    }
-    public String getRssFeedIdToString() {
-
-        return rssFeedIdToString;
     }
 
     public void setRssFeed(String rssFeed) {

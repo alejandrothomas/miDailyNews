@@ -201,6 +201,7 @@ public class FragmentNewsViewPager extends Fragment {
                     Palette.Swatch lightMuted = palette.getMutedSwatch();
 
                     if (lightMuted != null) {
+
                         backgroundColor = lightMuted.getRgb();
                         imageView.setBackgroundColor(backgroundColor);
 
@@ -208,9 +209,6 @@ public class FragmentNewsViewPager extends Fragment {
                 }
             });
         }
-
-
-
     }
 
     public void tweet(View view) {
