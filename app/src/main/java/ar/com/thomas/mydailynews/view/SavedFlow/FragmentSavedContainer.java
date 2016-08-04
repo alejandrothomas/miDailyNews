@@ -37,6 +37,17 @@ public class FragmentSavedContainer extends Fragment {
     private String section;
 
 
+    @Override
+    public void onResume() {
+        super.onResume();
+        if(section!=null){
+            ((MainActivity) getContext()).setAppBarButtonsStatus(true,"from"+section);
+
+        }
+        ((MainActivity) getContext()).setFabVisibility(true);
+
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, final ViewGroup container, Bundle savedInstanceState) {
@@ -124,8 +135,8 @@ public class FragmentSavedContainer extends Fragment {
 
             fragmentManager = getActivity().getSupportFragmentManager();
             fragmentTransaction = fragmentManager.beginTransaction();
-            fragmentTransaction.replace(R.id.fragment_container, fragmentNewsContainer)
-                    .setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out)
+            fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out)
+                    .replace(R.id.fragment_container, fragmentNewsContainer)
                     .addToBackStack(null)
                     .commit();
 

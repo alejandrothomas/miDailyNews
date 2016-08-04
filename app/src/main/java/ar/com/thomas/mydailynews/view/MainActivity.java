@@ -397,6 +397,7 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
 
             fragmentTransaction.setCustomAnimations(R.anim.slide_in, R.anim.slide_out, R.anim.slide_in, R.anim.slide_out)
                     .replace(R.id.fragment_container, fragmentRSSFeedContainer, "rss_feed")
+                    .addToBackStack(null)
                     .commit();
 
             fragmentRSSFeedContainer.setFavouriteList(favouriteListMainActivity);
@@ -522,6 +523,8 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             bookmarksButton.setSelected(!state);
             historyButton.setEnabled(state);
             historyButton.setSelected(!state);
+            favouritesButton.setEnabled(state);
+            favouritesButton.setSelected(!state);
 
             if(fromFavs.equals("fromFavs")){
                 favouritesButton.setEnabled(!state);
@@ -529,6 +532,22 @@ public class MainActivity extends AppCompatActivity implements FragmentRSSFeedVi
             }else{
                 favouritesButton.setEnabled(state);
                 favouritesButton.setSelected(!state);
+            }
+
+            if(fromFavs.equals("fromHistory")){
+                historyButton.setEnabled(!state);
+                historyButton.setSelected(state);
+            }else{
+                historyButton.setEnabled(state);
+                historyButton.setSelected(!state);
+            }
+
+            if(fromFavs.equals("fromBookmarks")){
+                bookmarksButton.setEnabled(!state);
+                bookmarksButton.setSelected(state);
+            }else{
+                bookmarksButton.setEnabled(state);
+                bookmarksButton.setSelected(!state);
             }
         }
     }
